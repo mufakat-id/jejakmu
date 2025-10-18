@@ -1,5 +1,6 @@
 import secrets
 import warnings
+from pathlib import Path
 from typing import Annotated, Any, Literal
 
 from pydantic import (
@@ -23,10 +24,20 @@ def parse_cors(v: Any) -> list[str] | str:
     raise ValueError(v)
 
 
+# Get the path to the .env file (in the root of the project)
+# This handles both running from backend/app and backend directories
+def get_env_file() -> Path:
+    current_file = Path(__file__).resolve()
+    # Go up from backend/app/core/config.py to project root
+    project_root = current_file.parent.parent.parent.parent
+    env_file = project_root / ".env"
+    return env_file
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         # Use top level .env file (one level above ./backend/)
-        env_file="../.env",
+        env_file=str(get_env_file()),
         env_ignore_empty=True,
         extra="ignore",
     )
@@ -93,6 +104,16 @@ class Settings(BaseSettings):
     EMAIL_TEST_USER: EmailStr = "test@example.com"
     FIRST_SUPERUSER: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
+
+    # OAuth Google Settings
+    GOOGLE_CLIENT_ID: str | None = None
+    GOOGLE_CLIENT_SECRET: str | None = None
+    GOOGLE_REDIRECT_URI: str | None = None
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def google_oauth_enabled(self) -> bool:
+        return bool(self.GOOGLE_CLIENT_ID and self.GOOGLE_CLIENT_SECRET)
 
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
         if value == "changethis":

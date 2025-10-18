@@ -3,8 +3,9 @@ from fastapi import FastAPI
 from fastapi.routing import APIRoute
 from starlette.middleware.cors import CORSMiddleware
 
-from app.api.main import api_router
+from app.api.router import api_router
 from app.core.config import settings
+from app.middlewares.audit import AuditMiddleware
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
@@ -29,5 +30,8 @@ if settings.all_cors_origins:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+# Add Audit Middleware
+app.add_middleware(AuditMiddleware)
 
 app.include_router(api_router, prefix=settings.API_V1_STR)

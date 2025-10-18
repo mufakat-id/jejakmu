@@ -3,12 +3,10 @@ from typing import Any
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from app.api.deps import SessionDep
+from app.api.v1.deps import SessionDep
 from app.core.security import get_password_hash
-from app.models import (
-    User,
-    UserPublic,
-)
+from app.models import User
+from app.schemas import UserPublic
 
 router = APIRouter(tags=["private"], prefix="/private")
 
