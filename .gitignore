@@ -10,3 +10,4 @@ node_modules/
 *.json
 service-account-key.json
 *-credentials.json
+/backend/.env
