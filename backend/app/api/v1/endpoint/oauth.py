@@ -12,7 +12,9 @@ router = APIRouter(prefix="/oauth", tags=["oauth"])
 
 
 @router.post("/google", response_model=GoogleAuthResponse)
-async def google_login(session: SessionDep, auth_request: GoogleAuthRequest) -> GoogleAuthResponse:
+async def google_login(
+    session: SessionDep, auth_request: GoogleAuthRequest
+) -> GoogleAuthResponse:
     """
     Google OAuth Login
 

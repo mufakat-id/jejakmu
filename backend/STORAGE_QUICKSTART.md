@@ -70,4 +70,3 @@ uv sync
 **Error: Bucket not found**
 - Buat bucket dulu di Google Cloud Console
 - Atau via CLI: `gcloud storage buckets create gs://your-bucket-name`
-

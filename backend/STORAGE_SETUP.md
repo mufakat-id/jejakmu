@@ -114,12 +114,12 @@ Redirect (307) ke signed URL
 
 ## Fitur
 
-✅ Multiple file upload  
-✅ Automatic unique filename generation  
-✅ Content type detection  
-✅ Signed URLs untuk akses terkontrol  
-✅ Configurable expiration time  
-✅ Error handling yang comprehensive  
+✅ Multiple file upload
+✅ Automatic unique filename generation
+✅ Content type detection
+✅ Signed URLs untuk akses terkontrol
+✅ Configurable expiration time
+✅ Error handling yang comprehensive
 
 ## Testing
 
@@ -184,4 +184,3 @@ env:
 ## Support
 
 Untuk pertanyaan atau issues, silakan buat issue di repository.
-
