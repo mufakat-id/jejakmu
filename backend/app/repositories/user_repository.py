@@ -6,7 +6,7 @@ from app.models import User
 from app.repositories.base import BaseRepository
 
 if TYPE_CHECKING:
-    from app.models.user import UserRole
+    pass
 
 
 class UserRepository(BaseRepository[User]):
