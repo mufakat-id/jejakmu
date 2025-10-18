@@ -91,7 +91,7 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def _set_default_emails_from(self) -> Self:
         if not self.EMAILS_FROM_NAME:
-            self.EMAILS_FROM_NAME = self.PROJECT_NAME
+            self.EMAILS_FROM_NAME = EmailStr(self.PROJECT_NAME)
         return self
 
     EMAIL_RESET_TOKEN_EXPIRE_HOURS: int = 48
@@ -114,6 +114,16 @@ class Settings(BaseSettings):
     @property
     def google_oauth_enabled(self) -> bool:
         return bool(self.GOOGLE_CLIENT_ID and self.GOOGLE_CLIENT_SECRET)
+
+    # Google Cloud Storage Settings
+    GCS_BUCKET_NAME: str | None = None
+    GOOGLE_APPLICATION_CREDENTIALS: str | None = None
+    GOOGLE_CLOUD_PROJECT: str | None = None
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def gcs_enabled(self) -> bool:
+        return bool(self.GCS_BUCKET_NAME and self.GOOGLE_CLOUD_PROJECT)
 
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
         if value == "changethis":

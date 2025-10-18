@@ -22,6 +22,7 @@ dependencies = [
     "sentry-sdk[fastapi]<2.0.0,>=1.40.6",
     "pyjwt<3.0.0,>=2.8.0",
     "authlib>=1.6.4,<2.0.0",
+    "google-cloud-storage>=3.4.1",
 ]
 
 [tool.uv]

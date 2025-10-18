@@ -6,6 +6,7 @@
 - [Arsitektur Project](#arsitektur-project)
 - [Struktur Direktori](#struktur-direktori)
 - [Panduan Menambahkan Fitur Baru](#panduan-menambahkan-fitur-baru)
+- [Google OAuth Authentication](#google-oauth-authentication)
 - [Development Workflow](#development-workflow)
 - [Docker Compose](#docker-compose)
 - [Migrations](#migrations)
@@ -414,6 +415,340 @@ def test_create_product(client: TestClient, superuser_token_headers: dict[str, s
 - [ ] Generate dan apply migration
 - [ ] Buat tests di `tests/api/`
 - [ ] Test endpoint menggunakan interactive docs (`/docs`)
+
+## Google OAuth Authentication
+
+Project ini sudah dilengkapi dengan **Google OAuth 2.0 Authentication** yang memungkinkan user untuk login menggunakan akun Google mereka.
+
+### ✅ Status Implementasi
+
+Fitur Google OAuth **sudah selesai dan siap digunakan**:
+
+- ✅ **Database Model** - Field `google_id` sudah ada di tabel `User`
+- ✅ **OAuth Service** - Business logic untuk Google authentication
+- ✅ **API Endpoint** - `POST /api/v1/oauth/google` untuk login dengan Google
+- ✅ **Schemas** - Request/Response schemas sudah tersedia
+- ✅ **Migration** - Database migration sudah dibuat
+
+### 🔧 Konfigurasi
+
+#### 1. Dapatkan Google OAuth Credentials
+
+1. Kunjungi [Google Cloud Console](https://console.cloud.google.com/)
+2. Buat project baru atau pilih project yang sudah ada
+3. Enable **Google+ API**
+4. Buka **Credentials** → **Create Credentials** → **OAuth 2.0 Client ID**
+5. Pilih **Web application**
+6. Tambahkan **Authorized redirect URIs**:
+   - Development: `http://localhost:5173` (sesuaikan dengan frontend URL Anda)
+   - Production: URL domain Anda
+7. Copy **Client ID** dan **Client Secret**
+
+#### 2. Setup Environment Variables
+
+Tambahkan ke file `.env` di root project:
+
+```env
+# Google OAuth Configuration
+GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_REDIRECT_URI=http://localhost:5173  # Optional
+```
+
+**Note:** OAuth akan otomatis enabled jika `GOOGLE_CLIENT_ID` dan `GOOGLE_CLIENT_SECRET` sudah di-set.
+
+#### 3. Verifikasi Konfigurasi
+
+Cek apakah OAuth sudah enabled di aplikasi:
+
+```python
+from app.core.config import settings
+
+print(settings.google_oauth_enabled)  # Should return True
+```
+
+### 📡 API Endpoint
+
+#### POST `/api/v1/oauth/google`
+
+Login menggunakan Google OAuth authorization code.
+
+**Request Body:**
+```json
+{
+  "code": "4/0AeanSoD..."  // Authorization code from Google
+}
+```
+
+**Response (Success - 200):**
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer",
+  "user": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "email": "user@example.com",
+    "full_name": "John Doe",
+    "is_active": true,
+    "is_superuser": false
+  }
+}
+```
+
+**Error Responses:**
+
+- **503** - Google OAuth not configured
+  ```json
+  {
+    "detail": "Google OAuth is not configured. Please set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET."
+  }
+  ```
+
+- **400** - Invalid authorization code
+  ```json
+  {
+    "detail": "Failed to authenticate with Google. Invalid authorization code."
+  }
+  ```
+
+- **404** - User not found
+  ```json
+  {
+    "detail": "User not found. Please sign up first before linking Google account."
+  }
+  ```
+
+- **400** - Inactive user
+  ```json
+  {
+    "detail": "Inactive user"
+  }
+  ```
+
+### 🔄 Flow Cara Kerja
+
+```
+┌─────────────┐         ┌──────────────┐         ┌─────────────┐
+│   Frontend  │         │   Backend    │         │   Google    │
+└──────┬──────┘         └──────┬───────┘         └──────┬──────┘
+       │                       │                        │
+       │  1. Redirect to       │                        │
+       │     Google OAuth      │                        │
+       ├──────────────────────────────────────────────> │
+       │                       │                        │
+       │  2. User login &      │                        │
+       │     authorize         │                        │
+       │ <────────────────────────────────────────────┤ │
+       │                       │                        │
+       │  3. Redirect back     │                        │
+       │     with code         │                        │
+       │ <────────────────────────────────────────────┤ │
+       │                       │                        │
+       │  4. POST /oauth/google│                        │
+       │     { code: "..." }   │                        │
+       ├──────────────────────>│                        │
+       │                       │                        │
+       │                       │  5. Validate code &    │
+       │                       │     get user info      │
+       │                       ├───────────────────────>│
+       │                       │                        │
+       │                       │  6. User info          │
+       │                       │<───────────────────────┤
+       │                       │                        │
+       │                       │  7. Link Google account│
+       │                       │     to existing user   │
+       │                       │     (if user exists)   │
+       │                       │                        │
+       │  8. Return JWT token  │                        │
+       │     + user data       │                        │
+       │ <─────────────────────┤                        │
+       │                       │                        │
+```
+
+### 💡 Cara Kerja Detail
+
+1. **User harus sudah terdaftar** - User harus dibuat terlebih dahulu melalui signup biasa (`POST /api/v1/users/signup`)
+2. **Link Google Account** - OAuth endpoint akan menghubungkan akun Google dengan user yang sudah ada berdasarkan email
+3. **Auto-update** - Jika user belum punya `full_name`, akan diambil dari Google
+4. **Reusable** - Setelah linked, user bisa login dengan Google berkali-kali
+5. **Token Generation** - Setelah berhasil, backend generate JWT token yang sama dengan login biasa
+
+### 🧪 Testing OAuth Endpoint
+
+#### Manual Testing dengan cURL
+
+```bash
+# 1. Dapatkan authorization code dari Google (manual via browser)
+# Visit: https://accounts.google.com/o/oauth2/v2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=http://localhost:5173&response_type=code&scope=openid%20email%20profile
+
+# 2. Test endpoint dengan code yang didapat
+curl -X POST "http://localhost:8000/api/v1/oauth/google" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "code": "4/0AeanS0D..."
+  }'
+```
+
+#### Testing dengan Interactive Docs
+
+1. Buka `http://localhost:8000/docs`
+2. Cari endpoint `POST /api/v1/oauth/google`
+3. Click **Try it out**
+4. Masukkan authorization code dari Google
+5. Click **Execute**
+
+#### Unit Test
+
+**File:** `tests/api/test_oauth.py`
+
+```python
+from unittest.mock import AsyncMock, patch
+
+import pytest
+from fastapi.testclient import TestClient
+from sqlmodel import Session
+
+from app.models import User
+
+
+def test_google_oauth_disabled(client: TestClient) -> None:
+    """Test OAuth endpoint when Google OAuth is disabled"""
+    with patch("app.core.config.settings.google_oauth_enabled", False):
+        response = client.post(
+            "/api/v1/oauth/google",
+            json={"code": "test_code"},
+        )
+        assert response.status_code == 503
+        assert "not configured" in response.json()["detail"]
+
+
+@pytest.mark.asyncio
+async def test_google_oauth_invalid_code(client: TestClient) -> None:
+    """Test OAuth endpoint with invalid code"""
+    with patch("app.core.config.settings.google_oauth_enabled", True):
+        with patch(
+            "app.services.oauth_service.OAuthService.exchange_google_code_for_user_info",
+            new_callable=AsyncMock,
+            return_value=None,
+        ):
+            response = client.post(
+                "/api/v1/oauth/google",
+                json={"code": "invalid_code"},
+            )
+            assert response.status_code == 400
+
+
+def test_google_oauth_user_not_found(
+    client: TestClient, db: Session
+) -> None:
+    """Test OAuth when user doesn't exist in database"""
+    mock_user_info = {
+        "google_id": "123456789",
+        "email": "newuser@example.com",
+        "full_name": "New User",
+    }
+
+    with patch("app.core.config.settings.google_oauth_enabled", True):
+        with patch(
+            "app.services.oauth_service.OAuthService.exchange_google_code_for_user_info",
+            new_callable=AsyncMock,
+            return_value=mock_user_info,
+        ):
+            response = client.post(
+                "/api/v1/oauth/google",
+                json={"code": "valid_code"},
+            )
+            assert response.status_code == 404
+            assert "sign up first" in response.json()["detail"]
+```
+
+### 🏗️ Arsitektur OAuth
+
+Implementasi OAuth mengikuti layered architecture yang sama:
+
+```
+app/
+├── api/v1/endpoint/
+│   └── oauth.py              # ✅ OAuth endpoints
+├── services/
+│   └── oauth_service.py      # ✅ OAuth business logic
+├── models/
+│   └── user.py               # ✅ User model with google_id field
+└── schemas/
+    └── user.py               # ✅ GoogleAuthRequest, GoogleAuthResponse
+```
+
+**OAuthService Methods:**
+
+1. `exchange_google_code_for_user_info(code: str)` - Exchange authorization code untuk user info dari Google
+2. `link_google_account(google_id, email, full_name)` - Link Google account ke existing user
+
+### 🔐 Security Notes
+
+1. **Authorization Code** bersifat satu kali pakai dan expire cepat
+2. **JWT Token** yang di-generate sama seperti login biasa (expire sesuai `ACCESS_TOKEN_EXPIRE_MINUTES`)
+3. **Google ID** disimpan di database untuk mencegah duplikasi
+4. **Email Verification** - Google sudah memverifikasi email user
+5. **User harus exist** - Mencegah auto-registration yang tidak diinginkan
+
+### 🚀 Integration dengan Frontend
+
+Contoh implementasi di React/TypeScript menggunakan `@react-oauth/google`:
+
+```typescript
+import { GoogleLogin } from '@react-oauth/google';
+
+function LoginPage() {
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    try {
+      const response = await fetch('/api/v1/oauth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: credentialResponse.credential }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Save token and redirect
+        localStorage.setItem('token', data.access_token);
+        window.location.href = '/dashboard';
+      } else {
+        console.error('Login failed:', data.detail);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  return (
+    <GoogleLogin
+      onSuccess={handleGoogleSuccess}
+      onError={() => console.log('Login Failed')}
+    />
+  );
+}
+```
+
+### ⚠️ Troubleshooting
+
+**Problem: "Google OAuth is not configured"**
+- Solution: Set `GOOGLE_CLIENT_ID` dan `GOOGLE_CLIENT_SECRET` di `.env`
+
+**Problem: "Invalid authorization code"**
+- Solution: Authorization code hanya bisa dipakai satu kali. Dapatkan code baru
+
+**Problem: "User not found"**
+- Solution: User harus signup terlebih dahulu. OAuth hanya untuk linking, bukan auto-registration
+
+**Problem: "Redirect URI mismatch"**
+- Solution: Pastikan redirect URI di Google Console sama dengan yang dipakai frontend
+
+### 📖 Additional Resources
+
+- [Google OAuth 2.0 Documentation](https://developers.google.com/identity/protocols/oauth2)
+- [Authlib Documentation](https://docs.authlib.org/en/latest/)
+- [@react-oauth/google](https://www.npmjs.com/package/@react-oauth/google)
 
 ## Development Workflow
 

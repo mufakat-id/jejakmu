@@ -5,3 +5,8 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /.env
+
+# Google Cloud credentials
+*.json
+service-account-key.json
+*-credentials.json

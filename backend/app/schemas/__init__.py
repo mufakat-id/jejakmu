@@ -16,6 +16,8 @@ from app.schemas.common import (
 from app.schemas.item import ItemCreate, ItemPublic, ItemsPublic, ItemUpdate
 from app.schemas.user import (
     BulkUpdateResult,
+    GoogleAuthRequest,
+    GoogleAuthResponse,
     NewPassword,
     UpdatePassword,
     UserBulkUpdateActive,
@@ -61,4 +63,7 @@ __all__ = [
     # Audit
     "AuditLogResponse",
     "AuditLogListResponse",
+    # Google Auth
+    "GoogleAuthRequest",
+    "GoogleAuthResponse",
 ]

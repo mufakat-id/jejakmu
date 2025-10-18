@@ -40,6 +40,17 @@ class UpdatePassword(BaseModel):
     new_password: str = Field(min_length=8, max_length=40)
 
 
+# Google OAuth schemas
+class GoogleAuthRequest(BaseModel):
+    code: str = Field(description="Authorization code from Google OAuth")
+
+
+class GoogleAuthResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: "UserPublic"
+
+
 # Properties to return via API, id is always required
 class UserPublic(UserBase):
     id: uuid.UUID
