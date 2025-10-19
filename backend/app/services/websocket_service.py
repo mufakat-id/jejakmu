@@ -166,9 +166,7 @@ class WebSocketService:
             room = self.manager.rooms[current_room]
 
             # Send confirmation to user
-            await self.manager.send_personal_message(
-                f"You wrote: {content}", websocket
-            )
+            await self.manager.send_personal_message(f"You wrote: {content}", websocket)
 
             # Broadcast to other room members
             await room.broadcast_except(f"User {user_id} says: {content}", websocket)

@@ -456,7 +456,7 @@ html = """
                         <span class="status-indicator" id="statusIndicator"></span>
                         Connection
                     </h3>
-                    
+
                     <div class="input-group">
                         <label>WebSocket URL</label>
                         <input type="text" id="wsUrl" value="ws://localhost:8000/api/v1/ws" placeholder="ws://localhost:8000/api/v1/ws">
@@ -480,17 +480,17 @@ html = """
                         <div class="code-snippet">curl -X POST "http://localhost:8000/api/v1/login/access-token" \
   -d "username=admin@example.com&password=changethis"</div>
                     </div>
-                    
+
                     <div class="input-group">
                         <label>Email</label>
                         <input type="text" id="loginEmail" value="admin@example.com">
                     </div>
-                    
+
                     <div class="input-group">
                         <label>Password</label>
                         <input type="password" id="loginPassword" value="changethis">
                     </div>
-                    
+
                     <button id="loginBtn" class="btn-success">Login & Get Token</button>
                 </div>
 
@@ -508,16 +508,16 @@ html = """
                             <label>Room Name</label>
                             <input type="text" id="roomName" placeholder="Enter room name">
                         </div>
-                        
+
                         <div class="button-group">
                             <button onclick="createRoom()" class="btn-success">Create Room</button>
                             <button onclick="joinRoom()" class="btn-primary">Join Room</button>
                             <button onclick="leaveRoom()" class="btn-secondary">Leave Room</button>
                             <button onclick="closeRoom()" class="btn-danger">Close Room</button>
                         </div>
-                        
+
                         <button onclick="listRooms()" class="btn-primary" style="margin-top: 15px;">Refresh Rooms List</button>
-                        
+
                         <div id="currentRoomInfo" style="margin-top: 15px; display: none;">
                             <p style="color: #10b981; font-weight: 500;">
                                 Current Room: <span id="currentRoomName" class="current-room-badge"></span>
@@ -531,9 +531,9 @@ html = """
                             <label>Message Content</label>
                             <textarea id="messageContent" placeholder="Type your message..."></textarea>
                         </div>
-                        
+
                         <button onclick="sendMessage()" class="btn-primary">Send Message</button>
-                        
+
                         <div class="quick-actions" style="margin-top: 20px;">
                             <button onclick="sendQuickMessage('halo')" class="btn-secondary">Send "halo"</button>
                             <button onclick="sendQuickMessage('nama')" class="btn-secondary">Send "nama"</button>
@@ -547,9 +547,9 @@ html = """
                             <label>Raw JSON Message</label>
                             <textarea id="rawJson" placeholder='{"type": "message", "content": "Hello"}'></textarea>
                         </div>
-                        
+
                         <button onclick="sendRawJson()" class="btn-primary">Send Raw JSON</button>
-                        
+
                         <div class="info-box" style="margin-top: 15px;">
                             <h4>Example Messages:</h4>
                             <div class="code-snippet">{"type": "create_room", "room_name": "test"}</div>
@@ -614,7 +614,7 @@ html = """
         function switchTab(tabName) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            
+
             event.target.classList.add('active');
             document.getElementById(tabName + 'Tab').classList.add('active');
         }
@@ -624,9 +624,9 @@ html = """
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             const apiUrl = document.getElementById('wsUrl').value.replace('ws://', 'http://').replace('wss://', 'https://').replace('/api/v1/ws', '');
-            
+
             addMessage('system', 'Attempting to login...');
-            
+
             try {
                 const response = await fetch(`${apiUrl}/api/v1/login/access-token`, {
                     method: 'POST',
@@ -635,7 +635,7 @@ html = """
                     },
                     body: `username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
                 });
-                
+
                 if (response.ok) {
                     const data = await response.json();
                     document.getElementById('token').value = data.access_token;
@@ -657,31 +657,31 @@ html = """
         document.getElementById('connectBtn').addEventListener('click', () => {
             const wsUrl = document.getElementById('wsUrl').value;
             const token = document.getElementById('token').value;
-            
+
             if (!token) {
                 addMessage('error', 'Please enter an access token or login first!');
                 errorCount++;
                 updateStats();
                 return;
             }
-            
+
             const fullUrl = `${wsUrl}?token=${token}`;
-            
+
             addMessage('system', `Connecting to ${wsUrl}...`);
-            
+
             ws = new WebSocket(fullUrl);
-            
+
             ws.onopen = () => {
                 addMessage('system', '✓ Connected to WebSocket server');
                 updateConnectionStatus(true);
             };
-            
+
             ws.onmessage = (event) => {
                 receivedCount++;
                 updateStats();
-                
+
                 const data = event.data;
-                
+
                 // Handle special messages
                 if (data.startsWith('ROOM_UPDATE:')) {
                     const roomName = data.split(':')[1];
@@ -690,7 +690,7 @@ html = """
                     addMessage('system', `Room updated: ${currentRoom || 'None'}`);
                     return;
                 }
-                
+
                 // Detect message type
                 if (data.startsWith('[System]')) {
                     addMessage('system', data);
@@ -702,13 +702,13 @@ html = """
                     addMessage('received', data);
                 }
             };
-            
+
             ws.onerror = (error) => {
                 addMessage('error', `WebSocket error: ${error.message || 'Connection error'}`);
                 errorCount++;
                 updateStats();
             };
-            
+
             ws.onclose = () => {
                 addMessage('system', 'Disconnected from WebSocket server');
                 updateConnectionStatus(false);
@@ -809,7 +809,7 @@ html = """
                 updateStats();
                 return;
             }
-            
+
             const jsonString = JSON.stringify(data);
             ws.send(jsonString);
             addMessage('sent', `→ ${jsonString}`);
@@ -821,10 +821,10 @@ html = """
             const container = document.getElementById('messagesContainer');
             const message = document.createElement('div');
             message.className = `message ${type}`;
-            
+
             const typeLabel = type.toUpperCase();
             const time = new Date().toLocaleTimeString();
-            
+
             message.innerHTML = `
                 <div class="message-header">
                     <span>${typeLabel}</span>
@@ -832,7 +832,7 @@ html = """
                 </div>
                 <div class="message-content">${content}</div>
             `;
-            
+
             container.appendChild(message);
             container.scrollTop = container.scrollHeight;
         }
@@ -858,7 +858,7 @@ html = """
             const indicator = document.getElementById('statusIndicator');
             const connectBtn = document.getElementById('connectBtn');
             const disconnectBtn = document.getElementById('disconnectBtn');
-            
+
             if (connected) {
                 indicator.classList.add('connected');
                 indicator.classList.remove('disconnected');
@@ -875,7 +875,7 @@ html = """
         function updateCurrentRoom() {
             const info = document.getElementById('currentRoomInfo');
             const name = document.getElementById('currentRoomName');
-            
+
             if (currentRoom) {
                 info.style.display = 'block';
                 name.textContent = currentRoom;

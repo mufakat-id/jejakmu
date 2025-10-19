@@ -19,7 +19,7 @@ Buat file types untuk WebSocket messages:
 ```typescript
 // src/types/websocket.ts
 
-export type WebSocketMessageType = 
+export type WebSocketMessageType =
   | 'create_room'
   | 'join_room'
   | 'leave_room'
@@ -114,7 +114,7 @@ export const useWebSocket = ({
 
     ws.onmessage = (event) => {
       const data = event.data;
-      
+
       // Handle ROOM_UPDATE special message
       if (data.startsWith('ROOM_UPDATE:')) {
         const roomName = data.split(':')[1];
@@ -129,7 +129,7 @@ export const useWebSocket = ({
         timestamp: new Date(),
         isSystem: data.startsWith('[System]'),
       };
-      
+
       setMessages((prev) => [...prev, message]);
     };
 
@@ -210,12 +210,12 @@ interface WebSocketProviderProps {
 
 export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }) => {
   const [rooms, setRooms] = useState<RoomInfo[]>([]);
-  
+
   // Get token from localStorage or your auth state
   const token = localStorage.getItem('access_token') || '';
-  
+
   // WebSocket URL - adjust based on environment
-  const wsUrl = import.meta.env.PROD 
+  const wsUrl = import.meta.env.PROD
     ? 'wss://your-domain.com/api/v1/ws'
     : 'ws://localhost:8000/api/v1/ws';
 
@@ -275,9 +275,9 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
     sendMessage({
       type: 'list_rooms',
     });
-    
+
     // Parse rooms from messages (you might want to improve this)
-    const roomMessages = messages.filter(m => 
+    const roomMessages = messages.filter(m =>
       m.content.includes('Active Rooms:')
     );
     // Parse and set rooms...
@@ -739,7 +739,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       <ConnectionStatus />
-      
+
       <nav className="bg-white shadow-sm p-4 mb-4">
         <div className="max-w-4xl mx-auto flex gap-4">
           <button
@@ -886,4 +886,3 @@ Implement ping/pong atau heartbeat mechanism di hook.
 ---
 
 Untuk pertanyaan atau issues, silakan buka issue di repository atau hubungi tim development.
-

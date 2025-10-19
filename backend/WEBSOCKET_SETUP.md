@@ -149,7 +149,7 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        
+
         # Timeout settings
         proxy_read_timeout 86400;
         proxy_send_timeout 86400;
@@ -187,7 +187,7 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto https;
-        
+
         proxy_read_timeout 86400;
         proxy_send_timeout 86400;
     }
@@ -243,7 +243,7 @@ class RateLimiter:
         self.max_messages = max_messages
         self.window = timedelta(seconds=window_seconds)
         self.user_messages = defaultdict(list)
-    
+
     def is_allowed(self, user_id: uuid.UUID) -> bool:
         now = datetime.now()
         # Clean old messages
@@ -251,10 +251,10 @@ class RateLimiter:
             msg_time for msg_time in self.user_messages[user_id]
             if now - msg_time < self.window
         ]
-        
+
         if len(self.user_messages[user_id]) >= self.max_messages:
             return False
-        
+
         self.user_messages[user_id].append(now)
         return True
 ```
@@ -270,7 +270,7 @@ class WebSocketMessage(BaseModel):
     type: str = Field(..., regex="^[a-z_]+$")
     content: str | None = Field(None, max_length=10000)
     room_name: str | None = Field(None, max_length=100, regex="^[a-zA-Z0-9-_]+$")
-    
+
     @validator('content')
     def sanitize_content(cls, v):
         if v:
@@ -315,16 +315,16 @@ class RedisWebSocketManager(WebsocketConnectionManager):
         super().__init__()
         self.redis = redis.from_url("redis://localhost")
         self.pubsub = self.redis.pubsub()
-    
+
     async def subscribe_to_room(self, room_name: str):
         await self.pubsub.subscribe(f"room:{room_name}")
-    
+
     async def publish_to_room(self, room_name: str, message: dict):
         await self.redis.publish(
             f"room:{room_name}",
             json.dumps(message)
         )
-    
+
     async def listen_for_messages(self):
         async for message in self.pubsub.listen():
             if message['type'] == 'message':
@@ -361,7 +361,7 @@ class WebsocketConnectionManager:
         await websocket.accept()
         self.active_connections[websocket] = user_id
         logger.info(f"User {user_id} connected. Total connections: {len(self.active_connections)}")
-    
+
     def disconnect(self, websocket: WebSocket):
         user_id = self.active_connections.get(websocket)
         # ... existing code ...
@@ -412,7 +412,7 @@ async def debug_connection():
             ping_timeout=10
         ) as ws:
             print("Connected successfully!")
-            
+
             # Keep alive
             while True:
                 try:
@@ -421,7 +421,7 @@ async def debug_connection():
                 except asyncio.TimeoutError:
                     print("No message received in 30s, sending ping...")
                     await ws.ping()
-                    
+
     except Exception as e:
         print(f"Connection error: {e}")
 ```
@@ -653,12 +653,12 @@ async def test_websocket():
     # Ganti dengan access token yang valid
     token = "eyJ0eXAiOiJKV1QiLCJhbGc..."
     uri = f"ws://localhost:8000/api/v1/ws?token={token}"
-    
+
     async with websockets.connect(uri) as websocket:
         # Terima welcome message
         welcome = await websocket.recv()
         print(f"Received: {welcome}")
-        
+
         # Create room
         await websocket.send(json.dumps({
             "type": "create_room",
@@ -666,7 +666,7 @@ async def test_websocket():
         }))
         response = await websocket.recv()
         print(f"Received: {response}")
-        
+
         # Join room
         await websocket.send(json.dumps({
             "type": "join_room",
@@ -674,7 +674,7 @@ async def test_websocket():
         }))
         response = await websocket.recv()
         print(f"Received: {response}")
-        
+
         # Send message
         await websocket.send(json.dumps({
             "type": "message",
@@ -695,7 +695,7 @@ const ws = new WebSocket(`ws://localhost:8000/api/v1/ws?token=${token}`);
 
 ws.onopen = () => {
     console.log('Connected to WebSocket');
-    
+
     // Create room
     ws.send(JSON.stringify({
         type: 'create_room',
@@ -804,4 +804,3 @@ backend/app/
 - 🔧 Lihat [WEBSOCKET_FRONTEND_GUIDE.md](./WEBSOCKET_FRONTEND_GUIDE.md) untuk integrasi frontend
 - 🚀 Customize message handlers di `app/services/websocket_service.py`
 - 💾 Tambahkan persistence (save messages to database) jika diperlukan
-
