@@ -1,9 +1,10 @@
 import uuid
 from datetime import datetime
-from sqlmodel import SQLModel, Field
 
+from sqlmodel import Field, SQLModel
 
 # Base schemas for CV components
+
 
 class CVFileBase(SQLModel):
     file_url: str = Field(max_length=500)

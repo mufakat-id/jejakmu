@@ -1,8 +1,8 @@
 import uuid
-from typing import TYPE_CHECKING
 from datetime import datetime
+from typing import TYPE_CHECKING
 
-from sqlmodel import Field, Relationship, SQLModel, Column, JSON
+from sqlmodel import JSON, Column, Field, Relationship, SQLModel
 
 from app.core.audit import AuditMixin
 
@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 # =============================================================================
 # CV File Model - Multiple CV files with status tracking and reviewer
 # =============================================================================
+
 
 class CVFile(SQLModel, AuditMixin, table=True):
     """
@@ -35,17 +36,19 @@ class CVFile(SQLModel, AuditMixin, table=True):
     status: str = Field(
         default="submitted",
         max_length=50,
-        description="Status: submitted, requested, reviewed, rejected"
+        description="Status: submitted, requested, reviewed, rejected",
     )
 
     # Review information
     reviewed_by_id: uuid.UUID | None = Field(
-        default=None,
-        foreign_key="user.id",
-        description="User who reviewed this CV"
+        default=None, foreign_key="user.id", description="User who reviewed this CV"
     )
-    reviewed_at: datetime | None = Field(default=None, description="Timestamp when CV was reviewed")
-    review_notes: str | None = Field(default=None, max_length=1000, description="Review notes or feedback")
+    reviewed_at: datetime | None = Field(
+        default=None, description="Timestamp when CV was reviewed"
+    )
+    review_notes: str | None = Field(
+        default=None, max_length=1000, description="Review notes or feedback"
+    )
 
     # Additional metadata
     is_primary: bool = Field(default=False, description="Mark as primary/default CV")
@@ -56,7 +59,7 @@ class CVFile(SQLModel, AuditMixin, table=True):
     reviewed_by: "User" = Relationship(
         sa_relationship_kwargs={
             "primaryjoin": "CVFile.reviewed_by_id==User.id",
-            "lazy": "joined"
+            "lazy": "joined",
         }
     )
 
@@ -64,6 +67,7 @@ class CVFile(SQLModel, AuditMixin, table=True):
 # =============================================================================
 # Education Model - Education history
 # =============================================================================
+
 
 class CVEducation(SQLModel, AuditMixin, table=True):
     """
@@ -76,15 +80,25 @@ class CVEducation(SQLModel, AuditMixin, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     user_cv_id: uuid.UUID = Field(foreign_key="user_cv.id", index=True)
 
-    institution: str = Field(max_length=255, description="Name of educational institution")
-    degree: str = Field(max_length=100, description="Degree obtained (e.g., Bachelor, Master, PhD)")
+    institution: str = Field(
+        max_length=255, description="Name of educational institution"
+    )
+    degree: str = Field(
+        max_length=100, description="Degree obtained (e.g., Bachelor, Master, PhD)"
+    )
     field_of_study: str = Field(max_length=255, description="Field of study or major")
 
     start_date: str = Field(max_length=7, description="Start date in YYYY-MM format")
-    end_date: str | None = Field(default=None, max_length=7, description="End date in YYYY-MM format or 'Present'")
+    end_date: str | None = Field(
+        default=None,
+        max_length=7,
+        description="End date in YYYY-MM format or 'Present'",
+    )
 
     gpa: str | None = Field(default=None, max_length=10, description="GPA or grade")
-    description: str | None = Field(default=None, max_length=1000, description="Additional description")
+    description: str | None = Field(
+        default=None, max_length=1000, description="Additional description"
+    )
 
     # Location
     city: str | None = Field(default=None, max_length=100)
@@ -101,6 +115,7 @@ class CVEducation(SQLModel, AuditMixin, table=True):
 # Work Experience Model - Work history
 # =============================================================================
 
+
 class CVWorkExperience(SQLModel, AuditMixin, table=True):
     """
     Work experience history for CV.
@@ -116,15 +131,23 @@ class CVWorkExperience(SQLModel, AuditMixin, table=True):
     position: str = Field(max_length=255, description="Job position/title")
 
     start_date: str = Field(max_length=7, description="Start date in YYYY-MM format")
-    end_date: str | None = Field(default=None, max_length=7, description="End date in YYYY-MM format or 'Present'")
+    end_date: str | None = Field(
+        default=None,
+        max_length=7,
+        description="End date in YYYY-MM format or 'Present'",
+    )
 
-    description: str | None = Field(default=None, max_length=2000, description="Job responsibilities and achievements")
+    description: str | None = Field(
+        default=None,
+        max_length=2000,
+        description="Job responsibilities and achievements",
+    )
 
     # Employment details
     employment_type: str | None = Field(
         default=None,
         max_length=50,
-        description="Employment type: Full-time, Part-time, Contract, Internship, Freelance"
+        description="Employment type: Full-time, Part-time, Contract, Internship, Freelance",
     )
 
     # Location
@@ -143,6 +166,7 @@ class CVWorkExperience(SQLModel, AuditMixin, table=True):
 # Skill Model - Skills and expertise
 # =============================================================================
 
+
 class CVSkill(SQLModel, AuditMixin, table=True):
     """
     Skills for CV.
@@ -158,17 +182,16 @@ class CVSkill(SQLModel, AuditMixin, table=True):
     level: str | None = Field(
         default=None,
         max_length=50,
-        description="Proficiency level: Beginner, Intermediate, Advanced, Expert"
+        description="Proficiency level: Beginner, Intermediate, Advanced, Expert",
     )
     category: str | None = Field(
         default=None,
         max_length=100,
-        description="Skill category: Technical, Soft Skills, Language, etc."
+        description="Skill category: Technical, Soft Skills, Language, etc.",
     )
 
     years_of_experience: int | None = Field(
-        default=None,
-        description="Years of experience with this skill"
+        default=None, description="Years of experience with this skill"
     )
 
     # Display order
@@ -181,6 +204,7 @@ class CVSkill(SQLModel, AuditMixin, table=True):
 # =============================================================================
 # Certification Model - Certifications and licenses
 # =============================================================================
+
 
 class CVCertification(SQLModel, AuditMixin, table=True):
     """
@@ -198,15 +222,19 @@ class CVCertification(SQLModel, AuditMixin, table=True):
 
     issue_date: str = Field(max_length=7, description="Issue date in YYYY-MM format")
     expiration_date: str | None = Field(
-        default=None,
-        max_length=7,
-        description="Expiration date in YYYY-MM format"
+        default=None, max_length=7, description="Expiration date in YYYY-MM format"
     )
 
-    credential_id: str | None = Field(default=None, max_length=255, description="Credential ID or license number")
-    credential_url: str | None = Field(default=None, max_length=500, description="URL to verify credential")
+    credential_id: str | None = Field(
+        default=None, max_length=255, description="Credential ID or license number"
+    )
+    credential_url: str | None = Field(
+        default=None, max_length=500, description="URL to verify credential"
+    )
 
-    description: str | None = Field(default=None, max_length=1000, description="Additional description")
+    description: str | None = Field(
+        default=None, max_length=1000, description="Additional description"
+    )
 
     # Display order
     display_order: int = Field(default=0, description="Order for displaying in CV")
@@ -218,6 +246,7 @@ class CVCertification(SQLModel, AuditMixin, table=True):
 # =============================================================================
 # Language Model - Language proficiency
 # =============================================================================
+
 
 class CVLanguage(SQLModel, AuditMixin, table=True):
     """
@@ -233,19 +262,17 @@ class CVLanguage(SQLModel, AuditMixin, table=True):
     language: str = Field(max_length=100, description="Language name")
     proficiency: str = Field(
         max_length=50,
-        description="Proficiency level: Native, Fluent, Professional, Intermediate, Beginner"
+        description="Proficiency level: Native, Fluent, Professional, Intermediate, Beginner",
     )
 
     # Optional: certification details
     certification_name: str | None = Field(
         default=None,
         max_length=255,
-        description="Language certification name (e.g., TOEFL, IELTS)"
+        description="Language certification name (e.g., TOEFL, IELTS)",
     )
     certification_score: str | None = Field(
-        default=None,
-        max_length=50,
-        description="Certification score"
+        default=None, max_length=50, description="Certification score"
     )
 
     # Display order
@@ -258,6 +285,7 @@ class CVLanguage(SQLModel, AuditMixin, table=True):
 # =============================================================================
 # Project Model - Projects and portfolio
 # =============================================================================
+
 
 class CVProject(SQLModel, AuditMixin, table=True):
     """
@@ -273,21 +301,35 @@ class CVProject(SQLModel, AuditMixin, table=True):
     name: str = Field(max_length=255, description="Project name")
     description: str = Field(max_length=2000, description="Project description")
 
-    start_date: str | None = Field(default=None, max_length=7, description="Start date in YYYY-MM format")
-    end_date: str | None = Field(default=None, max_length=7, description="End date in YYYY-MM format or 'Present'")
+    start_date: str | None = Field(
+        default=None, max_length=7, description="Start date in YYYY-MM format"
+    )
+    end_date: str | None = Field(
+        default=None,
+        max_length=7,
+        description="End date in YYYY-MM format or 'Present'",
+    )
 
-    project_url: str | None = Field(default=None, max_length=500, description="Project URL or demo link")
-    repository_url: str | None = Field(default=None, max_length=500, description="Code repository URL")
+    project_url: str | None = Field(
+        default=None, max_length=500, description="Project URL or demo link"
+    )
+    repository_url: str | None = Field(
+        default=None, max_length=500, description="Code repository URL"
+    )
 
     # Technologies used - stored as JSON array
     technologies: list[str] | None = Field(
         default=None,
         sa_column=Column(JSON),
-        description="Technologies/tools used in the project"
+        description="Technologies/tools used in the project",
     )
 
-    role: str | None = Field(default=None, max_length=100, description="Your role in the project")
-    company: str | None = Field(default=None, max_length=255, description="Company/organization (if applicable)")
+    role: str | None = Field(
+        default=None, max_length=100, description="Your role in the project"
+    )
+    company: str | None = Field(
+        default=None, max_length=255, description="Company/organization (if applicable)"
+    )
 
     # Display order
     display_order: int = Field(default=0, description="Order for displaying in CV")
@@ -299,6 +341,7 @@ class CVProject(SQLModel, AuditMixin, table=True):
 # =============================================================================
 # Main UserCV Model - CV Profile
 # =============================================================================
+
 
 class UserCV(SQLModel, AuditMixin, table=True):
     """
@@ -312,19 +355,41 @@ class UserCV(SQLModel, AuditMixin, table=True):
     user_id: uuid.UUID = Field(foreign_key="user.id", unique=True, index=True)
 
     # Professional Summary
-    professional_summary: str | None = Field(default=None, max_length=2000, description="Professional summary/objective")
+    professional_summary: str | None = Field(
+        default=None, max_length=2000, description="Professional summary/objective"
+    )
 
     # Social Links
-    linkedin_url: str | None = Field(default=None, max_length=500, description="LinkedIn profile URL")
-    github_url: str | None = Field(default=None, max_length=500, description="GitHub profile URL")
-    portfolio_url: str | None = Field(default=None, max_length=500, description="Portfolio website URL")
+    linkedin_url: str | None = Field(
+        default=None, max_length=500, description="LinkedIn profile URL"
+    )
+    github_url: str | None = Field(
+        default=None, max_length=500, description="GitHub profile URL"
+    )
+    portfolio_url: str | None = Field(
+        default=None, max_length=500, description="Portfolio website URL"
+    )
 
     # Relationships
     user: "User" = Relationship(back_populates="cv")
-    cv_files: list["CVFile"] = Relationship(back_populates="user_cv", cascade_delete=True)
-    education: list["CVEducation"] = Relationship(back_populates="user_cv", cascade_delete=True)
-    work_experience: list["CVWorkExperience"] = Relationship(back_populates="user_cv", cascade_delete=True)
-    skills: list["CVSkill"] = Relationship(back_populates="user_cv", cascade_delete=True)
-    certifications: list["CVCertification"] = Relationship(back_populates="user_cv", cascade_delete=True)
-    languages: list["CVLanguage"] = Relationship(back_populates="user_cv", cascade_delete=True)
-    projects: list["CVProject"] = Relationship(back_populates="user_cv", cascade_delete=True)
+    cv_files: list["CVFile"] = Relationship(
+        back_populates="user_cv", cascade_delete=True
+    )
+    education: list["CVEducation"] = Relationship(
+        back_populates="user_cv", cascade_delete=True
+    )
+    work_experience: list["CVWorkExperience"] = Relationship(
+        back_populates="user_cv", cascade_delete=True
+    )
+    skills: list["CVSkill"] = Relationship(
+        back_populates="user_cv", cascade_delete=True
+    )
+    certifications: list["CVCertification"] = Relationship(
+        back_populates="user_cv", cascade_delete=True
+    )
+    languages: list["CVLanguage"] = Relationship(
+        back_populates="user_cv", cascade_delete=True
+    )
+    projects: list["CVProject"] = Relationship(
+        back_populates="user_cv", cascade_delete=True
+    )

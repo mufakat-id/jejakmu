@@ -1,33 +1,34 @@
 import uuid
+
 from sqlmodel import Session
 
 from app.repositories.user_cv_repository import (
-    UserCVRepository,
-    CVFileRepository,
-    CVEducationRepository,
-    CVWorkExperienceRepository,
-    CVSkillRepository,
     CVCertificationRepository,
+    CVEducationRepository,
+    CVFileRepository,
     CVLanguageRepository,
     CVProjectRepository,
+    CVSkillRepository,
+    CVWorkExperienceRepository,
+    UserCVRepository,
 )
 from app.schemas.user_cv import (
-    UserCVCreate,
-    UserCVUpdate,
-    CVFileCreate,
-    CVFileUpdate,
-    CVEducationCreate,
-    CVEducationUpdate,
-    CVWorkExperienceCreate,
-    CVWorkExperienceUpdate,
-    CVSkillCreate,
-    CVSkillUpdate,
     CVCertificationCreate,
     CVCertificationUpdate,
+    CVEducationCreate,
+    CVEducationUpdate,
+    CVFileCreate,
+    CVFileUpdate,
     CVLanguageCreate,
     CVLanguageUpdate,
     CVProjectCreate,
     CVProjectUpdate,
+    CVSkillCreate,
+    CVSkillUpdate,
+    CVWorkExperienceCreate,
+    CVWorkExperienceUpdate,
+    UserCVCreate,
+    UserCVUpdate,
 )
 
 
@@ -131,7 +132,9 @@ class UserCVService:
         education_data = education_in.model_dump()
         return self.education_repo.create(education_data)
 
-    def update_education(self, education_id: uuid.UUID, education_in: CVEducationUpdate):
+    def update_education(
+        self, education_id: uuid.UUID, education_in: CVEducationUpdate
+    ):
         """Update education entry"""
         education = self.education_repo.get(education_id)
         if not education:
@@ -161,7 +164,9 @@ class UserCVService:
         work_data = work_in.model_dump()
         return self.work_repo.create(work_data)
 
-    def update_work_experience(self, work_id: uuid.UUID, work_in: CVWorkExperienceUpdate):
+    def update_work_experience(
+        self, work_id: uuid.UUID, work_in: CVWorkExperienceUpdate
+    ):
         """Update work experience entry"""
         work = self.work_repo.get(work_id)
         if not work:
