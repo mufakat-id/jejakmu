@@ -3,14 +3,14 @@ import uuid
 from sqlmodel import Session, select
 
 from app.models.user_cv import (
-    UserCV,
-    CVFile,
-    CVEducation,
-    CVWorkExperience,
-    CVSkill,
     CVCertification,
+    CVEducation,
+    CVFile,
     CVLanguage,
     CVProject,
+    CVSkill,
+    CVWorkExperience,
+    UserCV,
 )
 from app.repositories.base import BaseRepository
 
@@ -50,7 +50,11 @@ class CVFileRepository(BaseRepository[CVFile]):
 
     def get_by_cv_id(self, cv_id: uuid.UUID) -> list[CVFile]:
         """Get all CV files for a CV"""
-        statement = select(CVFile).where(CVFile.user_cv_id == cv_id).order_by(CVFile.version.desc())
+        statement = (
+            select(CVFile)
+            .where(CVFile.user_cv_id == cv_id)
+            .order_by(CVFile.version.desc())
+        )
         return list(self.session.exec(statement).all())
 
 
@@ -62,7 +66,11 @@ class CVEducationRepository(BaseRepository[CVEducation]):
 
     def get_by_cv_id(self, cv_id: uuid.UUID) -> list[CVEducation]:
         """Get all education entries for a CV"""
-        statement = select(CVEducation).where(CVEducation.user_cv_id == cv_id).order_by(CVEducation.display_order)
+        statement = (
+            select(CVEducation)
+            .where(CVEducation.user_cv_id == cv_id)
+            .order_by(CVEducation.display_order)
+        )
         return list(self.session.exec(statement).all())
 
 
@@ -74,7 +82,11 @@ class CVWorkExperienceRepository(BaseRepository[CVWorkExperience]):
 
     def get_by_cv_id(self, cv_id: uuid.UUID) -> list[CVWorkExperience]:
         """Get all work experience entries for a CV"""
-        statement = select(CVWorkExperience).where(CVWorkExperience.user_cv_id == cv_id).order_by(CVWorkExperience.display_order)
+        statement = (
+            select(CVWorkExperience)
+            .where(CVWorkExperience.user_cv_id == cv_id)
+            .order_by(CVWorkExperience.display_order)
+        )
         return list(self.session.exec(statement).all())
 
 
@@ -86,7 +98,11 @@ class CVSkillRepository(BaseRepository[CVSkill]):
 
     def get_by_cv_id(self, cv_id: uuid.UUID) -> list[CVSkill]:
         """Get all skills for a CV"""
-        statement = select(CVSkill).where(CVSkill.user_cv_id == cv_id).order_by(CVSkill.display_order)
+        statement = (
+            select(CVSkill)
+            .where(CVSkill.user_cv_id == cv_id)
+            .order_by(CVSkill.display_order)
+        )
         return list(self.session.exec(statement).all())
 
 
@@ -98,7 +114,11 @@ class CVCertificationRepository(BaseRepository[CVCertification]):
 
     def get_by_cv_id(self, cv_id: uuid.UUID) -> list[CVCertification]:
         """Get all certifications for a CV"""
-        statement = select(CVCertification).where(CVCertification.user_cv_id == cv_id).order_by(CVCertification.display_order)
+        statement = (
+            select(CVCertification)
+            .where(CVCertification.user_cv_id == cv_id)
+            .order_by(CVCertification.display_order)
+        )
         return list(self.session.exec(statement).all())
 
 
@@ -110,7 +130,11 @@ class CVLanguageRepository(BaseRepository[CVLanguage]):
 
     def get_by_cv_id(self, cv_id: uuid.UUID) -> list[CVLanguage]:
         """Get all languages for a CV"""
-        statement = select(CVLanguage).where(CVLanguage.user_cv_id == cv_id).order_by(CVLanguage.display_order)
+        statement = (
+            select(CVLanguage)
+            .where(CVLanguage.user_cv_id == cv_id)
+            .order_by(CVLanguage.display_order)
+        )
         return list(self.session.exec(statement).all())
 
 
@@ -122,6 +146,9 @@ class CVProjectRepository(BaseRepository[CVProject]):
 
     def get_by_cv_id(self, cv_id: uuid.UUID) -> list[CVProject]:
         """Get all projects for a CV"""
-        statement = select(CVProject).where(CVProject.user_cv_id == cv_id).order_by(CVProject.display_order)
+        statement = (
+            select(CVProject)
+            .where(CVProject.user_cv_id == cv_id)
+            .order_by(CVProject.display_order)
+        )
         return list(self.session.exec(statement).all())
-

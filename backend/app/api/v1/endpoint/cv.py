@@ -1,41 +1,41 @@
+import logging
 import uuid
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, File, UploadFile
+from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from app.api.v1.deps import CurrentUser, SessionDep
-from app.services.user_cv_service import UserCVService
+from app.core.storage import GoogleCloudStorage
+from app.schemas.common import Message
 from app.schemas.user_cv import (
+    CVCertificationCreate,
+    CVCertificationPublic,
+    CVCertificationUpdate,
+    CVEducationCreate,
+    CVEducationPublic,
+    CVEducationUpdate,
+    CVFileCreate,
+    CVFilePublic,
+    CVFileUpdate,
+    CVLanguageCreate,
+    CVLanguagePublic,
+    CVLanguageUpdate,
+    CVProjectCreate,
+    CVProjectPublic,
+    CVProjectUpdate,
+    CVSkillCreate,
+    CVSkillPublic,
+    CVSkillUpdate,
+    CVWorkExperienceCreate,
+    CVWorkExperiencePublic,
+    CVWorkExperienceUpdate,
     UserCVCreate,
-    UserCVPublic,
     UserCVFull,
+    UserCVPublic,
     UserCVsPublic,
     UserCVUpdate,
-    CVEducationCreate,
-    CVEducationUpdate,
-    CVEducationPublic,
-    CVWorkExperienceCreate,
-    CVWorkExperienceUpdate,
-    CVWorkExperiencePublic,
-    CVSkillCreate,
-    CVSkillUpdate,
-    CVSkillPublic,
-    CVCertificationCreate,
-    CVCertificationUpdate,
-    CVCertificationPublic,
-    CVLanguageCreate,
-    CVLanguageUpdate,
-    CVLanguagePublic,
-    CVProjectCreate,
-    CVProjectUpdate,
-    CVProjectPublic,
-    CVFileCreate,
-    CVFileUpdate,
-    CVFilePublic,
 )
-from app.schemas.common import Message
-from app.core.storage import GoogleCloudStorage
-import logging
+from app.services.user_cv_service import UserCVService
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +45,7 @@ router = APIRouter(prefix="/cv", tags=["cv"])
 # =============================================================================
 # CV Profile Endpoints
 # =============================================================================
+
 
 @router.get("/", response_model=UserCVsPublic)
 def read_cvs(
@@ -153,6 +154,7 @@ def delete_cv(
 # Education Endpoints
 # =============================================================================
 
+
 @router.post("/education", response_model=CVEducationPublic, tags=["cv-education"])
 def create_education(
     *, session: SessionDep, current_user: CurrentUser, education_in: CVEducationCreate
@@ -181,7 +183,9 @@ def read_my_education(session: SessionDep, current_user: CurrentUser) -> Any:
     return service.get_education_by_cv(cv.id)
 
 
-@router.patch("/education/{id}", response_model=CVEducationPublic, tags=["cv-education"])
+@router.patch(
+    "/education/{id}", response_model=CVEducationPublic, tags=["cv-education"]
+)
 def update_education(
     *,
     session: SessionDep,
@@ -227,7 +231,12 @@ def delete_education(
 # Work Experience Endpoints
 # =============================================================================
 
-@router.post("/work-experience", response_model=CVWorkExperiencePublic, tags=["cv-work-experience"])
+
+@router.post(
+    "/work-experience",
+    response_model=CVWorkExperiencePublic,
+    tags=["cv-work-experience"],
+)
 def create_work_experience(
     *, session: SessionDep, current_user: CurrentUser, work_in: CVWorkExperienceCreate
 ) -> Any:
@@ -244,7 +253,11 @@ def create_work_experience(
     return work
 
 
-@router.get("/work-experience", response_model=list[CVWorkExperiencePublic], tags=["cv-work-experience"])
+@router.get(
+    "/work-experience",
+    response_model=list[CVWorkExperiencePublic],
+    tags=["cv-work-experience"],
+)
 def read_my_work_experience(session: SessionDep, current_user: CurrentUser) -> Any:
     """Get all work experience entries for current user's CV."""
     service = UserCVService(session)
@@ -255,7 +268,11 @@ def read_my_work_experience(session: SessionDep, current_user: CurrentUser) -> A
     return service.get_work_experience_by_cv(cv.id)
 
 
-@router.patch("/work-experience/{id}", response_model=CVWorkExperiencePublic, tags=["cv-work-experience"])
+@router.patch(
+    "/work-experience/{id}",
+    response_model=CVWorkExperiencePublic,
+    tags=["cv-work-experience"],
+)
 def update_work_experience(
     *,
     session: SessionDep,
@@ -277,7 +294,9 @@ def update_work_experience(
     return updated
 
 
-@router.delete("/work-experience/{id}", response_model=Message, tags=["cv-work-experience"])
+@router.delete(
+    "/work-experience/{id}", response_model=Message, tags=["cv-work-experience"]
+)
 def delete_work_experience(
     session: SessionDep,
     current_user: CurrentUser,
@@ -300,6 +319,7 @@ def delete_work_experience(
 # =============================================================================
 # Skills Endpoints
 # =============================================================================
+
 
 @router.post("/skills", response_model=CVSkillPublic, tags=["cv-skills"])
 def create_skill(
@@ -375,7 +395,10 @@ def delete_skill(
 # Certifications Endpoints
 # =============================================================================
 
-@router.post("/certifications", response_model=CVCertificationPublic, tags=["cv-certifications"])
+
+@router.post(
+    "/certifications", response_model=CVCertificationPublic, tags=["cv-certifications"]
+)
 def create_certification(
     *, session: SessionDep, current_user: CurrentUser, cert_in: CVCertificationCreate
 ) -> Any:
@@ -392,7 +415,11 @@ def create_certification(
     return cert
 
 
-@router.get("/certifications", response_model=list[CVCertificationPublic], tags=["cv-certifications"])
+@router.get(
+    "/certifications",
+    response_model=list[CVCertificationPublic],
+    tags=["cv-certifications"],
+)
 def read_my_certifications(session: SessionDep, current_user: CurrentUser) -> Any:
     """Get all certifications for current user's CV."""
     service = UserCVService(session)
@@ -403,7 +430,11 @@ def read_my_certifications(session: SessionDep, current_user: CurrentUser) -> An
     return service.get_certifications_by_cv(cv.id)
 
 
-@router.patch("/certifications/{id}", response_model=CVCertificationPublic, tags=["cv-certifications"])
+@router.patch(
+    "/certifications/{id}",
+    response_model=CVCertificationPublic,
+    tags=["cv-certifications"],
+)
 def update_certification(
     *,
     session: SessionDep,
@@ -425,7 +456,9 @@ def update_certification(
     return updated
 
 
-@router.delete("/certifications/{id}", response_model=Message, tags=["cv-certifications"])
+@router.delete(
+    "/certifications/{id}", response_model=Message, tags=["cv-certifications"]
+)
 def delete_certification(
     session: SessionDep,
     current_user: CurrentUser,
@@ -448,6 +481,7 @@ def delete_certification(
 # =============================================================================
 # Languages Endpoints
 # =============================================================================
+
 
 @router.post("/languages", response_model=CVLanguagePublic, tags=["cv-languages"])
 def create_language(
@@ -523,6 +557,7 @@ def delete_language(
 # Projects Endpoints
 # =============================================================================
 
+
 @router.post("/projects", response_model=CVProjectPublic, tags=["cv-projects"])
 def create_project(
     *, session: SessionDep, current_user: CurrentUser, project_in: CVProjectCreate
@@ -597,6 +632,7 @@ def delete_project(
 # CV Files Endpoints
 # =============================================================================
 
+
 @router.post("/files/upload", response_model=CVFilePublic, tags=["cv-files"])
 async def upload_cv_file(
     session: SessionDep,
@@ -614,7 +650,7 @@ async def upload_cv_file(
     if file.content_type not in allowed_content_types:
         raise HTTPException(
             status_code=400,
-            detail="Invalid file type. Only PDF, DOC, and DOCX files are allowed."
+            detail="Invalid file type. Only PDF, DOC, and DOCX files are allowed.",
         )
 
     try:
@@ -624,6 +660,7 @@ async def upload_cv_file(
         if not cv:
             # Auto-create CV if doesn't exist
             from app.schemas.user_cv import UserCVCreate
+
             cv_in = UserCVCreate(user_id=current_user.id)
             cv = service.create_cv(cv_in)
 
@@ -663,7 +700,9 @@ async def upload_cv_file(
         )
     except Exception as e:
         logger.error(f"Error uploading CV file: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Failed to upload CV file: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to upload CV file: {str(e)}"
+        )
 
 
 @router.get("/files", response_model=list[CVFilePublic], tags=["cv-files"])
