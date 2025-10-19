@@ -2,9 +2,8 @@
 Site schemas for API requests and responses
 """
 import uuid
-from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class SiteBase(BaseModel):
@@ -50,9 +49,9 @@ class SiteUpdate(BaseModel):
 class SitePublic(SiteBase):
     """Public schema for Site"""
 
+    model_config = ConfigDict(from_attributes=True)
+
     id: uuid.UUID
-    created_at: datetime
-    updated_at: datetime
 
 
 class SitesPublic(BaseModel):

@@ -24,15 +24,15 @@ def upgrade():
     # Update existing records with default frontend_domain based on backend domain
     # For localhost:8000 -> localhost:5173
     op.execute("""
-        UPDATE site 
-        SET frontend_domain = 'localhost:5173' 
+        UPDATE site
+        SET frontend_domain = 'localhost:5173'
         WHERE domain = 'localhost:8000' AND frontend_domain IS NULL
     """)
 
     # For other domains, set frontend_domain same as domain (can be updated later via API)
     op.execute("""
-        UPDATE site 
-        SET frontend_domain = domain 
+        UPDATE site
+        SET frontend_domain = domain
         WHERE frontend_domain IS NULL
     """)
 

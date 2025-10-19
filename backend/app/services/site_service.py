@@ -124,4 +124,3 @@ class SiteService:
         from app.core.sites import get_current_site
 
         return get_current_site()
-

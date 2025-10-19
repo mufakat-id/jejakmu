@@ -21,12 +21,12 @@ from app.core.sites import build_frontend_url, get_current_site
 
 def send_password_reset_email(email: str, token: str):
     site = get_current_site()
-    
+
     # Build frontend URL with token
     reset_url = build_frontend_url(f"/reset-password?token={token}")
     # Output: "http://localhost:5173/reset-password?token=abc123"
     # Or: "https://example.com/reset-password?token=abc123"
-    
+
     send_email(
         to=email,
         subject="Reset Your Password",
@@ -43,10 +43,10 @@ from app.core.sites import build_frontend_url
 def google_callback(code: str, session: SessionDep):
     # Process OAuth code...
     user = authenticate_with_google(code)
-    
+
     # Redirect to frontend with token
     frontend_callback = build_frontend_url(f"/auth/callback?token={user.token}")
-    
+
     return RedirectResponse(url=frontend_callback)
 ```
 
@@ -119,15 +119,15 @@ from app.core.sites import build_frontend_url
 class EmailService:
     def send_verification_email(self, user_email: str, token: str):
         verify_url = build_frontend_url(f"/verify-email?token={token}")
-        
+
         html_content = f"""
         <h1>Verify Your Email</h1>
         <p>Click the link below to verify your email:</p>
         <a href="{verify_url}">Verify Email</a>
         """
-        
+
         send_email(to=user_email, html=html_content)
-    
+
     def send_invitation_email(self, email: str, invite_code: str):
         invite_url = build_frontend_url(f"/invite?code={invite_code}")
         # Send email with invite_url...
@@ -143,16 +143,16 @@ from fastapi.responses import RedirectResponse
 def google_oauth_callback(code: str, session: SessionDep):
     # Exchange code for user info
     user_info = google.get_user_info(code)
-    
+
     # Create or get user
     user = get_or_create_user(session, user_info)
-    
+
     # Generate JWT token
     access_token = create_access_token(user.id)
-    
+
     # Redirect to frontend with token
     frontend_url = build_frontend_url(f"/auth/callback?token={access_token}")
-    
+
     return RedirectResponse(url=frontend_url)
 ```
 
@@ -162,10 +162,10 @@ def google_oauth_callback(code: str, session: SessionDep):
 @router.post("/webhooks/payment/success")
 def payment_success_webhook(payment_id: str):
     # Process payment...
-    
+
     # Return redirect URL for user
     success_url = build_frontend_url(f"/payment/success?id={payment_id}")
-    
+
     return {"redirect_url": success_url}
 ```
 
@@ -179,16 +179,16 @@ from app.core.sites import get_current_site
 @app.middleware("http")
 async def dynamic_cors(request: Request, call_next):
     site = get_current_site()
-    
+
     response = await call_next(request)
-    
+
     if site:
         # Determine frontend scheme
         scheme = "https" if not site.frontend_domain.startswith("localhost") else "http"
         frontend_origin = f"{scheme}://{site.frontend_domain}"
-        
+
         response.headers["Access-Control-Allow-Origin"] = frontend_origin
-    
+
     return response
 ```
 
@@ -212,15 +212,15 @@ def test_frontend_url_generation():
         frontend_domain="example.com",
         name="Test"
     )
-    
+
     # Test method
     url = site.get_frontend_url("/reset-password")
     assert url == "https://example.com/reset-password"
-    
+
     # Test with query params
     url = site.get_frontend_url("/verify?token=abc123")
     assert url == "https://example.com/verify?token=abc123"
-    
+
     # Test localhost (should use http)
     local_site = Site(
         domain="localhost:8000",
@@ -230,4 +230,3 @@ def test_frontend_url_generation():
     url = local_site.get_frontend_url("/dashboard")
     assert url == "http://localhost:5173/dashboard"
 ```
-

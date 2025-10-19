@@ -1,10 +1,13 @@
 import uuid
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from sqlalchemy import JSON, Column
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, Relationship, SQLModel
 
 from app.core.audit import AuditMixin
+
+if TYPE_CHECKING:
+    from app.models.user_profile_site import UserProfileSite
 
 
 class Site(SQLModel, AuditMixin, table=True):
@@ -36,6 +39,11 @@ class Site(SQLModel, AuditMixin, table=True):
 
     # Optional: Additional configuration per site
     settings: dict[str, Any] | None = Field(default=None, sa_column=Column(JSON))
+
+    # Relationships
+    profile_sites: list["UserProfileSite"] = Relationship(
+        back_populates="site", cascade_delete=True
+    )
 
     def __str__(self) -> str:
         return f"{self.name} ({self.domain})"
