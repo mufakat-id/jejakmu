@@ -7,6 +7,7 @@ import {
   FiHome,
   FiSettings,
   FiUsers,
+  FiZap,
 } from "react-icons/fi"
 import type { IconType } from "react-icons/lib"
 
@@ -37,6 +38,11 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
         ...items,
         { icon: FiGlobe, title: "Sites", path: "/sites" },
         { icon: FiUsers, title: "Admin", path: "/admin" },
+        {
+          icon: FiZap,
+          title: "WebSocket Playground",
+          path: "/websocket-playground",
+        },
       ]
     : items
 
