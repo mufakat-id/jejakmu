@@ -1,4 +1,5 @@
 import json
+import logging
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
@@ -8,6 +9,8 @@ from app.models import User
 from app.services.websocket_service import ws_handler
 
 router = APIRouter()
+
+logger = logging.getLogger("websocket")
 
 
 @router.websocket("/ws")
@@ -80,4 +83,4 @@ async def websocket_endpoint(websocket: WebSocket, token: str | None = None):
     except WebSocketDisconnect:
         # Handle disconnection
         ws_manager.disconnect(websocket)
-        print(f"User {user_id} disconnected")
+        logger.info(f"User {user_id} disconnected")

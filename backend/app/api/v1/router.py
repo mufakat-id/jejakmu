@@ -5,6 +5,7 @@ from app.api.v1.endpoint import (
     login,
     oauth,
     private,
+    sites,
     upload,
     users,
     utils,
@@ -21,6 +22,7 @@ api_router.include_router(oauth.router)
 api_router.include_router(upload.router)
 api_router.include_router(upload.file_router)
 api_router.include_router(websocket.router)
+api_router.include_router(sites.router, prefix="/sites", tags=["sites"])
 
 
 if settings.ENVIRONMENT == "local":

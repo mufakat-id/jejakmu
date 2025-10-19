@@ -6,6 +6,7 @@ from starlette.middleware.cors import CORSMiddleware
 from app.api.router import api_router
 from app.core.config import settings
 from app.middlewares.audit import AuditMiddleware
+from app.middlewares.sites import SitesMiddleware
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
@@ -30,6 +31,9 @@ if settings.all_cors_origins:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+# Add Sites Middleware (before Audit to have site context in audit logs)
+app.add_middleware(SitesMiddleware)
 
 # Add Audit Middleware
 app.add_middleware(AuditMiddleware)
