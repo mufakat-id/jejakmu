@@ -23,8 +23,12 @@ class UserProfileSite(SQLModel, AuditMixin, table=True):
     site_id: uuid.UUID = Field(foreign_key="site.id", index=True)
 
     # Optional: Add extra fields for junction table
-    is_active: bool = Field(default=True, description="Whether this site association is active")
-    role_in_site: str | None = Field(default=None, max_length=100, description="Specific role for this site")
+    is_active: bool = Field(
+        default=True, description="Whether this site association is active"
+    )
+    role_in_site: str | None = Field(
+        default=None, max_length=100, description="Specific role for this site"
+    )
 
     # Relationships
     profile: "UserProfile" = Relationship(back_populates="profile_sites")

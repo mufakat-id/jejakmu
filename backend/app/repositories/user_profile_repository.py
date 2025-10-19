@@ -1,4 +1,5 @@
 import uuid
+
 from sqlmodel import Session, select
 
 from app.models.user_profile import UserProfile
@@ -23,4 +24,3 @@ class UserProfileRepository(BaseRepository[UserProfile]):
         self.session.commit()
         self.session.refresh(profile)
         return profile
-

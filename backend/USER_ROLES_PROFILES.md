@@ -35,9 +35,9 @@ Fitur ini menambahkan kemampuan untuk:
 ┌─────────────┐         ┌──────────────┐         ┌──────────────┐
 │    User     │────────<│  UserRole    │>────────│     Role     │
 └─────────────┘         └──────────────┘         └──────────────┘
-      │                                                    
-      │ 1:1                                               
-      │                                                    
+      │
+      │ 1:1
+      │
 ┌─────────────┐         ┌──────────────┐         ┌──────────────┐
 │ UserProfile │────────<│ProfileSite   │>────────│     Site     │
 └─────────────┘         └──────────────┘         └──────────────┘
@@ -89,7 +89,7 @@ def create_default_roles() -> None:
         # Check if roles already exist
         statement = select(Role)
         existing_roles = session.exec(statement).first()
-        
+
         if existing_roles:
             print("Roles already exist, skipping initialization")
             return
@@ -104,7 +104,7 @@ def create_default_roles() -> None:
 
         for role in default_roles:
             session.add(role)
-        
+
         session.commit()
         print(f"Created {len(default_roles)} default roles")
 
@@ -461,20 +461,20 @@ def require_role(role_name: str):
             # Get current_user from kwargs
             current_user = kwargs.get("current_user")
             session = kwargs.get("session")
-            
+
             if not current_user or not session:
                 raise HTTPException(status_code=401, detail="Not authenticated")
-            
+
             # Check role
             user_role_repo = UserRoleRepository(session)
             has_role = user_role_repo.has_role(current_user.id, role_name)
-            
+
             if not has_role and not current_user.is_superuser:
                 raise HTTPException(
-                    status_code=403, 
+                    status_code=403,
                     detail=f"Requires '{role_name}' role"
                 )
-            
+
             return await func(*args, **kwargs)
         return wrapper
     return decorator
@@ -513,14 +513,14 @@ Buat profile otomatis saat user signup:
 def signup(session: SessionDep, user_in: UserRegister):
     # Create user
     user = create_user(session, user_in)
-    
+
     # Auto-create profile
     profile_service = UserProfileService(session)
     profile_service.create_profile(UserProfileCreate(
         user_id=user.id,
         # Set defaults if needed
     ))
-    
+
     return user
 ```
 
@@ -534,7 +534,7 @@ from app.core.sites import get_current_site
 def create_profile_with_site(session, user_id):
     # Create profile
     profile = profile_service.create_profile(...)
-    
+
     # Assign current site
     current_site = get_current_site()
     if current_site:
@@ -558,16 +558,16 @@ ROLE_HIERARCHY = {
 def user_has_role_or_higher(user_id: uuid.UUID, role_name: str) -> bool:
     """Check if user has role or higher role"""
     user_roles = get_user_roles(user_id)
-    
+
     for user_role in user_roles:
         if user_role.name == role_name:
             return True
-        
+
         # Check hierarchy
         implied_roles = ROLE_HIERARCHY.get(user_role.name, [])
         if role_name in implied_roles:
             return True
-    
+
     return False
 ```
 
@@ -594,11 +594,11 @@ def test_assign_role_to_user(session: Session):
     role = Role(name="editor", is_active=True)
     session.add(role)
     session.commit()
-    
+
     # Assign role
     user_role_repo = UserRoleRepository(session)
     user_role_repo.assign_role(user.id, role.id)
-    
+
     # Verify
     assert user_role_repo.has_role(user.id, "editor")
 ```
@@ -608,13 +608,13 @@ def test_assign_role_to_user(session: Session):
 ```python
 def test_create_profile(session: Session):
     user = create_test_user(session)
-    
+
     service = UserProfileService(session)
     profile = service.create_profile(UserProfileCreate(
         user_id=user.id,
         phone="+628123456789"
     ))
-    
+
     assert profile.user_id == user.id
     assert profile.phone == "+628123456789"
 ```
@@ -637,7 +637,7 @@ def test_create_profile(session: Session):
 
 **Problem:** User tidak punya permission untuk action tertentu.
 
-**Solution:** 
+**Solution:**
 1. Pastikan user punya role yang tepat
 2. Check `is_active` status pada role assignment
 3. Verify user authentication
@@ -665,6 +665,5 @@ alembic downgrade <revision_id>
 
 ---
 
-**Created:** 2025-10-19  
+**Created:** 2025-10-19
 **Version:** 1.0.0
-

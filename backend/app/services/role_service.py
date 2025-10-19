@@ -1,4 +1,5 @@
 import uuid
+
 from sqlmodel import Session
 
 from app.models.role import Role
@@ -56,4 +57,3 @@ class RoleService:
     def delete_role(self, role_id: uuid.UUID) -> bool:
         """Delete role by ID"""
         return self.repository.delete(role_id)
-

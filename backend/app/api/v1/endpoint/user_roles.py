@@ -4,8 +4,8 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 
 from app.api.v1.deps import CurrentUser, SessionDep
-from app.repositories.user_role_repository import UserRoleRepository
 from app.repositories.role_repository import RoleRepository
+from app.repositories.user_role_repository import UserRoleRepository
 from app.schemas.common import Message
 
 router = APIRouter(prefix="/users", tags=["user-roles"])
@@ -84,7 +84,10 @@ def get_user_roles(
 
     return {
         "user_id": user_id,
-        "roles": [{"id": role.id, "name": role.name, "description": role.description} for role in roles]
+        "roles": [
+            {"id": role.id, "name": role.name, "description": role.description}
+            for role in roles
+        ],
     }
 
 
@@ -105,9 +108,4 @@ def check_user_has_role(
     user_role_repo = UserRoleRepository(session)
     has_role = user_role_repo.has_role(user_id, role_name)
 
-    return {
-        "user_id": user_id,
-        "role_name": role_name,
-        "has_role": has_role
-    }
-
+    return {"user_id": user_id, "role_name": role_name, "has_role": has_role}

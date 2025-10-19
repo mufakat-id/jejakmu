@@ -1,5 +1,6 @@
 import uuid
-from sqlmodel import SQLModel, Field
+
+from sqlmodel import Field, SQLModel
 
 
 # Base schema - shared properties
@@ -32,11 +33,12 @@ class UserProfilePublic(UserProfileBase):
 
 # Profile with site IDs
 class UserProfileWithSites(UserProfilePublic):
-    site_ids: list[uuid.UUID] = Field(default_factory=list, description="List of associated site IDs")
+    site_ids: list[uuid.UUID] = Field(
+        default_factory=list, description="List of associated site IDs"
+    )
 
 
 # List response
 class UserProfilesPublic(SQLModel):
     data: list[UserProfilePublic]
     count: int
-

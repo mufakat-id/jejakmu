@@ -24,9 +24,15 @@ class UserProfile(SQLModel, AuditMixin, table=True):
     # Profile information
     phone: str | None = Field(default=None, max_length=20, description="Phone number")
     address: str | None = Field(default=None, max_length=500, description="Address")
-    bio: str | None = Field(default=None, max_length=1000, description="Bio/description")
-    avatar_url: str | None = Field(default=None, max_length=500, description="Avatar image URL")
-    date_of_birth: str | None = Field(default=None, description="Date of birth (YYYY-MM-DD)")
+    bio: str | None = Field(
+        default=None, max_length=1000, description="Bio/description"
+    )
+    avatar_url: str | None = Field(
+        default=None, max_length=500, description="Avatar image URL"
+    )
+    date_of_birth: str | None = Field(
+        default=None, description="Date of birth (YYYY-MM-DD)"
+    )
 
     # Additional fields
     city: str | None = Field(default=None, max_length=100)
@@ -36,6 +42,5 @@ class UserProfile(SQLModel, AuditMixin, table=True):
     # Relationships
     user: "User" = Relationship(back_populates="profile")
     profile_sites: list["UserProfileSite"] = Relationship(
-        back_populates="profile",
-        cascade_delete=True
+        back_populates="profile", cascade_delete=True
     )

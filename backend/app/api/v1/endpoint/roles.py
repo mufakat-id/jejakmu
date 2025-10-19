@@ -4,9 +4,9 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 
 from app.api.v1.deps import CurrentUser, SessionDep
-from app.services.role_service import RoleService
-from app.schemas.role import RoleCreate, RolePublic, RolesPublic, RoleUpdate
 from app.schemas.common import Message
+from app.schemas.role import RoleCreate, RolePublic, RolesPublic, RoleUpdate
+from app.services.role_service import RoleService
 
 router = APIRouter(prefix="/roles", tags=["roles"])
 
@@ -14,7 +14,6 @@ router = APIRouter(prefix="/roles", tags=["roles"])
 @router.get("/", response_model=RolesPublic)
 def read_roles(
     session: SessionDep,
-    current_user: CurrentUser,
     skip: int = 0,
     limit: int = 100,
 ) -> Any:
@@ -27,7 +26,7 @@ def read_roles(
 
 
 @router.get("/{id}", response_model=RolePublic)
-def read_role(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:
+def read_role(session: SessionDep, id: uuid.UUID) -> Any:
     """
     Get role by ID.
     """
@@ -87,9 +86,7 @@ def update_role(
 
 
 @router.delete("/{id}", response_model=Message)
-def delete_role(
-    session: SessionDep, current_user: CurrentUser, id: uuid.UUID
-) -> Any:
+def delete_role(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:
     """
     Delete a role.
 
@@ -103,4 +100,3 @@ def delete_role(
     if not success:
         raise HTTPException(status_code=404, detail="Role not found")
     return Message(message="Role deleted successfully")
-

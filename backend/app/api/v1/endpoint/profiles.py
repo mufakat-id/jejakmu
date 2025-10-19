@@ -4,7 +4,7 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 
 from app.api.v1.deps import CurrentUser, SessionDep
-from app.services.user_profile_service import UserProfileService
+from app.schemas.common import Message
 from app.schemas.user_profile import (
     UserProfileCreate,
     UserProfilePublic,
@@ -12,7 +12,7 @@ from app.schemas.user_profile import (
     UserProfileUpdate,
     UserProfileWithSites,
 )
-from app.schemas.common import Message
+from app.services.user_profile_service import UserProfileService
 
 router = APIRouter(prefix="/profiles", tags=["profiles"])
 
@@ -51,10 +51,7 @@ def read_my_profile(session: SessionDep, current_user: CurrentUser) -> Any:
     sites = service.get_profile_sites(profile.id)
     site_ids = [site.id for site in sites]
 
-    return UserProfileWithSites(
-        **profile.model_dump(),
-        site_ids=site_ids
-    )
+    return UserProfileWithSites(**profile.model_dump(), site_ids=site_ids)
 
 
 @router.get("/{id}", response_model=UserProfilePublic)
@@ -201,4 +198,3 @@ def remove_site_from_profile(
     if not success:
         raise HTTPException(status_code=404, detail="Site association not found")
     return Message(message="Site removed from profile successfully")
-

@@ -17,16 +17,21 @@ class Role(SQLModel, AuditMixin, table=True):
     """
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    name: str = Field(unique=True, index=True, max_length=50, description="Role name (e.g., 'admin', 'editor')")
-    description: str | None = Field(default=None, max_length=255, description="Role description")
+    name: str = Field(
+        unique=True,
+        index=True,
+        max_length=50,
+        description="Role name (e.g., 'admin', 'editor')",
+    )
+    description: str | None = Field(
+        default=None, max_length=255, description="Role description"
+    )
     is_active: bool = Field(default=True, description="Whether this role is active")
 
     # Relationships
     user_roles: list["UserRole"] | None = Relationship(
-        back_populates="role",
-        cascade_delete=True
+        back_populates="role", cascade_delete=True
     )
 
     def __str__(self) -> str:
         return self.name
-

@@ -23,7 +23,9 @@ class UserRole(SQLModel, AuditMixin, table=True):
     role_id: uuid.UUID = Field(foreign_key="role.id", index=True)
 
     # Optional: Add extra fields for junction table
-    is_active: bool = Field(default=True, description="Whether this role assignment is active")
+    is_active: bool = Field(
+        default=True, description="Whether this role assignment is active"
+    )
 
     # Relationships
     user: "User" = Relationship(back_populates="user_roles")

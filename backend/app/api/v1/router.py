@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
 from app.api.v1.endpoint import (
+    cv,
     items,
     login,
     oauth,
@@ -29,6 +30,7 @@ api_router.include_router(sites.router, prefix="/sites", tags=["sites"])
 api_router.include_router(roles.router)
 api_router.include_router(profiles.router)
 api_router.include_router(user_roles.router)
+api_router.include_router(cv.router)
 
 
 if settings.ENVIRONMENT == "local":

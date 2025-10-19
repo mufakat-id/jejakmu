@@ -17,6 +17,5 @@ class RoleRepository(BaseRepository[Role]):
 
     def get_active_roles(self) -> list[Role]:
         """Get all active roles"""
-        statement = select(Role).where(Role.is_active == True)
+        statement = select(Role).where(Role.is_active == True)  # noqa: E712
         return list(self.session.exec(statement).all())
-

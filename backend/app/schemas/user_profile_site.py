@@ -1,5 +1,6 @@
 import uuid
-from sqlmodel import SQLModel, Field
+
+from sqlmodel import Field, SQLModel
 
 
 # Base schema - shared properties
@@ -30,4 +31,3 @@ class UserProfileSitePublic(UserProfileSiteBase):
 class UserProfileSitesPublic(SQLModel):
     data: list[UserProfileSitePublic]
     count: int
-

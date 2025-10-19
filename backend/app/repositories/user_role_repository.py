@@ -1,8 +1,9 @@
 import uuid
+
 from sqlmodel import Session, select
 
-from app.models.user_role import UserRole
 from app.models.role import Role
+from app.models.user_role import UserRole
 from app.repositories.base import BaseRepository
 
 
@@ -23,7 +24,7 @@ class UserRoleRepository(BaseRepository[UserRole]):
             select(Role)
             .join(UserRole, UserRole.role_id == Role.id)
             .where(UserRole.user_id == user_id)
-            .where(UserRole.is_active == True)
+            .where(UserRole.is_active == True)  # noqa: E712
         )
         return list(self.session.exec(statement).all())
 
@@ -34,7 +35,7 @@ class UserRoleRepository(BaseRepository[UserRole]):
             .join(Role, Role.id == UserRole.role_id)
             .where(UserRole.user_id == user_id)
             .where(Role.name == role_name)
-            .where(UserRole.is_active == True)
+            .where(UserRole.is_active == True)  # noqa: E712
         )
         return self.session.exec(statement).first() is not None
 
@@ -42,8 +43,7 @@ class UserRoleRepository(BaseRepository[UserRole]):
         """Assign a role to a user"""
         # Check if already exists
         statement = select(UserRole).where(
-            UserRole.user_id == user_id,
-            UserRole.role_id == role_id
+            UserRole.user_id == user_id, UserRole.role_id == role_id
         )
         existing = self.session.exec(statement).first()
 
@@ -66,8 +66,7 @@ class UserRoleRepository(BaseRepository[UserRole]):
     def remove_role(self, user_id: uuid.UUID, role_id: uuid.UUID) -> bool:
         """Remove a role from a user"""
         statement = select(UserRole).where(
-            UserRole.user_id == user_id,
-            UserRole.role_id == role_id
+            UserRole.user_id == user_id, UserRole.role_id == role_id
         )
         user_role = self.session.exec(statement).first()
 
@@ -76,4 +75,3 @@ class UserRoleRepository(BaseRepository[UserRole]):
             self.session.commit()
             return True
         return False
-

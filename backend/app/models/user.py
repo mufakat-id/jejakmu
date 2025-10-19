@@ -7,6 +7,7 @@ from app.core.audit import AuditMixin
 
 if TYPE_CHECKING:
     from app.models.item import Item
+    from app.models.user_cv import UserCV
     from app.models.user_profile import UserProfile
     from app.models.user_role import UserRole
 
@@ -30,6 +31,11 @@ class User(SQLModel, AuditMixin, table=True):
         back_populates="user", cascade_delete=True
     )
     profile: "UserProfile" = Relationship(
+        back_populates="user",
+        cascade_delete=True,
+        sa_relationship_kwargs={"uselist": False},
+    )
+    cv: "UserCV" = Relationship(
         back_populates="user",
         cascade_delete=True,
         sa_relationship_kwargs={"uselist": False},
