@@ -144,10 +144,10 @@ router = APIRouter()
 def get_site_info(request: Request):
     # Cara 1: Via request.state
     site = request.state.site
-    
+
     # Cara 2: Via context
     site = get_current_site()
-    
+
     return {
         "site_name": site.name if site else "Unknown",
         "domain": site.domain if site else "Unknown"
@@ -164,7 +164,7 @@ def send_reset_email(email: str):
     # Build reset URL untuk current site
     reset_url = build_absolute_uri("/reset-password?token=abc123")
     # Output: "https://example.com/reset-password?token=abc123"
-    
+
     # Kirim email dengan URL yang tepat
     send_email(
         to=email,
@@ -181,14 +181,14 @@ from app.core.sites import get_current_site
 @router.get("/products")
 def list_products(session: SessionDep):
     site = get_current_site()
-    
+
     # Filter produk berdasarkan site
     if site and site.settings:
         region = site.settings.get("region", "global")
         products = get_products_by_region(session, region)
     else:
         products = get_all_products(session)
-    
+
     return products
 ```
 
@@ -202,7 +202,7 @@ class Product(SQLModel, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     name: str
     site_id: uuid.UUID = Field(foreign_key="site.id")
-    
+
     # Relationship
     site: Site | None = Relationship()
 
@@ -283,14 +283,14 @@ def test_site_detection(client: TestClient, session: Session):
     session.add(site1)
     session.add(site2)
     session.commit()
-    
+
     # Test dengan host header berbeda
     response1 = client.get("/api/v1/sites/current", headers={"Host": "test1.com"})
     assert response1.json()["domain"] == "test1.com"
-    
+
     response2 = client.get("/api/v1/sites/current", headers={"Host": "test2.com"})
     assert response2.json()["domain"] == "test2.com"
-    
+
     # Test fallback ke default
     response3 = client.get("/api/v1/sites/current", headers={"Host": "unknown.com"})
     assert response3.json()["domain"] == "test2.com"  # Falls back to default
@@ -320,7 +320,7 @@ def test_site_detection(client: TestClient, session: Session):
 
 **Problem**: Error saat delete site dengan `is_default=True`
 
-**Solution**: 
+**Solution**:
 Ini adalah proteksi. Set site lain sebagai default terlebih dahulu:
 
 ```bash
@@ -351,4 +351,3 @@ Pisahkan dev/staging/prod dengan konfigurasi berbeda.
 
 ### 4. A/B Testing
 Jalankan versi berbeda dari aplikasi di domain berbeda.
-

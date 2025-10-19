@@ -37,7 +37,7 @@ def get_site_by_domain(session: Session, domain: str) -> "Site | None":
     """
     from app.models.site import Site
 
-    statement = select(Site).where(Site.domain == domain, Site.is_active == True)
+    statement = select(Site).where(Site.domain == domain, Site.is_active == True)  # noqa: E712
     return session.exec(statement).first()
 
 
@@ -53,7 +53,7 @@ def get_default_site(session: Session) -> "Site | None":
     """
     from app.models.site import Site
 
-    statement = select(Site).where(Site.is_default == True, Site.is_active == True)
+    statement = select(Site).where(Site.is_default == True, Site.is_active == True)  # noqa: E712
     return session.exec(statement).first()
 
 
@@ -89,14 +89,14 @@ def get_site_by_request(session: Session, host: str) -> "Site | None":
 
 def build_absolute_uri(path: str, site: "Site | None" = None) -> str:
     """
-    Build an absolute URI for a given path.
+    Build an absolute backend URI for a given path.
 
     Args:
         path: Relative path (e.g., '/api/v1/users')
         site: Site object (uses current site from context if not provided)
 
     Returns:
-        Absolute URL (e.g., 'https://example.com/api/v1/users')
+        Absolute backend URL (e.g., 'https://api.example.com/api/v1/users')
     """
     if site is None:
         site = get_current_site()
@@ -113,3 +113,34 @@ def build_absolute_uri(path: str, site: "Site | None" = None) -> str:
 
     return f"{scheme}://{site.domain}{path}"
 
+
+def build_frontend_url(path: str = "", site: "Site | None" = None) -> str:
+    """
+    Build an absolute frontend URL for redirects.
+
+    This is useful for:
+    - Email links (reset password, verify email, etc.)
+    - OAuth callbacks
+    - Redirect responses
+
+    Args:
+        path: Frontend path (e.g., '/reset-password' or 'reset-password')
+        site: Site object (uses current site from context if not provided)
+
+    Returns:
+        Absolute frontend URL (e.g., 'https://example.com/reset-password')
+
+    Examples:
+        >>> build_frontend_url("/reset-password?token=abc123")
+        'https://example.com/reset-password?token=abc123'
+
+        >>> build_frontend_url("verify-email")
+        'https://example.com/verify-email'
+    """
+    if site is None:
+        site = get_current_site()
+
+    if site is None:
+        raise ValueError("No site available to build frontend URL")
+
+    return site.get_frontend_url(path)

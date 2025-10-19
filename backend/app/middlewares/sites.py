@@ -18,8 +18,9 @@ class SitesMiddleware(BaseHTTPMiddleware):
         host = request.headers.get("host", "")
 
         # Get database session
-        from app.core.db import engine
         from sqlmodel import Session
+
+        from app.core.db import engine
 
         with Session(engine) as session:
             # Find the appropriate site

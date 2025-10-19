@@ -26,21 +26,26 @@ def init_sites() -> None:
             default_site = Site(
                 domain="localhost:8000",
                 name="Development Site",
+                frontend_domain="localhost:5173",
                 is_active=True,
                 is_default=True,
                 settings={
                     "description": "Default development site",
-                    "environment": "local"
-                }
+                    "environment": "local",
+                },
             )
 
             session.add(default_site)
             session.commit()
             session.refresh(default_site)
 
-            logger.info(f"Created default site: {default_site.name} ({default_site.domain})")
+            logger.info(f"Created default site: {default_site.name}")
+            logger.info(f"  Backend:  {default_site.domain}")
+            logger.info(f"  Frontend: {default_site.frontend_domain}")
         else:
-            logger.info(f"Sites already exist ({len(sites)} sites found), skipping initialization.")
+            logger.info(
+                f"Sites already exist ({len(sites)} sites found), skipping initialization."
+            )
 
 
 def main() -> None:
@@ -51,4 +56,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

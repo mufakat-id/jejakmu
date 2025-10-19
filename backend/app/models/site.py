@@ -1,7 +1,7 @@
 import uuid
 from typing import Any
 
-from sqlalchemy import Column, JSON
+from sqlalchemy import JSON, Column
 from sqlmodel import Field, SQLModel
 
 from app.core.audit import AuditMixin
@@ -18,9 +18,19 @@ class Site(SQLModel, AuditMixin, table=True):
     - Environment-specific URLs (dev, staging, production)
     - Generate correct absolute URLs based on current site
     """
+
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    domain: str = Field(unique=True, index=True, max_length=255)
+    domain: str = Field(
+        unique=True,
+        index=True,
+        max_length=255,
+        description="Backend domain (e.g., 'api.example.com' or 'localhost:8000')",
+    )
     name: str = Field(max_length=255)
+    frontend_domain: str = Field(
+        max_length=255,
+        description="Frontend domain for redirects (e.g., 'example.com' or 'localhost:5173')",
+    )
     is_active: bool = Field(default=True)
     is_default: bool = Field(default=False, index=True)
 
@@ -29,3 +39,22 @@ class Site(SQLModel, AuditMixin, table=True):
 
     def __str__(self) -> str:
         return f"{self.name} ({self.domain})"
+
+    def get_frontend_url(self, path: str = "") -> str:
+        """
+        Build absolute frontend URL for redirects.
+
+        Args:
+            path: Frontend path (e.g., '/reset-password' or 'reset-password')
+
+        Returns:
+            Absolute frontend URL (e.g., 'https://example.com/reset-password')
+        """
+        # Determine scheme (http or https)
+        scheme = "https" if not self.frontend_domain.startswith("localhost") else "http"
+
+        # Ensure path starts with /
+        if path and not path.startswith("/"):
+            path = f"/{path}"
+
+        return f"{scheme}://{self.frontend_domain}{path}"

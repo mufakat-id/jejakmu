@@ -9,22 +9,39 @@ from pydantic import BaseModel, Field
 
 class SiteBase(BaseModel):
     """Base schema for Site"""
-    domain: str = Field(..., max_length=255, description="Domain name (e.g., example.com)")
+
+    domain: str = Field(
+        ...,
+        max_length=255,
+        description="Backend domain (e.g., api.example.com or localhost:8000)",
+    )
     name: str = Field(..., max_length=255, description="Human-readable site name")
+    frontend_domain: str = Field(
+        ...,
+        max_length=255,
+        description="Frontend domain for redirects (e.g., example.com or localhost:5173)",
+    )
     is_active: bool = Field(default=True, description="Whether the site is active")
-    is_default: bool = Field(default=False, description="Whether this is the default site")
-    settings: dict | None = Field(default=None, description="Additional site-specific settings")
+    is_default: bool = Field(
+        default=False, description="Whether this is the default site"
+    )
+    settings: dict | None = Field(
+        default=None, description="Additional site-specific settings"
+    )
 
 
 class SiteCreate(SiteBase):
     """Schema for creating a new site"""
+
     pass
 
 
 class SiteUpdate(BaseModel):
     """Schema for updating a site"""
+
     domain: str | None = None
     name: str | None = None
+    frontend_domain: str | None = None
     is_active: bool | None = None
     is_default: bool | None = None
     settings: dict | None = None
@@ -32,6 +49,7 @@ class SiteUpdate(BaseModel):
 
 class SitePublic(SiteBase):
     """Public schema for Site"""
+
     id: uuid.UUID
     created_at: datetime
     updated_at: datetime
@@ -39,6 +57,6 @@ class SitePublic(SiteBase):
 
 class SitesPublic(BaseModel):
     """Schema for list of sites"""
+
     data: list[SitePublic]
     count: int
-

@@ -34,9 +34,7 @@ def get_site_by_domain(*, session: Session, domain: str) -> Site | None:
     return session.exec(statement).first()
 
 
-def get_sites(
-    *, session: Session, skip: int = 0, limit: int = 100
-) -> list[Site]:
+def get_sites(*, session: Session, skip: int = 0, limit: int = 100) -> list[Site]:
     """Get list of sites."""
     statement = select(Site).offset(skip).limit(limit)
     return list(session.exec(statement).all())
@@ -48,9 +46,7 @@ def get_sites_count(*, session: Session) -> int:
     return session.exec(statement).one()
 
 
-def update_site(
-    *, session: Session, db_site: Site, site_update: SiteUpdate
-) -> Site:
+def update_site(*, session: Session, db_site: Site, site_update: SiteUpdate) -> Site:
     """Update a site."""
     site_data = site_update.model_dump(exclude_unset=True)
 
@@ -75,7 +71,7 @@ def delete_site(*, session: Session, site_id: uuid.UUID) -> None:
 
 def _unset_other_defaults(*, session: Session, exclude_id: uuid.UUID | None) -> None:
     """Helper to unset is_default on other sites."""
-    statement = select(Site).where(Site.is_default == True)
+    statement = select(Site).where(Site.is_default == True)  # noqa: E712
     if exclude_id:
         statement = statement.where(Site.id != exclude_id)
 
