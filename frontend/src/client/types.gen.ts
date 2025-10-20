@@ -15,7 +15,7 @@ export type BaseResponse_list_str__ = {
     data?: (Array<(string)> | null);
 };
 
-export type Body_login_login_access_token = {
+export type Body_v1_login_access_token = {
     grant_type?: (string | null);
     username: string;
     password: string;
@@ -24,11 +24,284 @@ export type Body_login_login_access_token = {
     client_secret?: (string | null);
 };
 
-export type Body_upload_upload_files = {
+export type Body_v1_upload_cv_file = {
+    /**
+     * CV file (PDF, DOC, DOCX)
+     */
+    file: (Blob | File);
+};
+
+export type Body_v1_upload_files = {
     /**
      * Multiple files to upload
      */
     files: Array<((Blob | File))>;
+};
+
+export type Body_v1_upload_files_to_b2 = {
+    /**
+     * Multiple files to upload
+     */
+    files: Array<((Blob | File))>;
+};
+
+export type CVCertificationCreate = {
+    name: string;
+    issuer: string;
+    issue_date: string;
+    expiration_date?: (string | null);
+    credential_id?: (string | null);
+    credential_url?: (string | null);
+    description?: (string | null);
+    display_order?: number;
+    user_cv_id: string;
+};
+
+export type CVCertificationPublic = {
+    name: string;
+    issuer: string;
+    issue_date: string;
+    expiration_date?: (string | null);
+    credential_id?: (string | null);
+    credential_url?: (string | null);
+    description?: (string | null);
+    display_order?: number;
+    id: string;
+    user_cv_id: string;
+};
+
+export type CVCertificationUpdate = {
+    name?: (string | null);
+    issuer?: (string | null);
+    issue_date?: (string | null);
+    expiration_date?: (string | null);
+    credential_id?: (string | null);
+    credential_url?: (string | null);
+    description?: (string | null);
+    display_order?: (number | null);
+};
+
+export type CVEducationCreate = {
+    institution: string;
+    degree: string;
+    field_of_study: string;
+    start_date: string;
+    end_date?: (string | null);
+    gpa?: (string | null);
+    description?: (string | null);
+    city?: (string | null);
+    country?: (string | null);
+    display_order?: number;
+    user_cv_id: string;
+};
+
+export type CVEducationPublic = {
+    institution: string;
+    degree: string;
+    field_of_study: string;
+    start_date: string;
+    end_date?: (string | null);
+    gpa?: (string | null);
+    description?: (string | null);
+    city?: (string | null);
+    country?: (string | null);
+    display_order?: number;
+    id: string;
+    user_cv_id: string;
+};
+
+export type CVEducationUpdate = {
+    institution?: (string | null);
+    degree?: (string | null);
+    field_of_study?: (string | null);
+    start_date?: (string | null);
+    end_date?: (string | null);
+    gpa?: (string | null);
+    description?: (string | null);
+    city?: (string | null);
+    country?: (string | null);
+    display_order?: (number | null);
+};
+
+export type CVFilePublic = {
+    file_url: string;
+    file_name: string;
+    file_type: string;
+    file_size?: (number | null);
+    status?: string;
+    review_notes?: (string | null);
+    is_primary?: boolean;
+    version?: number;
+    id: string;
+    user_cv_id: string;
+    reviewed_by_id?: (string | null);
+    reviewed_at?: (string | null);
+};
+
+export type CVFilesPublic = {
+    data: Array<CVFileWithCVPublic>;
+    count: number;
+};
+
+export type CVFileUpdate = {
+    status?: (string | null);
+    review_notes?: (string | null);
+    is_primary?: (boolean | null);
+    reviewed_by_id?: (string | null);
+};
+
+export type CVFileWithCVPublic = {
+    file_url: string;
+    file_name: string;
+    file_type: string;
+    file_size?: (number | null);
+    status?: string;
+    review_notes?: (string | null);
+    is_primary?: boolean;
+    version?: number;
+    id: string;
+    user_cv_id: string;
+    reviewed_by_id?: (string | null);
+    reviewed_at?: (string | null);
+    user_cv?: (UserCVPublic | null);
+};
+
+export type CVLanguageCreate = {
+    language: string;
+    proficiency: string;
+    certification_name?: (string | null);
+    certification_score?: (string | null);
+    display_order?: number;
+    user_cv_id: string;
+};
+
+export type CVLanguagePublic = {
+    language: string;
+    proficiency: string;
+    certification_name?: (string | null);
+    certification_score?: (string | null);
+    display_order?: number;
+    id: string;
+    user_cv_id: string;
+};
+
+export type CVLanguageUpdate = {
+    language?: (string | null);
+    proficiency?: (string | null);
+    certification_name?: (string | null);
+    certification_score?: (string | null);
+    display_order?: (number | null);
+};
+
+export type CVProjectCreate = {
+    name: string;
+    description: string;
+    start_date?: (string | null);
+    end_date?: (string | null);
+    project_url?: (string | null);
+    repository_url?: (string | null);
+    technologies?: (Array<(string)> | null);
+    role?: (string | null);
+    company?: (string | null);
+    display_order?: number;
+    user_cv_id: string;
+};
+
+export type CVProjectPublic = {
+    name: string;
+    description: string;
+    start_date?: (string | null);
+    end_date?: (string | null);
+    project_url?: (string | null);
+    repository_url?: (string | null);
+    technologies?: (Array<(string)> | null);
+    role?: (string | null);
+    company?: (string | null);
+    display_order?: number;
+    id: string;
+    user_cv_id: string;
+};
+
+export type CVProjectUpdate = {
+    name?: (string | null);
+    description?: (string | null);
+    start_date?: (string | null);
+    end_date?: (string | null);
+    project_url?: (string | null);
+    repository_url?: (string | null);
+    technologies?: (Array<(string)> | null);
+    role?: (string | null);
+    company?: (string | null);
+    display_order?: (number | null);
+};
+
+export type CVSkillCreate = {
+    name: string;
+    level?: (string | null);
+    category?: (string | null);
+    years_of_experience?: (number | null);
+    display_order?: number;
+    user_cv_id: string;
+};
+
+export type CVSkillPublic = {
+    name: string;
+    level?: (string | null);
+    category?: (string | null);
+    years_of_experience?: (number | null);
+    display_order?: number;
+    id: string;
+    user_cv_id: string;
+};
+
+export type CVSkillUpdate = {
+    name?: (string | null);
+    level?: (string | null);
+    category?: (string | null);
+    years_of_experience?: (number | null);
+    display_order?: (number | null);
+};
+
+export type CVWorkExperienceCreate = {
+    company: string;
+    position: string;
+    start_date: string;
+    end_date?: (string | null);
+    description?: (string | null);
+    employment_type?: (string | null);
+    city?: (string | null);
+    country?: (string | null);
+    is_remote?: boolean;
+    display_order?: number;
+    user_cv_id: string;
+};
+
+export type CVWorkExperiencePublic = {
+    company: string;
+    position: string;
+    start_date: string;
+    end_date?: (string | null);
+    description?: (string | null);
+    employment_type?: (string | null);
+    city?: (string | null);
+    country?: (string | null);
+    is_remote?: boolean;
+    display_order?: number;
+    id: string;
+    user_cv_id: string;
+};
+
+export type CVWorkExperienceUpdate = {
+    company?: (string | null);
+    position?: (string | null);
+    start_date?: (string | null);
+    end_date?: (string | null);
+    description?: (string | null);
+    employment_type?: (string | null);
+    city?: (string | null);
+    country?: (string | null);
+    is_remote?: (boolean | null);
+    display_order?: (number | null);
 };
 
 export type GoogleAuthRequest = {
@@ -46,28 +319,6 @@ export type GoogleAuthResponse = {
 
 export type HTTPValidationError = {
     detail?: Array<ValidationError>;
-};
-
-export type ItemCreate = {
-    title: string;
-    description?: (string | null);
-};
-
-export type ItemPublic = {
-    title: string;
-    description?: (string | null);
-    id: string;
-    owner_id: string;
-};
-
-export type ItemsPublic = {
-    data: Array<ItemPublic>;
-    count: number;
-};
-
-export type ItemUpdate = {
-    title?: (string | null);
-    description?: (string | null);
 };
 
 export type Message = {
@@ -221,6 +472,51 @@ export type UserCreate = {
     is_superuser?: boolean;
 };
 
+export type UserCVCreate = {
+    professional_summary?: (string | null);
+    linkedin_url?: (string | null);
+    github_url?: (string | null);
+    portfolio_url?: (string | null);
+    user_id: string;
+};
+
+export type UserCVFull = {
+    professional_summary?: (string | null);
+    linkedin_url?: (string | null);
+    github_url?: (string | null);
+    portfolio_url?: (string | null);
+    id: string;
+    user_id: string;
+    cv_files?: Array<CVFilePublic>;
+    education?: Array<CVEducationPublic>;
+    work_experience?: Array<CVWorkExperiencePublic>;
+    skills?: Array<CVSkillPublic>;
+    certifications?: Array<CVCertificationPublic>;
+    languages?: Array<CVLanguagePublic>;
+    projects?: Array<CVProjectPublic>;
+};
+
+export type UserCVPublic = {
+    professional_summary?: (string | null);
+    linkedin_url?: (string | null);
+    github_url?: (string | null);
+    portfolio_url?: (string | null);
+    id: string;
+    user_id: string;
+};
+
+export type UserCVsPublic = {
+    data: Array<UserCVPublic>;
+    count: number;
+};
+
+export type UserCVUpdate = {
+    professional_summary?: (string | null);
+    linkedin_url?: (string | null);
+    github_url?: (string | null);
+    portfolio_url?: (string | null);
+};
+
 export type UserProfileCreate = {
     phone?: (string | null);
     address?: (string | null);
@@ -315,7 +611,161 @@ export type ValidationError = {
     type: string;
 };
 
-export type FileGetSignedUrlData = {
+export type V1ReadMyCertificationsResponse = (Array<CVCertificationPublic>);
+
+export type V1CreateCertificationData = {
+    requestBody: CVCertificationCreate;
+};
+
+export type V1CreateCertificationResponse = (CVCertificationPublic);
+
+export type V1UpdateCertificationData = {
+    id: string;
+    requestBody: CVCertificationUpdate;
+};
+
+export type V1UpdateCertificationResponse = (CVCertificationPublic);
+
+export type V1DeleteCertificationData = {
+    id: string;
+};
+
+export type V1DeleteCertificationResponse = (Message);
+
+export type V1ReadMyEducationResponse = (Array<CVEducationPublic>);
+
+export type V1CreateEducationData = {
+    requestBody: CVEducationCreate;
+};
+
+export type V1CreateEducationResponse = (CVEducationPublic);
+
+export type V1UpdateEducationData = {
+    id: string;
+    requestBody: CVEducationUpdate;
+};
+
+export type V1UpdateEducationResponse = (CVEducationPublic);
+
+export type V1DeleteEducationData = {
+    id: string;
+};
+
+export type V1DeleteEducationResponse = (Message);
+
+export type V1ReadRequestedCvFilesData = {
+    limit?: number;
+    skip?: number;
+};
+
+export type V1ReadRequestedCvFilesResponse = (CVFilesPublic);
+
+export type V1UploadCvFileData = {
+    formData: Body_v1_upload_cv_file;
+};
+
+export type V1UploadCvFileResponse = (CVFilePublic);
+
+export type V1ReadMyCvFilesResponse = (Array<CVFilePublic>);
+
+export type V1UpdateCvFileData = {
+    id: string;
+    requestBody: CVFileUpdate;
+};
+
+export type V1UpdateCvFileResponse = (CVFilePublic);
+
+export type V1DeleteCvFileData = {
+    id: string;
+};
+
+export type V1DeleteCvFileResponse = (Message);
+
+export type V1ReadMyLanguagesResponse = (Array<CVLanguagePublic>);
+
+export type V1CreateLanguageData = {
+    requestBody: CVLanguageCreate;
+};
+
+export type V1CreateLanguageResponse = (CVLanguagePublic);
+
+export type V1UpdateLanguageData = {
+    id: string;
+    requestBody: CVLanguageUpdate;
+};
+
+export type V1UpdateLanguageResponse = (CVLanguagePublic);
+
+export type V1DeleteLanguageData = {
+    id: string;
+};
+
+export type V1DeleteLanguageResponse = (Message);
+
+export type V1ReadMyProjectsResponse = (Array<CVProjectPublic>);
+
+export type V1CreateProjectData = {
+    requestBody: CVProjectCreate;
+};
+
+export type V1CreateProjectResponse = (CVProjectPublic);
+
+export type V1UpdateProjectData = {
+    id: string;
+    requestBody: CVProjectUpdate;
+};
+
+export type V1UpdateProjectResponse = (CVProjectPublic);
+
+export type V1DeleteProjectData = {
+    id: string;
+};
+
+export type V1DeleteProjectResponse = (Message);
+
+export type V1ReadMySkillsResponse = (Array<CVSkillPublic>);
+
+export type V1CreateSkillData = {
+    requestBody: CVSkillCreate;
+};
+
+export type V1CreateSkillResponse = (CVSkillPublic);
+
+export type V1UpdateSkillData = {
+    id: string;
+    requestBody: CVSkillUpdate;
+};
+
+export type V1UpdateSkillResponse = (CVSkillPublic);
+
+export type V1DeleteSkillData = {
+    id: string;
+};
+
+export type V1DeleteSkillResponse = (Message);
+
+export type V1ReadMyWorkExperienceResponse = (Array<CVWorkExperiencePublic>);
+
+export type V1CreateWorkExperienceData = {
+    requestBody: CVWorkExperienceCreate;
+};
+
+export type V1CreateWorkExperienceResponse = (CVWorkExperiencePublic);
+
+export type V1UpdateWorkExperienceData = {
+    id: string;
+    requestBody: CVWorkExperienceUpdate;
+};
+
+export type V1UpdateWorkExperienceResponse = (CVWorkExperiencePublic);
+
+export type V1DeleteWorkExperienceData = {
+    id: string;
+};
+
+export type V1DeleteWorkExperienceResponse = (Message);
+
+export type V1GetSignedUrlData = {
     /**
      * Number of days until the signed URL expires
      */
@@ -326,286 +776,307 @@ export type FileGetSignedUrlData = {
     url: string;
 };
 
-export type ItemsReadItemsData = {
-    limit?: number;
-    skip?: number;
+export type V1GetB2SignedUrlData = {
+    /**
+     * Number of hours until the presigned URL expires
+     */
+    expirationHours?: number;
+    /**
+     * Public B2 URL to convert to presigned URL
+     */
+    url: string;
 };
 
-export type ItemsReadItemsResponse = (ItemsPublic);
-
-export type ItemsCreateItemData = {
-    requestBody: ItemCreate;
+export type V1LoginAccessTokenData = {
+    formData: Body_v1_login_access_token;
 };
 
-export type ItemsCreateItemResponse = (ItemPublic);
+export type V1LoginAccessTokenResponse = (Token);
 
-export type ItemsReadItemData = {
-    id: string;
-};
+export type V1TestTokenResponse = (UserPublic);
 
-export type ItemsReadItemResponse = (ItemPublic);
-
-export type ItemsUpdateItemData = {
-    id: string;
-    requestBody: ItemUpdate;
-};
-
-export type ItemsUpdateItemResponse = (ItemPublic);
-
-export type ItemsDeleteItemData = {
-    id: string;
-};
-
-export type ItemsDeleteItemResponse = (Message);
-
-export type LoginLoginAccessTokenData = {
-    formData: Body_login_login_access_token;
-};
-
-export type LoginLoginAccessTokenResponse = (Token);
-
-export type LoginTestTokenResponse = (UserPublic);
-
-export type LoginRecoverPasswordData = {
+export type V1RecoverPasswordData = {
     email: string;
 };
 
-export type LoginRecoverPasswordResponse = (Message);
+export type V1RecoverPasswordResponse = (Message);
 
-export type LoginResetPasswordData = {
+export type V1ResetPasswordData = {
     requestBody: NewPassword;
 };
 
-export type LoginResetPasswordResponse = (Message);
+export type V1ResetPasswordResponse = (Message);
 
-export type LoginRecoverPasswordHtmlContentData = {
+export type V1RecoverPasswordHtmlContentData = {
     email: string;
 };
 
-export type LoginRecoverPasswordHtmlContentResponse = (string);
+export type V1RecoverPasswordHtmlContentResponse = (string);
 
-export type OauthGoogleLoginData = {
+export type V1GoogleLoginData = {
     requestBody: GoogleAuthRequest;
 };
 
-export type OauthGoogleLoginResponse = (GoogleAuthResponse);
+export type V1GoogleLoginResponse = (GoogleAuthResponse);
 
-export type PlaygroundGetResponse = (unknown);
-
-export type PrivateCreateUserData = {
+export type V1CreateUserData = {
     requestBody: PrivateUserCreate;
 };
 
-export type PrivateCreateUserResponse = (UserPublic);
+export type V1CreateUserResponse = (UserPublic);
 
-export type ProfilesReadProfilesData = {
+export type V1ReadProfilesData = {
     limit?: number;
     skip?: number;
 };
 
-export type ProfilesReadProfilesResponse = (UserProfilesPublic);
+export type V1ReadProfilesResponse = (UserProfilesPublic);
 
-export type ProfilesCreateProfileData = {
+export type V1CreateProfileData = {
     requestBody: UserProfileCreate;
 };
 
-export type ProfilesCreateProfileResponse = (UserProfilePublic);
+export type V1CreateProfileResponse = (UserProfilePublic);
 
-export type ProfilesReadMyProfileResponse = (UserProfileWithSites);
+export type V1ReadMyProfileResponse = (UserProfileWithSites);
 
-export type ProfilesReadProfileData = {
+export type V1ReadProfileData = {
     id: string;
 };
 
-export type ProfilesReadProfileResponse = (UserProfilePublic);
+export type V1ReadProfileResponse = (UserProfilePublic);
 
-export type ProfilesUpdateProfileData = {
+export type V1UpdateProfileData = {
     id: string;
     requestBody: UserProfileUpdate;
 };
 
-export type ProfilesUpdateProfileResponse = (UserProfilePublic);
+export type V1UpdateProfileResponse = (UserProfilePublic);
 
-export type ProfilesDeleteProfileData = {
+export type V1DeleteProfileData = {
     id: string;
 };
 
-export type ProfilesDeleteProfileResponse = (Message);
+export type V1DeleteProfileResponse = (Message);
 
-export type ProfilesAssignSiteToProfileData = {
+export type V1AssignSiteToProfileData = {
     profileId: string;
     roleInSite?: (string | null);
     siteId: string;
 };
 
-export type ProfilesAssignSiteToProfileResponse = (Message);
+export type V1AssignSiteToProfileResponse = (Message);
 
-export type ProfilesRemoveSiteFromProfileData = {
+export type V1RemoveSiteFromProfileData = {
     profileId: string;
     siteId: string;
 };
 
-export type ProfilesRemoveSiteFromProfileResponse = (Message);
+export type V1RemoveSiteFromProfileResponse = (Message);
 
-export type RolesReadRolesData = {
+export type V1ReadRolesData = {
     limit?: number;
     skip?: number;
 };
 
-export type RolesReadRolesResponse = (RolesPublic);
+export type V1ReadRolesResponse = (RolesPublic);
 
-export type RolesCreateRoleData = {
+export type V1CreateRoleData = {
     requestBody: RoleCreate;
 };
 
-export type RolesCreateRoleResponse = (RolePublic);
+export type V1CreateRoleResponse = (RolePublic);
 
-export type RolesReadRoleData = {
+export type V1ReadRoleData = {
     id: string;
 };
 
-export type RolesReadRoleResponse = (RolePublic);
+export type V1ReadRoleResponse = (RolePublic);
 
-export type RolesUpdateRoleData = {
+export type V1UpdateRoleData = {
     id: string;
     requestBody: RoleUpdate;
 };
 
-export type RolesUpdateRoleResponse = (RolePublic);
+export type V1UpdateRoleResponse = (RolePublic);
 
-export type RolesDeleteRoleData = {
+export type V1DeleteRoleData = {
     id: string;
 };
 
-export type RolesDeleteRoleResponse = (Message);
+export type V1DeleteRoleResponse = (Message);
 
-export type SitesCreateSiteData = {
+export type SandboxGetResponse = (unknown);
+
+export type SandboxGetProfileResponse = (unknown);
+
+export type V1CreateSiteData = {
     requestBody: SiteCreate;
 };
 
-export type SitesCreateSiteResponse = (SitePublic);
+export type V1CreateSiteResponse = (SitePublic);
 
-export type SitesReadSitesData = {
+export type V1ReadSitesData = {
     limit?: number;
     skip?: number;
 };
 
-export type SitesReadSitesResponse = (SitesPublic);
+export type V1ReadSitesResponse = (SitesPublic);
 
-export type SitesGetCurrentSiteEndpointResponse = ((SitePublic | null));
+export type V1GetCurrentSiteEndpointResponse = ((SitePublic | null));
 
-export type SitesReadSiteData = {
+export type V1ReadSiteData = {
     siteId: string;
 };
 
-export type SitesReadSiteResponse = (SitePublic);
+export type V1ReadSiteResponse = (SitePublic);
 
-export type SitesUpdateSiteData = {
+export type V1UpdateSiteData = {
     requestBody: SiteUpdate;
     siteId: string;
 };
 
-export type SitesUpdateSiteResponse = (SitePublic);
+export type V1UpdateSiteResponse = (SitePublic);
 
-export type SitesDeleteSiteData = {
+export type V1DeleteSiteData = {
     siteId: string;
 };
 
-export type SitesDeleteSiteResponse = ({
+export type V1DeleteSiteResponse = ({
     [key: string]: (string);
 });
 
-export type UploadUploadFilesData = {
-    formData: Body_upload_upload_files;
+export type V1UploadFilesData = {
+    formData: Body_v1_upload_files;
 };
 
-export type UploadUploadFilesResponse = (BaseResponse_list_str__);
+export type V1UploadFilesResponse = (BaseResponse_list_str__);
 
-export type UserRolesAssignRoleToUserData = {
-    roleId: string;
-    userId: string;
+export type V1UploadFilesToB2Data = {
+    formData: Body_v1_upload_files_to_b2;
 };
 
-export type UserRolesAssignRoleToUserResponse = (Message);
+export type V1UploadFilesToB2Response = (BaseResponse_list_str__);
 
-export type UserRolesRemoveRoleFromUserData = {
-    roleId: string;
-    userId: string;
-};
-
-export type UserRolesRemoveRoleFromUserResponse = (Message);
-
-export type UserRolesGetUserRolesData = {
-    userId: string;
-};
-
-export type UserRolesGetUserRolesResponse = (unknown);
-
-export type UserRolesCheckUserHasRoleData = {
-    roleName: string;
-    userId: string;
-};
-
-export type UserRolesCheckUserHasRoleResponse = (unknown);
-
-export type UsersReadUsersData = {
+export type V1ReadListCvData = {
     limit?: number;
     skip?: number;
 };
 
-export type UsersReadUsersResponse = (UsersPublic);
+export type V1ReadListCvResponse = (UserCVsPublic);
 
-export type UsersCreateUserData = {
-    requestBody: UserCreate;
+export type V1CreateCvData = {
+    requestBody: UserCVCreate;
 };
 
-export type UsersCreateUserResponse = (UserPublic);
+export type V1CreateCvResponse = (UserCVPublic);
 
-export type UsersReadUserMeResponse = (UserPublic);
+export type V1ReadMyCvResponse = (UserCVFull);
 
-export type UsersDeleteUserMeResponse = (Message);
-
-export type UsersUpdateUserMeData = {
-    requestBody: UserUpdateMe;
-};
-
-export type UsersUpdateUserMeResponse = (UserPublic);
-
-export type UsersUpdatePasswordMeData = {
-    requestBody: UpdatePassword;
-};
-
-export type UsersUpdatePasswordMeResponse = (Message);
-
-export type UsersRegisterUserData = {
-    requestBody: UserRegister;
-};
-
-export type UsersRegisterUserResponse = (UserPublic);
-
-export type UsersReadUserByIdData = {
+export type V1AssignRoleToUserData = {
+    roleId: string;
     userId: string;
 };
 
-export type UsersReadUserByIdResponse = (UserPublic);
+export type V1AssignRoleToUserResponse = (Message);
 
-export type UsersUpdateUserData = {
+export type V1RemoveRoleFromUserData = {
+    roleId: string;
+    userId: string;
+};
+
+export type V1RemoveRoleFromUserResponse = (Message);
+
+export type V1GetUserRolesData = {
+    userId: string;
+};
+
+export type V1GetUserRolesResponse = (unknown);
+
+export type V1CheckUserHasRoleData = {
+    roleName: string;
+    userId: string;
+};
+
+export type V1CheckUserHasRoleResponse = (unknown);
+
+export type V1ReadUsersData = {
+    limit?: number;
+    skip?: number;
+};
+
+export type V1ReadUsersResponse = (UsersPublic);
+
+export type V1ReadUserMeResponse = (UserPublic);
+
+export type V1DeleteUserMeResponse = (Message);
+
+export type V1UpdateUserMeData = {
+    requestBody: UserUpdateMe;
+};
+
+export type V1UpdateUserMeResponse = (UserPublic);
+
+export type V1UpdatePasswordMeData = {
+    requestBody: UpdatePassword;
+};
+
+export type V1UpdatePasswordMeResponse = (Message);
+
+export type V1RegisterUserData = {
+    requestBody: UserRegister;
+};
+
+export type V1RegisterUserResponse = (UserPublic);
+
+export type V1ReadUserByIdData = {
+    userId: string;
+};
+
+export type V1ReadUserByIdResponse = (UserPublic);
+
+export type V1UpdateUserData = {
     requestBody: UserUpdate;
     userId: string;
 };
 
-export type UsersUpdateUserResponse = (UserPublic);
+export type V1UpdateUserResponse = (UserPublic);
 
-export type UsersDeleteUserData = {
+export type V1DeleteUserData = {
     userId: string;
 };
 
-export type UsersDeleteUserResponse = (Message);
+export type V1DeleteUserResponse = (Message);
 
-export type UtilsTestEmailData = {
+export type V1TestEmailData = {
     emailTo: string;
 };
 
-export type UtilsTestEmailResponse = (Message);
+export type V1TestEmailResponse = (Message);
 
-export type UtilsHealthCheckResponse = (boolean);
+export type V1HealthCheckResponse = (boolean);
+
+export type V1ReadCvData = {
+    id: string;
+};
+
+export type V1ReadCvResponse = (UserCVPublic);
+
+export type V1UpdateCvData = {
+    id: string;
+    requestBody: UserCVUpdate;
+};
+
+export type V1UpdateCvResponse = (UserCVPublic);
+
+export type V1DeleteCvData = {
+    id: string;
+};
+
+export type V1DeleteCvResponse = (Message);
+
+export type V1CreateUser1Data = {
+    requestBody: PrivateUserCreate;
+};
+
+export type V1CreateUser1Response = (UserPublic);

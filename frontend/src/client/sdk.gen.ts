@@ -3,7 +3,591 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { FileGetSignedUrlData, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, OauthGoogleLoginData, OauthGoogleLoginResponse, PlaygroundGetResponse, PrivateCreateUserData, PrivateCreateUserResponse, ProfilesReadProfilesData, ProfilesReadProfilesResponse, ProfilesCreateProfileData, ProfilesCreateProfileResponse, ProfilesReadMyProfileResponse, ProfilesReadProfileData, ProfilesReadProfileResponse, ProfilesUpdateProfileData, ProfilesUpdateProfileResponse, ProfilesDeleteProfileData, ProfilesDeleteProfileResponse, ProfilesAssignSiteToProfileData, ProfilesAssignSiteToProfileResponse, ProfilesRemoveSiteFromProfileData, ProfilesRemoveSiteFromProfileResponse, RolesReadRolesData, RolesReadRolesResponse, RolesCreateRoleData, RolesCreateRoleResponse, RolesReadRoleData, RolesReadRoleResponse, RolesUpdateRoleData, RolesUpdateRoleResponse, RolesDeleteRoleData, RolesDeleteRoleResponse, SitesCreateSiteData, SitesCreateSiteResponse, SitesReadSitesData, SitesReadSitesResponse, SitesGetCurrentSiteEndpointResponse, SitesReadSiteData, SitesReadSiteResponse, SitesUpdateSiteData, SitesUpdateSiteResponse, SitesDeleteSiteData, SitesDeleteSiteResponse, UploadUploadFilesData, UploadUploadFilesResponse, UserRolesAssignRoleToUserData, UserRolesAssignRoleToUserResponse, UserRolesRemoveRoleFromUserData, UserRolesRemoveRoleFromUserResponse, UserRolesGetUserRolesData, UserRolesGetUserRolesResponse, UserRolesCheckUserHasRoleData, UserRolesCheckUserHasRoleResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { V1ReadMyCertificationsResponse, V1CreateCertificationData, V1CreateCertificationResponse, V1UpdateCertificationData, V1UpdateCertificationResponse, V1DeleteCertificationData, V1DeleteCertificationResponse, V1ReadMyEducationResponse, V1CreateEducationData, V1CreateEducationResponse, V1UpdateEducationData, V1UpdateEducationResponse, V1DeleteEducationData, V1DeleteEducationResponse, V1ReadRequestedCvFilesData, V1ReadRequestedCvFilesResponse, V1UploadCvFileData, V1UploadCvFileResponse, V1ReadMyCvFilesResponse, V1UpdateCvFileData, V1UpdateCvFileResponse, V1DeleteCvFileData, V1DeleteCvFileResponse, V1ReadMyLanguagesResponse, V1CreateLanguageData, V1CreateLanguageResponse, V1UpdateLanguageData, V1UpdateLanguageResponse, V1DeleteLanguageData, V1DeleteLanguageResponse, V1ReadMyProjectsResponse, V1CreateProjectData, V1CreateProjectResponse, V1UpdateProjectData, V1UpdateProjectResponse, V1DeleteProjectData, V1DeleteProjectResponse, V1ReadMySkillsResponse, V1CreateSkillData, V1CreateSkillResponse, V1UpdateSkillData, V1UpdateSkillResponse, V1DeleteSkillData, V1DeleteSkillResponse, V1ReadMyWorkExperienceResponse, V1CreateWorkExperienceData, V1CreateWorkExperienceResponse, V1UpdateWorkExperienceData, V1UpdateWorkExperienceResponse, V1DeleteWorkExperienceData, V1DeleteWorkExperienceResponse, V1GetSignedUrlData, V1GetB2SignedUrlData, V1LoginAccessTokenData, V1LoginAccessTokenResponse, V1TestTokenResponse, V1RecoverPasswordData, V1RecoverPasswordResponse, V1ResetPasswordData, V1ResetPasswordResponse, V1RecoverPasswordHtmlContentData, V1RecoverPasswordHtmlContentResponse, V1GoogleLoginData, V1GoogleLoginResponse, V1CreateUserData, V1CreateUserResponse, V1ReadProfilesData, V1ReadProfilesResponse, V1CreateProfileData, V1CreateProfileResponse, V1ReadMyProfileResponse, V1ReadProfileData, V1ReadProfileResponse, V1UpdateProfileData, V1UpdateProfileResponse, V1DeleteProfileData, V1DeleteProfileResponse, V1AssignSiteToProfileData, V1AssignSiteToProfileResponse, V1RemoveSiteFromProfileData, V1RemoveSiteFromProfileResponse, V1ReadRolesData, V1ReadRolesResponse, V1CreateRoleData, V1CreateRoleResponse, V1ReadRoleData, V1ReadRoleResponse, V1UpdateRoleData, V1UpdateRoleResponse, V1DeleteRoleData, V1DeleteRoleResponse, SandboxGetResponse, SandboxGetProfileResponse, V1CreateSiteData, V1CreateSiteResponse, V1ReadSitesData, V1ReadSitesResponse, V1GetCurrentSiteEndpointResponse, V1ReadSiteData, V1ReadSiteResponse, V1UpdateSiteData, V1UpdateSiteResponse, V1DeleteSiteData, V1DeleteSiteResponse, V1UploadFilesData, V1UploadFilesResponse, V1UploadFilesToB2Data, V1UploadFilesToB2Response, V1ReadListCvData, V1ReadListCvResponse, V1CreateCvData, V1CreateCvResponse, V1ReadMyCvResponse, V1AssignRoleToUserData, V1AssignRoleToUserResponse, V1RemoveRoleFromUserData, V1RemoveRoleFromUserResponse, V1GetUserRolesData, V1GetUserRolesResponse, V1CheckUserHasRoleData, V1CheckUserHasRoleResponse, V1ReadUsersData, V1ReadUsersResponse, V1ReadUserMeResponse, V1DeleteUserMeResponse, V1UpdateUserMeData, V1UpdateUserMeResponse, V1UpdatePasswordMeData, V1UpdatePasswordMeResponse, V1RegisterUserData, V1RegisterUserResponse, V1ReadUserByIdData, V1ReadUserByIdResponse, V1UpdateUserData, V1UpdateUserResponse, V1DeleteUserData, V1DeleteUserResponse, V1TestEmailData, V1TestEmailResponse, V1HealthCheckResponse, V1ReadCvData, V1ReadCvResponse, V1UpdateCvData, V1UpdateCvResponse, V1DeleteCvData, V1DeleteCvResponse, V1CreateUser1Data, V1CreateUser1Response } from './types.gen';
+
+export class CvCertificationsService {
+    /**
+     * Read My Certifications
+     * Get all certifications for current user's CV.
+     * @returns CVCertificationPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1ReadMyCertifications(): CancelablePromise<V1ReadMyCertificationsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/certifications'
+        });
+    }
+    
+    /**
+     * Create Certification
+     * Add certification to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVCertificationPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1CreateCertification(data: V1CreateCertificationData): CancelablePromise<V1CreateCertificationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/certifications',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Certification
+     * Update certification entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVCertificationPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1UpdateCertification(data: V1UpdateCertificationData): CancelablePromise<V1UpdateCertificationResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/certifications/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Certification
+     * Delete certification entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static v1DeleteCertification(data: V1DeleteCertificationData): CancelablePromise<V1DeleteCertificationResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/certifications/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class CvEducationService {
+    /**
+     * Read My Education
+     * Get all education entries for current user's CV.
+     * @returns CVEducationPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1ReadMyEducation(): CancelablePromise<V1ReadMyEducationResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/educations'
+        });
+    }
+    
+    /**
+     * Create Education
+     * Add education entry to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVEducationPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1CreateEducation(data: V1CreateEducationData): CancelablePromise<V1CreateEducationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/educations',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Education
+     * Update education entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVEducationPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1UpdateEducation(data: V1UpdateEducationData): CancelablePromise<V1UpdateEducationResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/educations/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Education
+     * Delete education entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static v1DeleteEducation(data: V1DeleteEducationData): CancelablePromise<V1DeleteEducationResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/educations/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class CvFilesService {
+    /**
+     * Read Requested Cv Files
+     * Get all CV files with status 'requested' (admin/reviewer only).
+     * Returns list of CV files with their associated CV information.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns CVFilesPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1ReadRequestedCvFiles(data: V1ReadRequestedCvFilesData = {}): CancelablePromise<V1ReadRequestedCvFilesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/requested',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Upload Cv File
+     * Upload CV file for current user.
+     * @param data The data for the request.
+     * @param data.formData
+     * @returns CVFilePublic Successful Response
+     * @throws ApiError
+     */
+    public static v1UploadCvFile(data: V1UploadCvFileData): CancelablePromise<V1UploadCvFileResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/files/upload',
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read My Cv Files
+     * Get all CV files for current user.
+     * @returns CVFilePublic Successful Response
+     * @throws ApiError
+     */
+    public static v1ReadMyCvFiles(): CancelablePromise<V1ReadMyCvFilesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/files'
+        });
+    }
+    
+    /**
+     * Update Cv File
+     * Update CV file (status, review notes, etc).
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVFilePublic Successful Response
+     * @throws ApiError
+     */
+    public static v1UpdateCvFile(data: V1UpdateCvFileData): CancelablePromise<V1UpdateCvFileResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/files/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Cv File
+     * Delete CV file.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static v1DeleteCvFile(data: V1DeleteCvFileData): CancelablePromise<V1DeleteCvFileResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/files/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class CvLanguagesService {
+    /**
+     * Read My Languages
+     * Get all languages for current user's CV.
+     * @returns CVLanguagePublic Successful Response
+     * @throws ApiError
+     */
+    public static v1ReadMyLanguages(): CancelablePromise<V1ReadMyLanguagesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/languages'
+        });
+    }
+    
+    /**
+     * Create Language
+     * Add language to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVLanguagePublic Successful Response
+     * @throws ApiError
+     */
+    public static v1CreateLanguage(data: V1CreateLanguageData): CancelablePromise<V1CreateLanguageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/languages',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Language
+     * Update language entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVLanguagePublic Successful Response
+     * @throws ApiError
+     */
+    public static v1UpdateLanguage(data: V1UpdateLanguageData): CancelablePromise<V1UpdateLanguageResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/languages/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Language
+     * Delete language entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static v1DeleteLanguage(data: V1DeleteLanguageData): CancelablePromise<V1DeleteLanguageResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/languages/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class CvProjectsService {
+    /**
+     * Read My Projects
+     * Get all projects for current user's CV.
+     * @returns CVProjectPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1ReadMyProjects(): CancelablePromise<V1ReadMyProjectsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/projects'
+        });
+    }
+    
+    /**
+     * Create Project
+     * Add project to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVProjectPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1CreateProject(data: V1CreateProjectData): CancelablePromise<V1CreateProjectResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/projects',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Project
+     * Update project entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVProjectPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1UpdateProject(data: V1UpdateProjectData): CancelablePromise<V1UpdateProjectResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/projects/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Project
+     * Delete project entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static v1DeleteProject(data: V1DeleteProjectData): CancelablePromise<V1DeleteProjectResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/projects/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class CvSkillsService {
+    /**
+     * Read My Skills
+     * Get all skills for current user's CV.
+     * @returns CVSkillPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1ReadMySkills(): CancelablePromise<V1ReadMySkillsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/skills'
+        });
+    }
+    
+    /**
+     * Create Skill
+     * Add skill to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVSkillPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1CreateSkill(data: V1CreateSkillData): CancelablePromise<V1CreateSkillResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/skills',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Skill
+     * Update skill entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVSkillPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1UpdateSkill(data: V1UpdateSkillData): CancelablePromise<V1UpdateSkillResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/skills/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Skill
+     * Delete skill entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static v1DeleteSkill(data: V1DeleteSkillData): CancelablePromise<V1DeleteSkillResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/skills/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class CvWorkExperienceService {
+    /**
+     * Read My Work Experience
+     * Get all work experience entries for current user's CV.
+     * @returns CVWorkExperiencePublic Successful Response
+     * @throws ApiError
+     */
+    public static v1ReadMyWorkExperience(): CancelablePromise<V1ReadMyWorkExperienceResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/work-experiences'
+        });
+    }
+    
+    /**
+     * Create Work Experience
+     * Add work experience entry to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVWorkExperiencePublic Successful Response
+     * @throws ApiError
+     */
+    public static v1CreateWorkExperience(data: V1CreateWorkExperienceData): CancelablePromise<V1CreateWorkExperienceResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/work-experiences',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Work Experience
+     * Update work experience entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVWorkExperiencePublic Successful Response
+     * @throws ApiError
+     */
+    public static v1UpdateWorkExperience(data: V1UpdateWorkExperienceData): CancelablePromise<V1UpdateWorkExperienceResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/work-experiences/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Work Experience
+     * Delete work experience entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static v1DeleteWorkExperience(data: V1DeleteWorkExperienceData): CancelablePromise<V1DeleteWorkExperienceResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/work-experiences/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
 
 export class FileService {
     /**
@@ -21,7 +605,7 @@ export class FileService {
      * @param data.expirationDays Number of days until the signed URL expires
      * @throws ApiError
      */
-    public static getSignedUrl(data: FileGetSignedUrlData): CancelablePromise<void> {
+    public static v1GetSignedUrl(data: V1GetSignedUrlData): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/file/signed-url/',
@@ -35,113 +619,32 @@ export class FileService {
             }
         });
     }
-}
-
-export class ItemsService {
+    
     /**
-     * Read Items
-     * Retrieve items.
+     * Get B2 Signed Url
+     * Convert a public Backblaze B2 URL to a presigned URL and redirect to it.
+     *
+     * **Parameters:**
+     * - url: Public B2 URL (e.g., https://s3.us-west-004.backblazeb2.com/bucket/path/file.jpg)
+     * - expiration_hours: Number of hours until the presigned URL expires (default: 24, max: 168)
+     *
+     * **Returns:**
+     * - Redirects to the presigned URL that can be accessed without authentication
      * @param data The data for the request.
-     * @param data.skip
-     * @param data.limit
-     * @returns ItemsPublic Successful Response
+     * @param data.url Public B2 URL to convert to presigned URL
+     * @param data.expirationHours Number of hours until the presigned URL expires
      * @throws ApiError
      */
-    public static readItems(data: ItemsReadItemsData = {}): CancelablePromise<ItemsReadItemsResponse> {
+    public static v1GetB2SignedUrl(data: V1GetB2SignedUrlData): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/items/',
+            url: '/api/v1/file/b2-signed-url/',
             query: {
-                skip: data.skip,
-                limit: data.limit
+                url: data.url,
+                expiration_hours: data.expirationHours
             },
             errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Create Item
-     * Create new item.
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns ItemPublic Successful Response
-     * @throws ApiError
-     */
-    public static createItem(data: ItemsCreateItemData): CancelablePromise<ItemsCreateItemResponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/items/',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Read Item
-     * Get item by ID.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns ItemPublic Successful Response
-     * @throws ApiError
-     */
-    public static readItem(data: ItemsReadItemData): CancelablePromise<ItemsReadItemResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/items/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Update Item
-     * Update an item.
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.requestBody
-     * @returns ItemPublic Successful Response
-     * @throws ApiError
-     */
-    public static updateItem(data: ItemsUpdateItemData): CancelablePromise<ItemsUpdateItemResponse> {
-        return __request(OpenAPI, {
-            method: 'PUT',
-            url: '/api/v1/items/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                422: 'Validation Error'
-            }
-        });
-    }
-    
-    /**
-     * Delete Item
-     * Delete an item.
-     * @param data The data for the request.
-     * @param data.id
-     * @returns Message Successful Response
-     * @throws ApiError
-     */
-    public static deleteItem(data: ItemsDeleteItemData): CancelablePromise<ItemsDeleteItemResponse> {
-        return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/v1/items/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
+                307: 'Successful Response',
                 422: 'Validation Error'
             }
         });
@@ -157,7 +660,7 @@ export class LoginService {
      * @returns Token Successful Response
      * @throws ApiError
      */
-    public static loginAccessToken(data: LoginLoginAccessTokenData): CancelablePromise<LoginLoginAccessTokenResponse> {
+    public static v1LoginAccessToken(data: V1LoginAccessTokenData): CancelablePromise<V1LoginAccessTokenResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/login/access-token',
@@ -175,7 +678,7 @@ export class LoginService {
      * @returns UserPublic Successful Response
      * @throws ApiError
      */
-    public static testToken(): CancelablePromise<LoginTestTokenResponse> {
+    public static v1TestToken(): CancelablePromise<V1TestTokenResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/login/test-token'
@@ -190,7 +693,7 @@ export class LoginService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static recoverPassword(data: LoginRecoverPasswordData): CancelablePromise<LoginRecoverPasswordResponse> {
+    public static v1RecoverPassword(data: V1RecoverPasswordData): CancelablePromise<V1RecoverPasswordResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/password-recovery/{email}',
@@ -211,10 +714,10 @@ export class LoginService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static resetPassword(data: LoginResetPasswordData): CancelablePromise<LoginResetPasswordResponse> {
+    public static v1ResetPassword(data: V1ResetPasswordData): CancelablePromise<V1ResetPasswordResponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/reset-password/',
+            url: '/api/v1/reset-password',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -231,7 +734,7 @@ export class LoginService {
      * @returns string Successful Response
      * @throws ApiError
      */
-    public static recoverPasswordHtmlContent(data: LoginRecoverPasswordHtmlContentData): CancelablePromise<LoginRecoverPasswordHtmlContentResponse> {
+    public static v1RecoverPasswordHtmlContent(data: V1RecoverPasswordHtmlContentData): CancelablePromise<V1RecoverPasswordHtmlContentResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/password-recovery-html-content/{email}',
@@ -254,17 +757,16 @@ export class OauthService {
      * This endpoint will:
      * 1. Validate the Google authorization code
      * 2. Get user info from Google
-     * 3. Link Google account to existing user (user must exist in database)
+     * 3. Create new user or link Google account to existing user
      * 4. Return access token for the user
      *
-     * Note: User must already exist in the database (created via regular signup).
-     * This endpoint only links Google account to existing users.
+     * Note: If user doesn't exist, a new account will be created automatically.
      * @param data The data for the request.
      * @param data.requestBody
      * @returns GoogleAuthResponse Successful Response
      * @throws ApiError
      */
-    public static googleLogin(data: OauthGoogleLoginData): CancelablePromise<OauthGoogleLoginResponse> {
+    public static v1GoogleLogin(data: V1GoogleLoginData): CancelablePromise<V1GoogleLoginResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/oauth/google',
@@ -273,21 +775,6 @@ export class OauthService {
             errors: {
                 422: 'Validation Error'
             }
-        });
-    }
-}
-
-export class PlaygroundService {
-    /**
-     * Get
-     * WebSocket testing playground - HTML interface for testing WebSocket connections with authentication
-     * @returns unknown Successful Response
-     * @throws ApiError
-     */
-    public static get(): CancelablePromise<PlaygroundGetResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/playground/'
         });
     }
 }
@@ -301,10 +788,10 @@ export class PrivateService {
      * @returns UserPublic Successful Response
      * @throws ApiError
      */
-    public static createUser(data: PrivateCreateUserData): CancelablePromise<PrivateCreateUserResponse> {
+    public static v1CreateUser(data: V1CreateUserData): CancelablePromise<V1CreateUserResponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/private/users/',
+            url: '/api/v1/private/users',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -326,7 +813,7 @@ export class ProfilesService {
      * @returns UserProfilesPublic Successful Response
      * @throws ApiError
      */
-    public static readProfiles(data: ProfilesReadProfilesData = {}): CancelablePromise<ProfilesReadProfilesResponse> {
+    public static v1ReadProfiles(data: V1ReadProfilesData = {}): CancelablePromise<V1ReadProfilesResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/profiles/',
@@ -350,7 +837,7 @@ export class ProfilesService {
      * @returns UserProfilePublic Successful Response
      * @throws ApiError
      */
-    public static createProfile(data: ProfilesCreateProfileData): CancelablePromise<ProfilesCreateProfileResponse> {
+    public static v1CreateProfile(data: V1CreateProfileData): CancelablePromise<V1CreateProfileResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/profiles/',
@@ -368,7 +855,7 @@ export class ProfilesService {
      * @returns UserProfileWithSites Successful Response
      * @throws ApiError
      */
-    public static readMyProfile(): CancelablePromise<ProfilesReadMyProfileResponse> {
+    public static v1ReadMyProfile(): CancelablePromise<V1ReadMyProfileResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/profiles/me'
@@ -385,7 +872,7 @@ export class ProfilesService {
      * @returns UserProfilePublic Successful Response
      * @throws ApiError
      */
-    public static readProfile(data: ProfilesReadProfileData): CancelablePromise<ProfilesReadProfileResponse> {
+    public static v1ReadProfile(data: V1ReadProfileData): CancelablePromise<V1ReadProfileResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/profiles/{id}',
@@ -409,7 +896,7 @@ export class ProfilesService {
      * @returns UserProfilePublic Successful Response
      * @throws ApiError
      */
-    public static updateProfile(data: ProfilesUpdateProfileData): CancelablePromise<ProfilesUpdateProfileResponse> {
+    public static v1UpdateProfile(data: V1UpdateProfileData): CancelablePromise<V1UpdateProfileResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/v1/profiles/{id}',
@@ -434,7 +921,7 @@ export class ProfilesService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static deleteProfile(data: ProfilesDeleteProfileData): CancelablePromise<ProfilesDeleteProfileResponse> {
+    public static v1DeleteProfile(data: V1DeleteProfileData): CancelablePromise<V1DeleteProfileResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/profiles/{id}',
@@ -459,7 +946,7 @@ export class ProfilesService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static assignSiteToProfile(data: ProfilesAssignSiteToProfileData): CancelablePromise<ProfilesAssignSiteToProfileResponse> {
+    public static v1AssignSiteToProfile(data: V1AssignSiteToProfileData): CancelablePromise<V1AssignSiteToProfileResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/profiles/{profile_id}/sites/{site_id}',
@@ -487,7 +974,7 @@ export class ProfilesService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static removeSiteFromProfile(data: ProfilesRemoveSiteFromProfileData): CancelablePromise<ProfilesRemoveSiteFromProfileResponse> {
+    public static v1RemoveSiteFromProfile(data: V1RemoveSiteFromProfileData): CancelablePromise<V1RemoveSiteFromProfileResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/profiles/{profile_id}/sites/{site_id}',
@@ -512,7 +999,7 @@ export class RolesService {
      * @returns RolesPublic Successful Response
      * @throws ApiError
      */
-    public static readRoles(data: RolesReadRolesData = {}): CancelablePromise<RolesReadRolesResponse> {
+    public static v1ReadRoles(data: V1ReadRolesData = {}): CancelablePromise<V1ReadRolesResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/roles/',
@@ -536,7 +1023,7 @@ export class RolesService {
      * @returns RolePublic Successful Response
      * @throws ApiError
      */
-    public static createRole(data: RolesCreateRoleData): CancelablePromise<RolesCreateRoleResponse> {
+    public static v1CreateRole(data: V1CreateRoleData): CancelablePromise<V1CreateRoleResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/roles/',
@@ -556,7 +1043,7 @@ export class RolesService {
      * @returns RolePublic Successful Response
      * @throws ApiError
      */
-    public static readRole(data: RolesReadRoleData): CancelablePromise<RolesReadRoleResponse> {
+    public static v1ReadRole(data: V1ReadRoleData): CancelablePromise<V1ReadRoleResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/roles/{id}',
@@ -580,7 +1067,7 @@ export class RolesService {
      * @returns RolePublic Successful Response
      * @throws ApiError
      */
-    public static updateRole(data: RolesUpdateRoleData): CancelablePromise<RolesUpdateRoleResponse> {
+    public static v1UpdateRole(data: V1UpdateRoleData): CancelablePromise<V1UpdateRoleResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/v1/roles/{id}',
@@ -605,7 +1092,7 @@ export class RolesService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static deleteRole(data: RolesDeleteRoleData): CancelablePromise<RolesDeleteRoleResponse> {
+    public static v1DeleteRole(data: V1DeleteRoleData): CancelablePromise<V1DeleteRoleResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/roles/{id}',
@@ -619,6 +1106,34 @@ export class RolesService {
     }
 }
 
+export class SandboxService {
+    /**
+     * Get
+     * WebSocket testing playground - HTML interface for testing WebSocket connections with authentication
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static get(): CancelablePromise<SandboxGetResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/sandbox/websocket/'
+        });
+    }
+    
+    /**
+     * Get Profile
+     * WebSocket testing playground - HTML interface for testing WebSocket connections with authentication
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static getProfile(): CancelablePromise<SandboxGetProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/sandbox/profile/'
+        });
+    }
+}
+
 export class SitesService {
     /**
      * Create Site
@@ -628,7 +1143,7 @@ export class SitesService {
      * @returns SitePublic Successful Response
      * @throws ApiError
      */
-    public static createSite(data: SitesCreateSiteData): CancelablePromise<SitesCreateSiteResponse> {
+    public static v1CreateSite(data: V1CreateSiteData): CancelablePromise<V1CreateSiteResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/sites/',
@@ -649,7 +1164,7 @@ export class SitesService {
      * @returns SitesPublic Successful Response
      * @throws ApiError
      */
-    public static readSites(data: SitesReadSitesData = {}): CancelablePromise<SitesReadSitesResponse> {
+    public static v1ReadSites(data: V1ReadSitesData = {}): CancelablePromise<V1ReadSitesResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/sites/',
@@ -670,7 +1185,7 @@ export class SitesService {
      * @returns unknown Successful Response
      * @throws ApiError
      */
-    public static getCurrentSiteEndpoint(): CancelablePromise<SitesGetCurrentSiteEndpointResponse> {
+    public static v1GetCurrentSiteEndpoint(): CancelablePromise<V1GetCurrentSiteEndpointResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/sites/current'
@@ -685,7 +1200,7 @@ export class SitesService {
      * @returns SitePublic Successful Response
      * @throws ApiError
      */
-    public static readSite(data: SitesReadSiteData): CancelablePromise<SitesReadSiteResponse> {
+    public static v1ReadSite(data: V1ReadSiteData): CancelablePromise<V1ReadSiteResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/sites/{site_id}',
@@ -707,7 +1222,7 @@ export class SitesService {
      * @returns SitePublic Successful Response
      * @throws ApiError
      */
-    public static updateSite(data: SitesUpdateSiteData): CancelablePromise<SitesUpdateSiteResponse> {
+    public static v1UpdateSite(data: V1UpdateSiteData): CancelablePromise<V1UpdateSiteResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/v1/sites/{site_id}',
@@ -730,7 +1245,7 @@ export class SitesService {
      * @returns string Successful Response
      * @throws ApiError
      */
-    public static deleteSite(data: SitesDeleteSiteData): CancelablePromise<SitesDeleteSiteResponse> {
+    public static v1DeleteSite(data: V1DeleteSiteData): CancelablePromise<V1DeleteSiteResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/sites/{site_id}',
@@ -771,7 +1286,7 @@ export class UploadService {
      * @returns BaseResponse_list_str__ Successful Response
      * @throws ApiError
      */
-    public static uploadFiles(data: UploadUploadFilesData): CancelablePromise<UploadUploadFilesResponse> {
+    public static v1UploadFiles(data: V1UploadFilesData): CancelablePromise<V1UploadFilesResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/upload/',
@@ -780,6 +1295,102 @@ export class UploadService {
             errors: {
                 422: 'Validation Error'
             }
+        });
+    }
+    
+    /**
+     * Upload Files To B2
+     * Upload multiple files to Backblaze B2 Storage.
+     *
+     * **Parameters:**
+     * - files: List of files to upload
+     *
+     * **Returns:**
+     * - List of presigned URLs for the uploaded files
+     *
+     * **Example Response:**
+     * ```json
+     * {
+     * "code": 201,
+     * "message": "Files uploaded successfully",
+     * "data": [
+     * "https://s3.us-west-004.backblazeb2.com/bucket-name/uploads/file1.pdf?...",
+     * "https://s3.us-west-004.backblazeb2.com/bucket-name/uploads/file2.jpg?..."
+     * ]
+     * }
+     * ```
+     * @param data The data for the request.
+     * @param data.formData
+     * @returns BaseResponse_list_str__ Successful Response
+     * @throws ApiError
+     */
+    public static v1UploadFilesToB2(data: V1UploadFilesToB2Data): CancelablePromise<V1UploadFilesToB2Response> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/upload/b2/',
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class UserCvService {
+    /**
+     * Read List Cv
+     * Retrieve all CVs (superuser only).
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns UserCVsPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1ReadListCv(data: V1ReadListCvData = {}): CancelablePromise<V1ReadListCvResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Cv
+     * Create new CV profile.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns UserCVPublic Successful Response
+     * @throws ApiError
+     */
+    public static v1CreateCv(data: V1CreateCvData): CancelablePromise<V1CreateCvResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read My Cv
+     * Get current user's full CV with all related data.
+     * @returns UserCVFull Successful Response
+     * @throws ApiError
+     */
+    public static v1ReadMyCv(): CancelablePromise<V1ReadMyCvResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/me'
         });
     }
 }
@@ -796,7 +1407,7 @@ export class UserRolesService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static assignRoleToUser(data: UserRolesAssignRoleToUserData): CancelablePromise<UserRolesAssignRoleToUserResponse> {
+    public static v1AssignRoleToUser(data: V1AssignRoleToUserData): CancelablePromise<V1AssignRoleToUserResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/users/{user_id}/roles/{role_id}',
@@ -821,7 +1432,7 @@ export class UserRolesService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static removeRoleFromUser(data: UserRolesRemoveRoleFromUserData): CancelablePromise<UserRolesRemoveRoleFromUserResponse> {
+    public static v1RemoveRoleFromUser(data: V1RemoveRoleFromUserData): CancelablePromise<V1RemoveRoleFromUserResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/users/{user_id}/roles/{role_id}',
@@ -845,7 +1456,7 @@ export class UserRolesService {
      * @returns unknown Successful Response
      * @throws ApiError
      */
-    public static getUserRoles(data: UserRolesGetUserRolesData): CancelablePromise<UserRolesGetUserRolesResponse> {
+    public static v1GetUserRoles(data: V1GetUserRolesData): CancelablePromise<V1GetUserRolesResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/users/{user_id}/roles',
@@ -867,7 +1478,7 @@ export class UserRolesService {
      * @returns unknown Successful Response
      * @throws ApiError
      */
-    public static checkUserHasRole(data: UserRolesCheckUserHasRoleData): CancelablePromise<UserRolesCheckUserHasRoleResponse> {
+    public static v1CheckUserHasRole(data: V1CheckUserHasRoleData): CancelablePromise<V1CheckUserHasRoleResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/users/{user_id}/roles/{role_name}/check',
@@ -892,7 +1503,7 @@ export class UsersService {
      * @returns UsersPublic Successful Response
      * @throws ApiError
      */
-    public static readUsers(data: UsersReadUsersData = {}): CancelablePromise<UsersReadUsersResponse> {
+    public static v1ReadUsers(data: V1ReadUsersData = {}): CancelablePromise<V1ReadUsersResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/users/',
@@ -914,7 +1525,7 @@ export class UsersService {
      * @returns UserPublic Successful Response
      * @throws ApiError
      */
-    public static createUser(data: UsersCreateUserData): CancelablePromise<UsersCreateUserResponse> {
+    public static v1CreateUser(data: V1CreateUserData): CancelablePromise<V1CreateUserResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/users/',
@@ -932,7 +1543,7 @@ export class UsersService {
      * @returns UserPublic Successful Response
      * @throws ApiError
      */
-    public static readUserMe(): CancelablePromise<UsersReadUserMeResponse> {
+    public static v1ReadUserMe(): CancelablePromise<V1ReadUserMeResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/users/me'
@@ -945,7 +1556,7 @@ export class UsersService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static deleteUserMe(): CancelablePromise<UsersDeleteUserMeResponse> {
+    public static v1DeleteUserMe(): CancelablePromise<V1DeleteUserMeResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/users/me'
@@ -960,7 +1571,7 @@ export class UsersService {
      * @returns UserPublic Successful Response
      * @throws ApiError
      */
-    public static updateUserMe(data: UsersUpdateUserMeData): CancelablePromise<UsersUpdateUserMeResponse> {
+    public static v1UpdateUserMe(data: V1UpdateUserMeData): CancelablePromise<V1UpdateUserMeResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/v1/users/me',
@@ -980,7 +1591,7 @@ export class UsersService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static updatePasswordMe(data: UsersUpdatePasswordMeData): CancelablePromise<UsersUpdatePasswordMeResponse> {
+    public static v1UpdatePasswordMe(data: V1UpdatePasswordMeData): CancelablePromise<V1UpdatePasswordMeResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/v1/users/me/password',
@@ -1000,7 +1611,7 @@ export class UsersService {
      * @returns UserPublic Successful Response
      * @throws ApiError
      */
-    public static registerUser(data: UsersRegisterUserData): CancelablePromise<UsersRegisterUserResponse> {
+    public static v1RegisterUser(data: V1RegisterUserData): CancelablePromise<V1RegisterUserResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/users/signup',
@@ -1020,7 +1631,7 @@ export class UsersService {
      * @returns UserPublic Successful Response
      * @throws ApiError
      */
-    public static readUserById(data: UsersReadUserByIdData): CancelablePromise<UsersReadUserByIdResponse> {
+    public static v1ReadUserById(data: V1ReadUserByIdData): CancelablePromise<V1ReadUserByIdResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/users/{user_id}',
@@ -1042,7 +1653,7 @@ export class UsersService {
      * @returns UserPublic Successful Response
      * @throws ApiError
      */
-    public static updateUser(data: UsersUpdateUserData): CancelablePromise<UsersUpdateUserResponse> {
+    public static v1UpdateUser(data: V1UpdateUserData): CancelablePromise<V1UpdateUserResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/v1/users/{user_id}',
@@ -1065,7 +1676,7 @@ export class UsersService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static deleteUser(data: UsersDeleteUserData): CancelablePromise<UsersDeleteUserResponse> {
+    public static v1DeleteUser(data: V1DeleteUserData): CancelablePromise<V1DeleteUserResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/users/{user_id}',
@@ -1088,10 +1699,10 @@ export class UtilsService {
      * @returns Message Successful Response
      * @throws ApiError
      */
-    public static testEmail(data: UtilsTestEmailData): CancelablePromise<UtilsTestEmailResponse> {
+    public static v1TestEmail(data: V1TestEmailData): CancelablePromise<V1TestEmailResponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/utils/test-email/',
+            url: '/api/v1/utils/test-email',
             query: {
                 email_to: data.emailTo
             },
@@ -1106,10 +1717,1732 @@ export class UtilsService {
      * @returns boolean Successful Response
      * @throws ApiError
      */
-    public static healthCheck(): CancelablePromise<UtilsHealthCheckResponse> {
+    public static v1HealthCheck(): CancelablePromise<V1HealthCheckResponse> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/utils/health-check/'
+            url: '/api/v1/utils/health-check'
+        });
+    }
+}
+
+export class V1Service {
+    /**
+     * Login Access Token
+     * OAuth2 compatible token login, get an access token for future requests
+     * @param data The data for the request.
+     * @param data.formData
+     * @returns Token Successful Response
+     * @throws ApiError
+     */
+    public static loginAccessToken(data: V1LoginAccessTokenData): CancelablePromise<V1LoginAccessTokenResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/login/access-token',
+            formData: data.formData,
+            mediaType: 'application/x-www-form-urlencoded',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Test Token
+     * Test access token
+     * @returns UserPublic Successful Response
+     * @throws ApiError
+     */
+    public static testToken(): CancelablePromise<V1TestTokenResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/login/test-token'
+        });
+    }
+    
+    /**
+     * Recover Password
+     * Password Recovery
+     * @param data The data for the request.
+     * @param data.email
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static recoverPassword(data: V1RecoverPasswordData): CancelablePromise<V1RecoverPasswordResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/password-recovery/{email}',
+            path: {
+                email: data.email
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Reset Password
+     * Reset password
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static resetPassword(data: V1ResetPasswordData): CancelablePromise<V1ResetPasswordResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/reset-password',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Recover Password Html Content
+     * HTML Content for Password Recovery
+     * @param data The data for the request.
+     * @param data.email
+     * @returns string Successful Response
+     * @throws ApiError
+     */
+    public static recoverPasswordHtmlContent(data: V1RecoverPasswordHtmlContentData): CancelablePromise<V1RecoverPasswordHtmlContentResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/password-recovery-html-content/{email}',
+            path: {
+                email: data.email
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Users
+     * Retrieve users.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns UsersPublic Successful Response
+     * @throws ApiError
+     */
+    public static readUsers(data: V1ReadUsersData = {}): CancelablePromise<V1ReadUsersResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/users/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create User
+     * Create new user.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns UserPublic Successful Response
+     * @throws ApiError
+     */
+    public static createUser(data: V1CreateUserData): CancelablePromise<V1CreateUserResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/users/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read User Me
+     * Get current user.
+     * @returns UserPublic Successful Response
+     * @throws ApiError
+     */
+    public static readUserMe(): CancelablePromise<V1ReadUserMeResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/users/me'
+        });
+    }
+    
+    /**
+     * Delete User Me
+     * Delete own user.
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteUserMe(): CancelablePromise<V1DeleteUserMeResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/users/me'
+        });
+    }
+    
+    /**
+     * Update User Me
+     * Update own user.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns UserPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateUserMe(data: V1UpdateUserMeData): CancelablePromise<V1UpdateUserMeResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/users/me',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Password Me
+     * Update own password.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static updatePasswordMe(data: V1UpdatePasswordMeData): CancelablePromise<V1UpdatePasswordMeResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/users/me/password',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Register User
+     * Create new user without the need to be logged in.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns UserPublic Successful Response
+     * @throws ApiError
+     */
+    public static registerUser(data: V1RegisterUserData): CancelablePromise<V1RegisterUserResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/users/signup',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read User By Id
+     * Get a specific user by id.
+     * @param data The data for the request.
+     * @param data.userId
+     * @returns UserPublic Successful Response
+     * @throws ApiError
+     */
+    public static readUserById(data: V1ReadUserByIdData): CancelablePromise<V1ReadUserByIdResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/users/{user_id}',
+            path: {
+                user_id: data.userId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update User
+     * Update a user.
+     * @param data The data for the request.
+     * @param data.userId
+     * @param data.requestBody
+     * @returns UserPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateUser(data: V1UpdateUserData): CancelablePromise<V1UpdateUserResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/users/{user_id}',
+            path: {
+                user_id: data.userId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete User
+     * Delete a user.
+     * @param data The data for the request.
+     * @param data.userId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteUser(data: V1DeleteUserData): CancelablePromise<V1DeleteUserResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/users/{user_id}',
+            path: {
+                user_id: data.userId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Test Email
+     * Test emails.
+     * @param data The data for the request.
+     * @param data.emailTo
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static testEmail(data: V1TestEmailData): CancelablePromise<V1TestEmailResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/utils/test-email',
+            query: {
+                email_to: data.emailTo
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Health Check
+     * @returns boolean Successful Response
+     * @throws ApiError
+     */
+    public static healthCheck(): CancelablePromise<V1HealthCheckResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/utils/health-check'
+        });
+    }
+    
+    /**
+     * Google Login
+     * Google OAuth Login
+     *
+     * Exchange Google authorization code for access token.
+     * This endpoint will:
+     * 1. Validate the Google authorization code
+     * 2. Get user info from Google
+     * 3. Create new user or link Google account to existing user
+     * 4. Return access token for the user
+     *
+     * Note: If user doesn't exist, a new account will be created automatically.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns GoogleAuthResponse Successful Response
+     * @throws ApiError
+     */
+    public static googleLogin(data: V1GoogleLoginData): CancelablePromise<V1GoogleLoginResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/oauth/google',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Upload Files
+     * Upload multiple files to Google Cloud Storage.
+     *
+     * **Parameters:**
+     * - files: List of files to upload
+     *
+     * **Returns:**
+     * - List of URLs for the uploaded files
+     *
+     * **Example Response:**
+     * ```json
+     * {
+     * "code": 201,
+     * "message": "Files uploaded successfully",
+     * "data": [
+     * "https://storage.googleapis.com/bucket-name/file1.pdf",
+     * "https://storage.googleapis.com/bucket-name/file2.jpg"
+     * ]
+     * }
+     * ```
+     * @param data The data for the request.
+     * @param data.formData
+     * @returns BaseResponse_list_str__ Successful Response
+     * @throws ApiError
+     */
+    public static uploadFiles(data: V1UploadFilesData): CancelablePromise<V1UploadFilesResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/upload/',
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Upload Files To B2
+     * Upload multiple files to Backblaze B2 Storage.
+     *
+     * **Parameters:**
+     * - files: List of files to upload
+     *
+     * **Returns:**
+     * - List of presigned URLs for the uploaded files
+     *
+     * **Example Response:**
+     * ```json
+     * {
+     * "code": 201,
+     * "message": "Files uploaded successfully",
+     * "data": [
+     * "https://s3.us-west-004.backblazeb2.com/bucket-name/uploads/file1.pdf?...",
+     * "https://s3.us-west-004.backblazeb2.com/bucket-name/uploads/file2.jpg?..."
+     * ]
+     * }
+     * ```
+     * @param data The data for the request.
+     * @param data.formData
+     * @returns BaseResponse_list_str__ Successful Response
+     * @throws ApiError
+     */
+    public static uploadFilesToB2(data: V1UploadFilesToB2Data): CancelablePromise<V1UploadFilesToB2Response> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/upload/b2/',
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get Signed Url
+     * Convert a public GCS URL to a signed URL and redirect to it.
+     *
+     * **Parameters:**
+     * - url: Public GCS URL (e.g., https://storage.googleapis.com/bucket/path/file.jpg)
+     * - expiration_days: Number of days until the signed URL expires (default: 7, max: 365)
+     *
+     * **Returns:**
+     * - Redirects to the signed URL that can be accessed without authentication
+     * @param data The data for the request.
+     * @param data.url Public GCS URL to convert to signed URL
+     * @param data.expirationDays Number of days until the signed URL expires
+     * @throws ApiError
+     */
+    public static getSignedUrl(data: V1GetSignedUrlData): CancelablePromise<void> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/file/signed-url/',
+            query: {
+                url: data.url,
+                expiration_days: data.expirationDays
+            },
+            errors: {
+                307: 'Successful Response',
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get B2 Signed Url
+     * Convert a public Backblaze B2 URL to a presigned URL and redirect to it.
+     *
+     * **Parameters:**
+     * - url: Public B2 URL (e.g., https://s3.us-west-004.backblazeb2.com/bucket/path/file.jpg)
+     * - expiration_hours: Number of hours until the presigned URL expires (default: 24, max: 168)
+     *
+     * **Returns:**
+     * - Redirects to the presigned URL that can be accessed without authentication
+     * @param data The data for the request.
+     * @param data.url Public B2 URL to convert to presigned URL
+     * @param data.expirationHours Number of hours until the presigned URL expires
+     * @throws ApiError
+     */
+    public static getB2SignedUrl(data: V1GetB2SignedUrlData): CancelablePromise<void> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/file/b2-signed-url/',
+            query: {
+                url: data.url,
+                expiration_hours: data.expirationHours
+            },
+            errors: {
+                307: 'Successful Response',
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Site
+     * Create new site. Only for superusers.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns SitePublic Successful Response
+     * @throws ApiError
+     */
+    public static createSite(data: V1CreateSiteData): CancelablePromise<V1CreateSiteResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/sites/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Sites
+     * Retrieve sites. Only for superusers.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns SitesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readSites(data: V1ReadSitesData = {}): CancelablePromise<V1ReadSitesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/sites/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get Current Site Endpoint
+     * Get the current site based on request host.
+     * This endpoint is public to allow frontend to know which site they're on.
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static getCurrentSiteEndpoint(): CancelablePromise<V1GetCurrentSiteEndpointResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/sites/current'
+        });
+    }
+    
+    /**
+     * Read Site
+     * Get site by ID. Only for superusers.
+     * @param data The data for the request.
+     * @param data.siteId
+     * @returns SitePublic Successful Response
+     * @throws ApiError
+     */
+    public static readSite(data: V1ReadSiteData): CancelablePromise<V1ReadSiteResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/sites/{site_id}',
+            path: {
+                site_id: data.siteId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Site
+     * Update a site. Only for superusers.
+     * @param data The data for the request.
+     * @param data.siteId
+     * @param data.requestBody
+     * @returns SitePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateSite(data: V1UpdateSiteData): CancelablePromise<V1UpdateSiteResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/sites/{site_id}',
+            path: {
+                site_id: data.siteId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Site
+     * Delete a site. Only for superusers.
+     * @param data The data for the request.
+     * @param data.siteId
+     * @returns string Successful Response
+     * @throws ApiError
+     */
+    public static deleteSite(data: V1DeleteSiteData): CancelablePromise<V1DeleteSiteResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/sites/{site_id}',
+            path: {
+                site_id: data.siteId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Roles
+     * Retrieve all roles.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns RolesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readRoles(data: V1ReadRolesData = {}): CancelablePromise<V1ReadRolesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/roles/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Role
+     * Create new role.
+     *
+     * Only superusers can create roles.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns RolePublic Successful Response
+     * @throws ApiError
+     */
+    public static createRole(data: V1CreateRoleData): CancelablePromise<V1CreateRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/roles/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Role
+     * Get role by ID.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns RolePublic Successful Response
+     * @throws ApiError
+     */
+    public static readRole(data: V1ReadRoleData): CancelablePromise<V1ReadRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/roles/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Role
+     * Update a role.
+     *
+     * Only superusers can update roles.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns RolePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateRole(data: V1UpdateRoleData): CancelablePromise<V1UpdateRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/roles/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Role
+     * Delete a role.
+     *
+     * Only superusers can delete roles.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteRole(data: V1DeleteRoleData): CancelablePromise<V1DeleteRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/roles/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Profiles
+     * Retrieve all profiles.
+     *
+     * Only superusers can list all profiles.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns UserProfilesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readProfiles(data: V1ReadProfilesData = {}): CancelablePromise<V1ReadProfilesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/profiles/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Profile
+     * Create new profile.
+     *
+     * Users can only create their own profile.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns UserProfilePublic Successful Response
+     * @throws ApiError
+     */
+    public static createProfile(data: V1CreateProfileData): CancelablePromise<V1CreateProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/profiles/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read My Profile
+     * Get current user's profile with associated sites.
+     * @returns UserProfileWithSites Successful Response
+     * @throws ApiError
+     */
+    public static readMyProfile(): CancelablePromise<V1ReadMyProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/profiles/me'
+        });
+    }
+    
+    /**
+     * Read Profile
+     * Get profile by ID.
+     *
+     * Users can only view their own profile unless they are superusers.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns UserProfilePublic Successful Response
+     * @throws ApiError
+     */
+    public static readProfile(data: V1ReadProfileData): CancelablePromise<V1ReadProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/profiles/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Profile
+     * Update a profile.
+     *
+     * Users can only update their own profile.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns UserProfilePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateProfile(data: V1UpdateProfileData): CancelablePromise<V1UpdateProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/profiles/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Profile
+     * Delete a profile.
+     *
+     * Users can only delete their own profile.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteProfile(data: V1DeleteProfileData): CancelablePromise<V1DeleteProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/profiles/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Assign Site To Profile
+     * Assign a site to a profile.
+     *
+     * Users can only assign sites to their own profile unless they are superusers.
+     * @param data The data for the request.
+     * @param data.profileId
+     * @param data.siteId
+     * @param data.roleInSite
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static assignSiteToProfile(data: V1AssignSiteToProfileData): CancelablePromise<V1AssignSiteToProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/profiles/{profile_id}/sites/{site_id}',
+            path: {
+                profile_id: data.profileId,
+                site_id: data.siteId
+            },
+            query: {
+                role_in_site: data.roleInSite
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Remove Site From Profile
+     * Remove a site from a profile.
+     *
+     * Users can only remove sites from their own profile unless they are superusers.
+     * @param data The data for the request.
+     * @param data.profileId
+     * @param data.siteId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static removeSiteFromProfile(data: V1RemoveSiteFromProfileData): CancelablePromise<V1RemoveSiteFromProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/profiles/{profile_id}/sites/{site_id}',
+            path: {
+                profile_id: data.profileId,
+                site_id: data.siteId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Assign Role To User
+     * Assign a role to a user.
+     *
+     * Users can only assign roles to themselves unless they are superusers.
+     * @param data The data for the request.
+     * @param data.userId
+     * @param data.roleId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static assignRoleToUser(data: V1AssignRoleToUserData): CancelablePromise<V1AssignRoleToUserResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/users/{user_id}/roles/{role_id}',
+            path: {
+                user_id: data.userId,
+                role_id: data.roleId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Remove Role From User
+     * Remove a role from a user.
+     *
+     * Users can only remove roles from themselves unless they are superusers.
+     * @param data The data for the request.
+     * @param data.userId
+     * @param data.roleId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static removeRoleFromUser(data: V1RemoveRoleFromUserData): CancelablePromise<V1RemoveRoleFromUserResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/users/{user_id}/roles/{role_id}',
+            path: {
+                user_id: data.userId,
+                role_id: data.roleId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get User Roles
+     * Get all roles for a specific user.
+     *
+     * Users can only view their own roles unless they are superusers.
+     * @param data The data for the request.
+     * @param data.userId
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static getUserRoles(data: V1GetUserRolesData): CancelablePromise<V1GetUserRolesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/users/{user_id}/roles',
+            path: {
+                user_id: data.userId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Check User Has Role
+     * Check if user has a specific role.
+     * @param data The data for the request.
+     * @param data.userId
+     * @param data.roleName
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static checkUserHasRole(data: V1CheckUserHasRoleData): CancelablePromise<V1CheckUserHasRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/users/{user_id}/roles/{role_name}/check',
+            path: {
+                user_id: data.userId,
+                role_name: data.roleName
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read List Cv
+     * Retrieve all CVs (superuser only).
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns UserCVsPublic Successful Response
+     * @throws ApiError
+     */
+    public static readListCv(data: V1ReadListCvData = {}): CancelablePromise<V1ReadListCvResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Cv
+     * Create new CV profile.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns UserCVPublic Successful Response
+     * @throws ApiError
+     */
+    public static createCv(data: V1CreateCvData): CancelablePromise<V1CreateCvResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read My Cv
+     * Get current user's full CV with all related data.
+     * @returns UserCVFull Successful Response
+     * @throws ApiError
+     */
+    public static readMyCv(): CancelablePromise<V1ReadMyCvResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/me'
+        });
+    }
+    
+    /**
+     * Read My Education
+     * Get all education entries for current user's CV.
+     * @returns CVEducationPublic Successful Response
+     * @throws ApiError
+     */
+    public static readMyEducation(): CancelablePromise<V1ReadMyEducationResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/educations'
+        });
+    }
+    
+    /**
+     * Create Education
+     * Add education entry to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVEducationPublic Successful Response
+     * @throws ApiError
+     */
+    public static createEducation(data: V1CreateEducationData): CancelablePromise<V1CreateEducationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/educations',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Education
+     * Update education entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVEducationPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateEducation(data: V1UpdateEducationData): CancelablePromise<V1UpdateEducationResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/educations/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Education
+     * Delete education entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteEducation(data: V1DeleteEducationData): CancelablePromise<V1DeleteEducationResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/educations/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read My Work Experience
+     * Get all work experience entries for current user's CV.
+     * @returns CVWorkExperiencePublic Successful Response
+     * @throws ApiError
+     */
+    public static readMyWorkExperience(): CancelablePromise<V1ReadMyWorkExperienceResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/work-experiences'
+        });
+    }
+    
+    /**
+     * Create Work Experience
+     * Add work experience entry to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVWorkExperiencePublic Successful Response
+     * @throws ApiError
+     */
+    public static createWorkExperience(data: V1CreateWorkExperienceData): CancelablePromise<V1CreateWorkExperienceResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/work-experiences',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Work Experience
+     * Update work experience entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVWorkExperiencePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateWorkExperience(data: V1UpdateWorkExperienceData): CancelablePromise<V1UpdateWorkExperienceResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/work-experiences/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Work Experience
+     * Delete work experience entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteWorkExperience(data: V1DeleteWorkExperienceData): CancelablePromise<V1DeleteWorkExperienceResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/work-experiences/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read My Skills
+     * Get all skills for current user's CV.
+     * @returns CVSkillPublic Successful Response
+     * @throws ApiError
+     */
+    public static readMySkills(): CancelablePromise<V1ReadMySkillsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/skills'
+        });
+    }
+    
+    /**
+     * Create Skill
+     * Add skill to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVSkillPublic Successful Response
+     * @throws ApiError
+     */
+    public static createSkill(data: V1CreateSkillData): CancelablePromise<V1CreateSkillResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/skills',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Skill
+     * Update skill entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVSkillPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateSkill(data: V1UpdateSkillData): CancelablePromise<V1UpdateSkillResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/skills/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Skill
+     * Delete skill entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteSkill(data: V1DeleteSkillData): CancelablePromise<V1DeleteSkillResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/skills/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read My Certifications
+     * Get all certifications for current user's CV.
+     * @returns CVCertificationPublic Successful Response
+     * @throws ApiError
+     */
+    public static readMyCertifications(): CancelablePromise<V1ReadMyCertificationsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/certifications'
+        });
+    }
+    
+    /**
+     * Create Certification
+     * Add certification to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVCertificationPublic Successful Response
+     * @throws ApiError
+     */
+    public static createCertification(data: V1CreateCertificationData): CancelablePromise<V1CreateCertificationResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/certifications',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Certification
+     * Update certification entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVCertificationPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateCertification(data: V1UpdateCertificationData): CancelablePromise<V1UpdateCertificationResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/certifications/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Certification
+     * Delete certification entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteCertification(data: V1DeleteCertificationData): CancelablePromise<V1DeleteCertificationResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/certifications/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read My Languages
+     * Get all languages for current user's CV.
+     * @returns CVLanguagePublic Successful Response
+     * @throws ApiError
+     */
+    public static readMyLanguages(): CancelablePromise<V1ReadMyLanguagesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/languages'
+        });
+    }
+    
+    /**
+     * Create Language
+     * Add language to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVLanguagePublic Successful Response
+     * @throws ApiError
+     */
+    public static createLanguage(data: V1CreateLanguageData): CancelablePromise<V1CreateLanguageResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/languages',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Language
+     * Update language entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVLanguagePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateLanguage(data: V1UpdateLanguageData): CancelablePromise<V1UpdateLanguageResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/languages/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Language
+     * Delete language entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteLanguage(data: V1DeleteLanguageData): CancelablePromise<V1DeleteLanguageResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/languages/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read My Projects
+     * Get all projects for current user's CV.
+     * @returns CVProjectPublic Successful Response
+     * @throws ApiError
+     */
+    public static readMyProjects(): CancelablePromise<V1ReadMyProjectsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/projects'
+        });
+    }
+    
+    /**
+     * Create Project
+     * Add project to CV.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns CVProjectPublic Successful Response
+     * @throws ApiError
+     */
+    public static createProject(data: V1CreateProjectData): CancelablePromise<V1CreateProjectResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/projects',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Project
+     * Update project entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVProjectPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateProject(data: V1UpdateProjectData): CancelablePromise<V1UpdateProjectResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/projects/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Project
+     * Delete project entry.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteProject(data: V1DeleteProjectData): CancelablePromise<V1DeleteProjectResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/projects/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Requested Cv Files
+     * Get all CV files with status 'requested' (admin/reviewer only).
+     * Returns list of CV files with their associated CV information.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns CVFilesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readRequestedCvFiles(data: V1ReadRequestedCvFilesData = {}): CancelablePromise<V1ReadRequestedCvFilesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/requested',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Upload Cv File
+     * Upload CV file for current user.
+     * @param data The data for the request.
+     * @param data.formData
+     * @returns CVFilePublic Successful Response
+     * @throws ApiError
+     */
+    public static uploadCvFile(data: V1UploadCvFileData): CancelablePromise<V1UploadCvFileResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/cv/files/upload',
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read My Cv Files
+     * Get all CV files for current user.
+     * @returns CVFilePublic Successful Response
+     * @throws ApiError
+     */
+    public static readMyCvFiles(): CancelablePromise<V1ReadMyCvFilesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/files'
+        });
+    }
+    
+    /**
+     * Update Cv File
+     * Update CV file (status, review notes, etc).
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns CVFilePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateCvFile(data: V1UpdateCvFileData): CancelablePromise<V1UpdateCvFileResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/files/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Cv File
+     * Delete CV file.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteCvFile(data: V1DeleteCvFileData): CancelablePromise<V1DeleteCvFileResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/files/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Cv
+     * Get CV by ID.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns UserCVPublic Successful Response
+     * @throws ApiError
+     */
+    public static readCv(data: V1ReadCvData): CancelablePromise<V1ReadCvResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/cv/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Cv
+     * Update CV profile.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns UserCVPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateCv(data: V1UpdateCvData): CancelablePromise<V1UpdateCvResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/cv/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Cv
+     * Delete CV profile.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteCv(data: V1DeleteCvData): CancelablePromise<V1DeleteCvResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/cv/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create User
+     * Create a new user.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns UserPublic Successful Response
+     * @throws ApiError
+     */
+    public static createUser1(data: V1CreateUser1Data): CancelablePromise<V1CreateUser1Response> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/private/users',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
         });
     }
 }
