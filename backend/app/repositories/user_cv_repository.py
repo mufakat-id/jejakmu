@@ -57,6 +57,21 @@ class CVFileRepository(BaseRepository[CVFile]):
         )
         return list(self.session.exec(statement).all())
 
+    def get_by_status(self, status: str, skip: int = 0, limit: int = 100) -> list[CVFile]:
+        """Get all CV files by status with pagination"""
+        statement = (
+            select(CVFile)
+            .where(CVFile.status == status)
+            .offset(skip)
+            .limit(limit)
+        )
+        return list(self.session.exec(statement).all())
+
+    def count_by_status(self, status: str) -> int:
+        """Count CV files by status"""
+        statement = select(CVFile).where(CVFile.status == status)
+        return len(self.session.exec(statement).all())
+
 
 class CVEducationRepository(BaseRepository[CVEducation]):
     """Repository for CVEducation database operations"""
