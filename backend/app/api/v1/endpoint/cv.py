@@ -40,7 +40,7 @@ from app.services.user_cv_service import UserCVService
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/cv", tags=["cv"])
+router = APIRouter(prefix="/cv")
 
 
 # =============================================================================
@@ -48,8 +48,8 @@ router = APIRouter(prefix="/cv", tags=["cv"])
 # =============================================================================
 
 
-@router.get("/", response_model=UserCVsPublic)
-def read_cvs(
+@router.get("", response_model=UserCVsPublic, tags=["user-cv"])
+def read_list_cv(
     session: SessionDep,
     current_user: CurrentUser,
     skip: int = 0,
@@ -64,7 +64,7 @@ def read_cvs(
     return UserCVsPublic(data=cvs, count=count)
 
 
-@router.get("/me", response_model=UserCVFull)
+@router.get("/me", response_model=UserCVFull, tags=["user-cv"])
 def read_my_cv(session: SessionDep, current_user: CurrentUser) -> Any:
     """Get current user's full CV with all related data."""
     service = UserCVService(session)
@@ -75,21 +75,7 @@ def read_my_cv(session: SessionDep, current_user: CurrentUser) -> Any:
     return cv
 
 
-@router.get("/{id}", response_model=UserCVPublic)
-def read_cv(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:
-    """Get CV by ID."""
-    service = UserCVService(session)
-    cv = service.get_cv(id)
-    if not cv:
-        raise HTTPException(status_code=404, detail="CV not found")
-
-    if cv.user_id != current_user.id and not current_user.is_superuser:
-        raise HTTPException(status_code=403, detail="Not enough permissions")
-
-    return cv
-
-
-@router.post("/", response_model=UserCVPublic)
+@router.post("", response_model=UserCVPublic, tags=["user-cv"])
 def create_cv(
     *, session: SessionDep, current_user: CurrentUser, cv_in: UserCVCreate
 ) -> Any:
@@ -105,58 +91,12 @@ def create_cv(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.patch("/{id}", response_model=UserCVPublic)
-def update_cv(
-    *,
-    session: SessionDep,
-    current_user: CurrentUser,
-    id: uuid.UUID,
-    cv_in: UserCVUpdate,
-) -> Any:
-    """Update CV profile."""
-    service = UserCVService(session)
-    cv = service.get_cv(id)
-    if not cv:
-        raise HTTPException(status_code=404, detail="CV not found")
-
-    if cv.user_id != current_user.id and not current_user.is_superuser:
-        raise HTTPException(status_code=403, detail="Not enough permissions")
-
-    updated_cv = service.update_cv(id, cv_in)
-    if not updated_cv:
-        raise HTTPException(status_code=404, detail="CV not found")
-
-    return updated_cv
-
-
-@router.delete("/{id}", response_model=Message)
-def delete_cv(
-    session: SessionDep,
-    current_user: CurrentUser,
-    id: uuid.UUID,
-) -> Any:
-    """Delete CV profile."""
-    service = UserCVService(session)
-    cv = service.get_cv(id)
-    if not cv:
-        raise HTTPException(status_code=404, detail="CV not found")
-
-    if cv.user_id != current_user.id and not current_user.is_superuser:
-        raise HTTPException(status_code=403, detail="Not enough permissions")
-
-    success = service.delete_cv(id)
-    if not success:
-        raise HTTPException(status_code=404, detail="CV not found")
-
-    return Message(message="CV deleted successfully")
-
-
 # =============================================================================
 # Education Endpoints
 # =============================================================================
 
 
-@router.post("/education", response_model=CVEducationPublic, tags=["cv-education"])
+@router.post("/educations", response_model=CVEducationPublic, tags=["cv-education"])
 def create_education(
     *, session: SessionDep, current_user: CurrentUser, education_in: CVEducationCreate
 ) -> Any:
@@ -173,7 +113,9 @@ def create_education(
     return education
 
 
-@router.get("/education", response_model=list[CVEducationPublic], tags=["cv-education"])
+@router.get(
+    "/educations", response_model=list[CVEducationPublic], tags=["cv-education"]
+)
 def read_my_education(session: SessionDep, current_user: CurrentUser) -> Any:
     """Get all education entries for current user's CV."""
     service = UserCVService(session)
@@ -185,7 +127,7 @@ def read_my_education(session: SessionDep, current_user: CurrentUser) -> Any:
 
 
 @router.patch(
-    "/education/{id}", response_model=CVEducationPublic, tags=["cv-education"]
+    "/educations/{id}", response_model=CVEducationPublic, tags=["cv-education"]
 )
 def update_education(
     *,
@@ -208,7 +150,7 @@ def update_education(
     return updated
 
 
-@router.delete("/education/{id}", response_model=Message, tags=["cv-education"])
+@router.delete("/educations/{id}", response_model=Message, tags=["cv-education"])
 def delete_education(
     session: SessionDep,
     current_user: CurrentUser,
@@ -234,7 +176,7 @@ def delete_education(
 
 
 @router.post(
-    "/work-experience",
+    "/work-experiences",
     response_model=CVWorkExperiencePublic,
     tags=["cv-work-experience"],
 )
@@ -255,7 +197,7 @@ def create_work_experience(
 
 
 @router.get(
-    "/work-experience",
+    "/work-experiences",
     response_model=list[CVWorkExperiencePublic],
     tags=["cv-work-experience"],
 )
@@ -270,7 +212,7 @@ def read_my_work_experience(session: SessionDep, current_user: CurrentUser) -> A
 
 
 @router.patch(
-    "/work-experience/{id}",
+    "/work-experiences/{id}",
     response_model=CVWorkExperiencePublic,
     tags=["cv-work-experience"],
 )
@@ -296,7 +238,7 @@ def update_work_experience(
 
 
 @router.delete(
-    "/work-experience/{id}", response_model=Message, tags=["cv-work-experience"]
+    "/work-experiences/{id}", response_model=Message, tags=["cv-work-experience"]
 )
 def delete_work_experience(
     session: SessionDep,
@@ -634,7 +576,7 @@ def delete_project(
 # =============================================================================
 
 
-@router.get("/files/requested", response_model=CVFilesPublic, tags=["cv-files"])
+@router.get("/requested", response_model=CVFilesPublic, tags=["cv-files"])
 def read_requested_cv_files(
     session: SessionDep,
     current_user: CurrentUser,
@@ -787,3 +729,68 @@ def delete_cv_file(
 
     service.delete_cv_file(id)
     return Message(message="CV file deleted successfully")
+
+
+# =============================================================================
+# Generic CV Profile Routes (moved to end to avoid conflicts)
+# =============================================================================
+
+
+@router.get("/{id}", response_model=UserCVPublic)
+def read_cv(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:
+    """Get CV by ID."""
+    service = UserCVService(session)
+    cv = service.get_cv(id)
+    if not cv:
+        raise HTTPException(status_code=404, detail="CV not found")
+
+    if cv.user_id != current_user.id and not current_user.is_superuser:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+
+    return cv
+
+
+@router.patch("/{id}", response_model=UserCVPublic)
+def update_cv(
+    *,
+    session: SessionDep,
+    current_user: CurrentUser,
+    id: uuid.UUID,
+    cv_in: UserCVUpdate,
+) -> Any:
+    """Update CV profile."""
+    service = UserCVService(session)
+    cv = service.get_cv(id)
+    if not cv:
+        raise HTTPException(status_code=404, detail="CV not found")
+
+    if cv.user_id != current_user.id and not current_user.is_superuser:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+
+    updated_cv = service.update_cv(id, cv_in)
+    if not updated_cv:
+        raise HTTPException(status_code=404, detail="CV not found")
+
+    return updated_cv
+
+
+@router.delete("/{id}", response_model=Message)
+def delete_cv(
+    session: SessionDep,
+    current_user: CurrentUser,
+    id: uuid.UUID,
+) -> Any:
+    """Delete CV profile."""
+    service = UserCVService(session)
+    cv = service.get_cv(id)
+    if not cv:
+        raise HTTPException(status_code=404, detail="CV not found")
+
+    if cv.user_id != current_user.id and not current_user.is_superuser:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+
+    success = service.delete_cv(id)
+    if not success:
+        raise HTTPException(status_code=404, detail="CV not found")
+
+    return Message(message="CV deleted successfully")

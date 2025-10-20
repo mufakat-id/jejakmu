@@ -35,7 +35,7 @@ export const BaseResponse_list_str__Schema = {
     title: 'BaseResponse[list[str]]'
 } as const;
 
-export const Body_login_login_access_tokenSchema = {
+export const Body_v1_login_access_tokenSchema = {
     properties: {
         grant_type: {
             anyOf: [
@@ -87,10 +87,24 @@ export const Body_login_login_access_tokenSchema = {
     },
     type: 'object',
     required: ['username', 'password'],
-    title: 'Body_login-login_access_token'
+    title: 'Body_v1-login_access_token'
 } as const;
 
-export const Body_upload_upload_filesSchema = {
+export const Body_v1_upload_cv_fileSchema = {
+    properties: {
+        file: {
+            type: 'string',
+            format: 'binary',
+            title: 'File',
+            description: 'CV file (PDF, DOC, DOCX)'
+        }
+    },
+    type: 'object',
+    required: ['file'],
+    title: 'Body_v1-upload_cv_file'
+} as const;
+
+export const Body_v1_upload_filesSchema = {
     properties: {
         files: {
             items: {
@@ -104,7 +118,1856 @@ export const Body_upload_upload_filesSchema = {
     },
     type: 'object',
     required: ['files'],
-    title: 'Body_upload-upload_files'
+    title: 'Body_v1-upload_files'
+} as const;
+
+export const Body_v1_upload_files_to_b2Schema = {
+    properties: {
+        files: {
+            items: {
+                type: 'string',
+                format: 'binary'
+            },
+            type: 'array',
+            title: 'Files',
+            description: 'Multiple files to upload'
+        }
+    },
+    type: 'object',
+    required: ['files'],
+    title: 'Body_v1-upload_files_to_b2'
+} as const;
+
+export const CVCertificationCreateSchema = {
+    properties: {
+        name: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Name'
+        },
+        issuer: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Issuer'
+        },
+        issue_date: {
+            type: 'string',
+            maxLength: 7,
+            title: 'Issue Date'
+        },
+        expiration_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Expiration Date'
+        },
+        credential_id: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Credential Id'
+        },
+        credential_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Credential Url'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['name', 'issuer', 'issue_date', 'user_cv_id'],
+    title: 'CVCertificationCreate'
+} as const;
+
+export const CVCertificationPublicSchema = {
+    properties: {
+        name: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Name'
+        },
+        issuer: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Issuer'
+        },
+        issue_date: {
+            type: 'string',
+            maxLength: 7,
+            title: 'Issue Date'
+        },
+        expiration_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Expiration Date'
+        },
+        credential_id: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Credential Id'
+        },
+        credential_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Credential Url'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['name', 'issuer', 'issue_date', 'id', 'user_cv_id'],
+    title: 'CVCertificationPublic'
+} as const;
+
+export const CVCertificationUpdateSchema = {
+    properties: {
+        name: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Name'
+        },
+        issuer: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Issuer'
+        },
+        issue_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Issue Date'
+        },
+        expiration_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Expiration Date'
+        },
+        credential_id: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Credential Id'
+        },
+        credential_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Credential Url'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        display_order: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Display Order'
+        }
+    },
+    type: 'object',
+    title: 'CVCertificationUpdate'
+} as const;
+
+export const CVEducationCreateSchema = {
+    properties: {
+        institution: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Institution'
+        },
+        degree: {
+            type: 'string',
+            maxLength: 100,
+            title: 'Degree'
+        },
+        field_of_study: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Field Of Study'
+        },
+        start_date: {
+            type: 'string',
+            maxLength: 7,
+            title: 'Start Date'
+        },
+        end_date: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 7
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'End Date'
+        },
+        gpa: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Gpa'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        city: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'City'
+        },
+        country: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Country'
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['institution', 'degree', 'field_of_study', 'start_date', 'user_cv_id'],
+    title: 'CVEducationCreate'
+} as const;
+
+export const CVEducationPublicSchema = {
+    properties: {
+        institution: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Institution'
+        },
+        degree: {
+            type: 'string',
+            maxLength: 100,
+            title: 'Degree'
+        },
+        field_of_study: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Field Of Study'
+        },
+        start_date: {
+            type: 'string',
+            maxLength: 7,
+            title: 'Start Date'
+        },
+        end_date: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 7
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'End Date'
+        },
+        gpa: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Gpa'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        city: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'City'
+        },
+        country: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Country'
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['institution', 'degree', 'field_of_study', 'start_date', 'id', 'user_cv_id'],
+    title: 'CVEducationPublic'
+} as const;
+
+export const CVEducationUpdateSchema = {
+    properties: {
+        institution: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Institution'
+        },
+        degree: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Degree'
+        },
+        field_of_study: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Field Of Study'
+        },
+        start_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Start Date'
+        },
+        end_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'End Date'
+        },
+        gpa: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Gpa'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        city: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'City'
+        },
+        country: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Country'
+        },
+        display_order: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Display Order'
+        }
+    },
+    type: 'object',
+    title: 'CVEducationUpdate'
+} as const;
+
+export const CVFilePublicSchema = {
+    properties: {
+        file_url: {
+            type: 'string',
+            maxLength: 500,
+            title: 'File Url'
+        },
+        file_name: {
+            type: 'string',
+            maxLength: 255,
+            title: 'File Name'
+        },
+        file_type: {
+            type: 'string',
+            maxLength: 50,
+            title: 'File Type'
+        },
+        file_size: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'File Size'
+        },
+        status: {
+            type: 'string',
+            maxLength: 50,
+            title: 'Status',
+            default: 'submitted'
+        },
+        review_notes: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 1000
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Review Notes'
+        },
+        is_primary: {
+            type: 'boolean',
+            title: 'Is Primary',
+            default: false
+        },
+        version: {
+            type: 'integer',
+            title: 'Version',
+            default: 1
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        },
+        reviewed_by_id: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'uuid'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Reviewed By Id'
+        },
+        reviewed_at: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'date-time'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Reviewed At'
+        }
+    },
+    type: 'object',
+    required: ['file_url', 'file_name', 'file_type', 'id', 'user_cv_id'],
+    title: 'CVFilePublic'
+} as const;
+
+export const CVFileUpdateSchema = {
+    properties: {
+        status: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Status'
+        },
+        review_notes: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Review Notes'
+        },
+        is_primary: {
+            anyOf: [
+                {
+                    type: 'boolean'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Is Primary'
+        },
+        reviewed_by_id: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'uuid'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Reviewed By Id'
+        }
+    },
+    type: 'object',
+    title: 'CVFileUpdate'
+} as const;
+
+export const CVFileWithCVPublicSchema = {
+    properties: {
+        file_url: {
+            type: 'string',
+            maxLength: 500,
+            title: 'File Url'
+        },
+        file_name: {
+            type: 'string',
+            maxLength: 255,
+            title: 'File Name'
+        },
+        file_type: {
+            type: 'string',
+            maxLength: 50,
+            title: 'File Type'
+        },
+        file_size: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'File Size'
+        },
+        status: {
+            type: 'string',
+            maxLength: 50,
+            title: 'Status',
+            default: 'submitted'
+        },
+        review_notes: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 1000
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Review Notes'
+        },
+        is_primary: {
+            type: 'boolean',
+            title: 'Is Primary',
+            default: false
+        },
+        version: {
+            type: 'integer',
+            title: 'Version',
+            default: 1
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        },
+        reviewed_by_id: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'uuid'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Reviewed By Id'
+        },
+        reviewed_at: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'date-time'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Reviewed At'
+        },
+        user_cv: {
+            anyOf: [
+                {
+                    '$ref': '#/components/schemas/UserCVPublic'
+                },
+                {
+                    type: 'null'
+                }
+            ]
+        }
+    },
+    type: 'object',
+    required: ['file_url', 'file_name', 'file_type', 'id', 'user_cv_id'],
+    title: 'CVFileWithCVPublic'
+} as const;
+
+export const CVFilesPublicSchema = {
+    properties: {
+        data: {
+            items: {
+                '$ref': '#/components/schemas/CVFileWithCVPublic'
+            },
+            type: 'array',
+            title: 'Data'
+        },
+        count: {
+            type: 'integer',
+            title: 'Count'
+        }
+    },
+    type: 'object',
+    required: ['data', 'count'],
+    title: 'CVFilesPublic'
+} as const;
+
+export const CVLanguageCreateSchema = {
+    properties: {
+        language: {
+            type: 'string',
+            maxLength: 100,
+            title: 'Language'
+        },
+        proficiency: {
+            type: 'string',
+            maxLength: 50,
+            title: 'Proficiency'
+        },
+        certification_name: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Certification Name'
+        },
+        certification_score: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Certification Score'
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['language', 'proficiency', 'user_cv_id'],
+    title: 'CVLanguageCreate'
+} as const;
+
+export const CVLanguagePublicSchema = {
+    properties: {
+        language: {
+            type: 'string',
+            maxLength: 100,
+            title: 'Language'
+        },
+        proficiency: {
+            type: 'string',
+            maxLength: 50,
+            title: 'Proficiency'
+        },
+        certification_name: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Certification Name'
+        },
+        certification_score: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Certification Score'
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['language', 'proficiency', 'id', 'user_cv_id'],
+    title: 'CVLanguagePublic'
+} as const;
+
+export const CVLanguageUpdateSchema = {
+    properties: {
+        language: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Language'
+        },
+        proficiency: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Proficiency'
+        },
+        certification_name: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Certification Name'
+        },
+        certification_score: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Certification Score'
+        },
+        display_order: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Display Order'
+        }
+    },
+    type: 'object',
+    title: 'CVLanguageUpdate'
+} as const;
+
+export const CVProjectCreateSchema = {
+    properties: {
+        name: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Name'
+        },
+        description: {
+            type: 'string',
+            maxLength: 2000,
+            title: 'Description'
+        },
+        start_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Start Date'
+        },
+        end_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'End Date'
+        },
+        project_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Project Url'
+        },
+        repository_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Repository Url'
+        },
+        technologies: {
+            anyOf: [
+                {
+                    items: {
+                        type: 'string'
+                    },
+                    type: 'array'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Technologies'
+        },
+        role: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Role'
+        },
+        company: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Company'
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['name', 'description', 'user_cv_id'],
+    title: 'CVProjectCreate'
+} as const;
+
+export const CVProjectPublicSchema = {
+    properties: {
+        name: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Name'
+        },
+        description: {
+            type: 'string',
+            maxLength: 2000,
+            title: 'Description'
+        },
+        start_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Start Date'
+        },
+        end_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'End Date'
+        },
+        project_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Project Url'
+        },
+        repository_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Repository Url'
+        },
+        technologies: {
+            anyOf: [
+                {
+                    items: {
+                        type: 'string'
+                    },
+                    type: 'array'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Technologies'
+        },
+        role: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Role'
+        },
+        company: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Company'
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['name', 'description', 'id', 'user_cv_id'],
+    title: 'CVProjectPublic'
+} as const;
+
+export const CVProjectUpdateSchema = {
+    properties: {
+        name: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Name'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        start_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Start Date'
+        },
+        end_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'End Date'
+        },
+        project_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Project Url'
+        },
+        repository_url: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Repository Url'
+        },
+        technologies: {
+            anyOf: [
+                {
+                    items: {
+                        type: 'string'
+                    },
+                    type: 'array'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Technologies'
+        },
+        role: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Role'
+        },
+        company: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Company'
+        },
+        display_order: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Display Order'
+        }
+    },
+    type: 'object',
+    title: 'CVProjectUpdate'
+} as const;
+
+export const CVSkillCreateSchema = {
+    properties: {
+        name: {
+            type: 'string',
+            maxLength: 100,
+            title: 'Name'
+        },
+        level: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Level'
+        },
+        category: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Category'
+        },
+        years_of_experience: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Years Of Experience'
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['name', 'user_cv_id'],
+    title: 'CVSkillCreate'
+} as const;
+
+export const CVSkillPublicSchema = {
+    properties: {
+        name: {
+            type: 'string',
+            maxLength: 100,
+            title: 'Name'
+        },
+        level: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Level'
+        },
+        category: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Category'
+        },
+        years_of_experience: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Years Of Experience'
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['name', 'id', 'user_cv_id'],
+    title: 'CVSkillPublic'
+} as const;
+
+export const CVSkillUpdateSchema = {
+    properties: {
+        name: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Name'
+        },
+        level: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Level'
+        },
+        category: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Category'
+        },
+        years_of_experience: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Years Of Experience'
+        },
+        display_order: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Display Order'
+        }
+    },
+    type: 'object',
+    title: 'CVSkillUpdate'
+} as const;
+
+export const CVWorkExperienceCreateSchema = {
+    properties: {
+        company: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Company'
+        },
+        position: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Position'
+        },
+        start_date: {
+            type: 'string',
+            maxLength: 7,
+            title: 'Start Date'
+        },
+        end_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'End Date'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        employment_type: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Employment Type'
+        },
+        city: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'City'
+        },
+        country: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Country'
+        },
+        is_remote: {
+            type: 'boolean',
+            title: 'Is Remote',
+            default: false
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['company', 'position', 'start_date', 'user_cv_id'],
+    title: 'CVWorkExperienceCreate'
+} as const;
+
+export const CVWorkExperiencePublicSchema = {
+    properties: {
+        company: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Company'
+        },
+        position: {
+            type: 'string',
+            maxLength: 255,
+            title: 'Position'
+        },
+        start_date: {
+            type: 'string',
+            maxLength: 7,
+            title: 'Start Date'
+        },
+        end_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'End Date'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        employment_type: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Employment Type'
+        },
+        city: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'City'
+        },
+        country: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Country'
+        },
+        is_remote: {
+            type: 'boolean',
+            title: 'Is Remote',
+            default: false
+        },
+        display_order: {
+            type: 'integer',
+            title: 'Display Order',
+            default: 0
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        user_cv_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Cv Id'
+        }
+    },
+    type: 'object',
+    required: ['company', 'position', 'start_date', 'id', 'user_cv_id'],
+    title: 'CVWorkExperiencePublic'
+} as const;
+
+export const CVWorkExperienceUpdateSchema = {
+    properties: {
+        company: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Company'
+        },
+        position: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Position'
+        },
+        start_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Start Date'
+        },
+        end_date: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'End Date'
+        },
+        description: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Description'
+        },
+        employment_type: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Employment Type'
+        },
+        city: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'City'
+        },
+        country: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Country'
+        },
+        is_remote: {
+            anyOf: [
+                {
+                    type: 'boolean'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Is Remote'
+        },
+        display_order: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Display Order'
+        }
+    },
+    type: 'object',
+    title: 'CVWorkExperienceUpdate'
 } as const;
 
 export const GoogleAuthRequestSchema = {
@@ -152,119 +2015,6 @@ export const HTTPValidationErrorSchema = {
     },
     type: 'object',
     title: 'HTTPValidationError'
-} as const;
-
-export const ItemCreateSchema = {
-    properties: {
-        title: {
-            type: 'string',
-            maxLength: 255,
-            minLength: 1,
-            title: 'Title'
-        },
-        description: {
-            anyOf: [
-                {
-                    type: 'string',
-                    maxLength: 255
-                },
-                {
-                    type: 'null'
-                }
-            ],
-            title: 'Description'
-        }
-    },
-    type: 'object',
-    required: ['title'],
-    title: 'ItemCreate'
-} as const;
-
-export const ItemPublicSchema = {
-    properties: {
-        title: {
-            type: 'string',
-            maxLength: 255,
-            minLength: 1,
-            title: 'Title'
-        },
-        description: {
-            anyOf: [
-                {
-                    type: 'string',
-                    maxLength: 255
-                },
-                {
-                    type: 'null'
-                }
-            ],
-            title: 'Description'
-        },
-        id: {
-            type: 'string',
-            format: 'uuid',
-            title: 'Id'
-        },
-        owner_id: {
-            type: 'string',
-            format: 'uuid',
-            title: 'Owner Id'
-        }
-    },
-    type: 'object',
-    required: ['title', 'id', 'owner_id'],
-    title: 'ItemPublic'
-} as const;
-
-export const ItemUpdateSchema = {
-    properties: {
-        title: {
-            anyOf: [
-                {
-                    type: 'string',
-                    maxLength: 255,
-                    minLength: 1
-                },
-                {
-                    type: 'null'
-                }
-            ],
-            title: 'Title'
-        },
-        description: {
-            anyOf: [
-                {
-                    type: 'string',
-                    maxLength: 255
-                },
-                {
-                    type: 'null'
-                }
-            ],
-            title: 'Description'
-        }
-    },
-    type: 'object',
-    title: 'ItemUpdate'
-} as const;
-
-export const ItemsPublicSchema = {
-    properties: {
-        data: {
-            items: {
-                '$ref': '#/components/schemas/ItemPublic'
-            },
-            type: 'array',
-            title: 'Data'
-        },
-        count: {
-            type: 'integer',
-            title: 'Count'
-        }
-    },
-    type: 'object',
-    required: ['data', 'count'],
-    title: 'ItemsPublic'
 } as const;
 
 export const MessageSchema = {
@@ -691,6 +2441,329 @@ export const UpdatePasswordSchema = {
     type: 'object',
     required: ['current_password', 'new_password'],
     title: 'UpdatePassword'
+} as const;
+
+export const UserCVCreateSchema = {
+    properties: {
+        professional_summary: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 2000
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Professional Summary'
+        },
+        linkedin_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Linkedin Url'
+        },
+        github_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Github Url'
+        },
+        portfolio_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Portfolio Url'
+        },
+        user_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Id'
+        }
+    },
+    type: 'object',
+    required: ['user_id'],
+    title: 'UserCVCreate'
+} as const;
+
+export const UserCVFullSchema = {
+    properties: {
+        professional_summary: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 2000
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Professional Summary'
+        },
+        linkedin_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Linkedin Url'
+        },
+        github_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Github Url'
+        },
+        portfolio_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Portfolio Url'
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        user_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Id'
+        },
+        cv_files: {
+            items: {
+                '$ref': '#/components/schemas/CVFilePublic'
+            },
+            type: 'array',
+            title: 'Cv Files',
+            default: []
+        },
+        education: {
+            items: {
+                '$ref': '#/components/schemas/CVEducationPublic'
+            },
+            type: 'array',
+            title: 'Education',
+            default: []
+        },
+        work_experience: {
+            items: {
+                '$ref': '#/components/schemas/CVWorkExperiencePublic'
+            },
+            type: 'array',
+            title: 'Work Experience',
+            default: []
+        },
+        skills: {
+            items: {
+                '$ref': '#/components/schemas/CVSkillPublic'
+            },
+            type: 'array',
+            title: 'Skills',
+            default: []
+        },
+        certifications: {
+            items: {
+                '$ref': '#/components/schemas/CVCertificationPublic'
+            },
+            type: 'array',
+            title: 'Certifications',
+            default: []
+        },
+        languages: {
+            items: {
+                '$ref': '#/components/schemas/CVLanguagePublic'
+            },
+            type: 'array',
+            title: 'Languages',
+            default: []
+        },
+        projects: {
+            items: {
+                '$ref': '#/components/schemas/CVProjectPublic'
+            },
+            type: 'array',
+            title: 'Projects',
+            default: []
+        }
+    },
+    type: 'object',
+    required: ['id', 'user_id'],
+    title: 'UserCVFull'
+} as const;
+
+export const UserCVPublicSchema = {
+    properties: {
+        professional_summary: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 2000
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Professional Summary'
+        },
+        linkedin_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Linkedin Url'
+        },
+        github_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Github Url'
+        },
+        portfolio_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Portfolio Url'
+        },
+        id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Id'
+        },
+        user_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'User Id'
+        }
+    },
+    type: 'object',
+    required: ['id', 'user_id'],
+    title: 'UserCVPublic'
+} as const;
+
+export const UserCVUpdateSchema = {
+    properties: {
+        professional_summary: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 2000
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Professional Summary'
+        },
+        linkedin_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Linkedin Url'
+        },
+        github_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Github Url'
+        },
+        portfolio_url: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 500
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Portfolio Url'
+        }
+    },
+    type: 'object',
+    title: 'UserCVUpdate'
+} as const;
+
+export const UserCVsPublicSchema = {
+    properties: {
+        data: {
+            items: {
+                '$ref': '#/components/schemas/UserCVPublic'
+            },
+            type: 'array',
+            title: 'Data'
+        },
+        count: {
+            type: 'integer',
+            title: 'Count'
+        }
+    },
+    type: 'object',
+    required: ['data', 'count'],
+    title: 'UserCVsPublic'
 } as const;
 
 export const UserCreateSchema = {
