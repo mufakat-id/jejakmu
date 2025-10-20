@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jejakmu</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* light gray background */
+        }
+        /* Custom scrollbar for chat */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Hide sections by default */
+        .view-section {
+            display: none;
+        }
+        .view-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Login Page -->
+    <div id="login-page" class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
+            <div class="text-center">
+                <i class="fas fa-user-circle text-5xl text-blue-600"></i>
+                <h2 class="mt-4 text-3xl font-bold text-gray-900">Selamat Datang</h2>
+                <p class="mt-2 text-sm text-gray-600">Masuk untuk mengelola portofolio Anda</p>
+            </div>
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="email" class="text-sm font-medium text-gray-700">Email</label>
+                    <input id="email" name="email" type="email" autocomplete="email" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value="user@example.com">
+                </div>
+                <div>
+                    <label for="password" class="text-sm font-medium text-gray-700">Password</label>
+                    <input id="password" name="password" type="password" autocomplete="current-password" required class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" value="password123">
+                </div>
+                <button type="submit" class="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300">
+                    Masuk
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application Page -->
+    <div id="app-page" class="hidden">
+        <div class="flex h-screen bg-gray-100">
+            <!-- Sidebar Navigation -->
+            <aside class="w-64 bg-white shadow-md">
+                <div class="p-6">
+                    <h1 class="text-2xl font-bold text-blue-600">Jejakmu</h1>
+                </div>
+                <nav class="mt-6">
+                    <a href="#" id="nav-profile" class="nav-link active flex items-center px-6 py-3 text-gray-700 bg-gray-200">
+                        <i class="fas fa-user w-6"></i>
+                        <span class="mx-3">Profil Saya</span>
+                    </a>
+                    <a href="#" id="nav-review" class="nav-link flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200">
+                        <i class="fas fa-file-signature w-6"></i>
+                        <span class="mx-3">Review CV</span>
+                    </a>
+                    <a href="#" id="nav-jobs" class="nav-link flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200">
+                        <i class="fas fa-search-dollar w-6"></i>
+                        <span class="mx-3">Lowongan Pekerjaan</span>
+                    </a>
+                    <a href="#" id="nav-upgrade" class="nav-link flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200">
+                        <i class="fas fa-chart-line w-6"></i>
+                        <span class="mx-3">Upgrade Skill</span>
+                    </a>
+                    <a href="#" id="nav-career" class="nav-link flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200">
+                        <i class="fas fa-random w-6"></i>
+                        <span class="mx-3">Career Switch</span>
+                    </a>
+                </nav>
+                <div class="absolute bottom-0 w-64 p-6">
+                    <button id="logout-button" class="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700">
+                        <i class="fas fa-sign-out-alt mr-2"></i>
+                        Keluar
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 md:p-8">
+                <!-- Profile Section -->
+                <div id="profile-view" class="view-section active">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Left Column: Biodata -->
+                        <div class="lg:col-span-1">
+                            <div class="bg-white p-6 rounded-lg shadow-lg sticky top-8">
+                                <div class="flex flex-col items-center">
+                                    <img class="w-32 h-32 rounded-full object-cover" src="https://placehold.co/128x128/E0E7FF/4F46E5?text=Foto" alt="Foto Profil">
+                                    <h3 id="bio-name" class="mt-4 text-2xl font-bold">Nama Pengguna</h3>
+                                    <p id="bio-role" class="text-gray-500">Jabatan / Profesi</p>
+                                </div>
+                                <div id="bio-details" class="mt-6 space-y-3 text-sm">
+                                    <!-- Biodata details rendered by JS -->
+                                </div>
+                                <button id="edit-bio-btn" class="mt-6 w-full bg-blue-100 text-blue-700 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200 transition">
+                                    <i class="fas fa-pencil-alt mr-2"></i>Edit Biodata
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Details -->
+                        <div class="lg:col-span-2 space-y-8">
+                            <!-- Sections rendered by JS -->
+                            <div id="education-section"></div>
+                            <div id="experience-section"></div>
+                            <div id="skills-section"></div>
+                            <div id="certifications-section"></div>
+                            <div id="languages-section"></div>
+                            <div id="projects-section"></div>
+                            <div id="cv-section"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CV Review Section -->
+                <div id="review-view" class="view-section">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <div class="flex justify-between items-center mb-6 border-b pb-4">
+                            <h2 class="text-2xl font-bold">Review CV</h2>
+                            <button id="request-review-btn" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+                                <i class="fas fa-plus mr-2"></i>Minta Review Baru
+                            </button>
+                        </div>
+                        <div id="review-list" class="space-y-4">
+                            <!-- Review list rendered by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discussion View -->
+                <div id="discussion-view" class="view-section">
+                     <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <div class="flex items-center mb-4 border-b pb-4">
+                            <button id="back-to-review-btn" class="text-blue-600 mr-4 hover:text-blue-800"><i class="fas fa-arrow-left fa-lg"></i></button>
+                            <div>
+                                <h2 class="text-2xl font-bold">Diskusi Review CV</h2>
+                                <p id="discussion-title" class="text-sm text-gray-500"></p>
+                            </div>
+                        </div>
+                        <div id="chat-box" class="h-96 overflow-y-auto p-4 bg-gray-50 rounded-lg custom-scrollbar space-y-4">
+                            <!-- Chat messages rendered by JS -->
+                        </div>
+                        <div class="mt-4 flex">
+                            <input type="text" id="chat-input" placeholder="Ketik pesan Anda..." class="flex-grow border rounded-l-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button id="send-chat-btn" class="bg-blue-600 text-white px-6 py-2 rounded-r-lg hover:bg-blue-700">Kirim</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Vacancies Section -->
+                <div id="jobs-view" class="view-section">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h2 class="text-2xl font-bold mb-4">Lowongan Pekerjaan</h2>
+                        <div class="mt-6 border-t pt-6">
+                            <div class="border rounded-lg p-4 mb-4">
+                                <h3 class="font-bold text-lg">Senior Frontend Developer</h3>
+                                <p class="text-sm text-gray-600">PT. Maju Mundur Cantik</p>
+                                <p class="text-sm text-gray-500 mt-1">Jakarta, Indonesia | Full-time</p>
+                                <button class="mt-4 bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Lamar Sekarang</button>
+                            </div>
+                             <div class="border rounded-lg p-4">
+                                <h3 class="font-bold text-lg">Data Scientist</h3>
+                                <p class="text-sm text-gray-600">Anak Perusahaan BUMN</p>
+                                <p class="text-sm text-gray-500 mt-1">Bandung, Indonesia | Remote</p>
+                                <button class="mt-4 bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition">Lamar Sekarang</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skill Upgrade Section -->
+                <div id="upgrade-view" class="view-section">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h2 class="text-2xl font-bold mb-4">Upgrade Skill</h2>
+                        <div class="mt-6 border-t pt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                             <div class="border rounded-lg p-4">
+                                <h3 class="font-bold text-lg">Advanced React Patterns</h3>
+                                <p class="text-sm text-gray-600">Oleh: Expert Coding Academy</p>
+                                <p class="text-sm text-gray-500 mt-1">Durasi: 8 Minggu</p>
+                                <button class="mt-4 bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition">Daftar Kursus</button>
+                            </div>
+                             <div class="border rounded-lg p-4">
+                                <h3 class="font-bold text-lg">Machine Learning for Beginners</h3>
+                                <p class="text-sm text-gray-600">Oleh: Data University</p>
+                                <p class="text-sm text-gray-500 mt-1">Durasi: 12 Minggu</p>
+                                <button class="mt-4 bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition">Daftar Kursus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Career Switch Section -->
+                <div id="career-view" class="view-section">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h2 class="text-2xl font-bold mb-4">Career Switch</h2>
+                        <div class="mt-6 border-t pt-6">
+                            <p class="text-gray-700">Temukan jalur karir baru yang sesuai dengan minat dan keahlian Anda. Kami menyediakan konsultasi dan panduan untuk membantu transisi karir Anda.</p>
+                            <button class="mt-4 bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-700 transition">Jadwalkan Konsultasi</button>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal for Add/Edit -->
+    <div id="form-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 m-4 max-h-screen overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 id="modal-title" class="text-xl font-bold">Judul Modal</h3>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <form id="modal-form" class="mt-4 space-y-4">
+                <!-- Form fields will be injected by JS -->
+            </form>
+             <div class="mt-6 flex justify-end space-x-3 border-t pt-4">
+                <button id="cancel-modal-btn" type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Batal</button>
+                <button id="save-modal-btn" type="submit" form="modal-form" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 m-4">
+             <h3 class="text-lg font-bold">Konfirmasi</h3>
+             <p id="confirm-message" class="mt-2 text-sm text-gray-600">Apakah Anda yakin ingin menghapus item ini?</p>
+             <div class="mt-6 flex justify-end space-x-3">
+                <button id="cancel-confirm-btn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Batal</button>
+                <button id="confirm-delete-btn" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Hapus</button>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Mock Database
+    const db = {
+        biodata: {
+            name: 'Budi Santoso',
+            role: 'Full Stack Developer',
+            email: 'budi.santoso@email.com',
+            phone: '081234567890',
+            location: 'Jakarta, Indonesia',
+            linkedin: 'linkedin.com/in/budisantoso',
+            portfolio: 'budisantoso.dev'
+        },
+        education: [
+            { id: 1, institution: 'Universitas Gadjah Mada', degree: 'S1, Teknik Informatika', period: '2015 - 2019', description: 'Fokus pada pengembangan perangkat lunak dan kecerdasan buatan.' },
+        ],
+        experience: [
+            { id: 1, company: 'PT Teknologi Maju', role: 'Senior Software Engineer', period: '2021 - Sekarang', description: 'Mengembangkan dan memelihara aplikasi web skala besar menggunakan React dan Node.js.' },
+            { id: 2, company: 'Startup Cepat', role: 'Junior Web Developer', period: '2019 - 2021', description: 'Membangun fitur-fitur baru untuk produk inti perusahaan.' },
+        ],
+        skills: [
+            { id: 1, name: 'JavaScript (ES6+)', level: 'Expert' },
+            { id: 2, name: 'React & Next.js', level: 'Expert' },
+            { id: 3, name: 'Node.js & Express', level: 'Advanced' },
+            { id: 4, name: 'SQL & NoSQL (PostgreSQL, MongoDB)', level: 'Advanced' },
+            { id: 5, name: 'Docker & CI/CD', level: 'Intermediate' },
+        ],
+        certifications: [
+            { id: 1, name: 'AWS Certified Solutions Architect', issuer: 'Amazon Web Services', date: '2022' },
+        ],
+        languages: [
+            { id: 1, name: 'Indonesia', level: 'Native' },
+            { id: 2, name: 'Inggris', level: 'Professional' },
+        ],
+        projects: [
+            { id: 1, name: 'Sistem E-commerce', description: 'Membangun platform e-commerce lengkap dengan gateway pembayaran dan manajemen inventaris.', tech: 'React, Node.js, PostgreSQL' },
+        ],
+        cvs: [
+            { id: 1, name: 'CV_Budi_Santoso_2024.pdf', uploadDate: '2024-10-15' },
+        ],
+        reviews: [
+            {
+                id: 1,
+                cvName: 'CV_Budi_Santoso_2024.pdf',
+                requestDate: '2024-10-16',
+                status: 'Selesai',
+                discussion: [
+                    { sender: 'user', text: 'Halo, saya ingin meminta review untuk CV saya. Terima kasih.' },
+                    { sender: 'expert', text: 'Tentu, Budi. Saya lihat CV Anda sudah cukup baik. Namun, ada beberapa poin di bagian "Pengalaman Kerja" yang bisa diperjelas. Coba jelaskan dampak kuantitatif dari pekerjaan Anda, misalnya "Meningkatkan efisiensi sebesar 20%".' },
+                    { sender: 'user', text: 'Baik, terima kasih atas masukannya. Akan saya perbaiki.' },
+                ]
+            },
+            {
+                id: 2,
+                cvName: 'CV_Budi_Santoso_2024_v2.pdf',
+                requestDate: '2024-10-20',
+                status: 'Sedang Direview',
+                discussion: [
+                     { sender: 'user', text: 'Halo, saya sudah upload versi terbaru, mohon bantuannya untuk direview kembali.' },
+                     { sender: 'expert', text: 'Oke, saya terima. Saya akan lihat dan berikan feedback secepatnya.' },
+                ]
+            }
+        ]
+    };
+
+    // --- UTILITY FUNCTIONS ---
+    const $ = (selector) => document.querySelector(selector);
+    const show = (el) => el.classList.remove('hidden');
+    const hide = (el) => el.classList.add('hidden');
+    const toggleFlex = (el) => el.classList.toggle('hidden') || el.classList.toggle('flex');
+    let currentEditId = null;
+    let currentSection = null;
+    let deleteCallback = null;
+
+    // --- NAVIGATION ---
+    const navigate = (viewId) => {
+        // Hide all sections by removing 'active' class
+        document.querySelectorAll('.view-section').forEach(sec => {
+            sec.classList.remove('active');
+        });
+
+        // Deactivate all nav links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active', 'bg-gray-200');
+        });
+
+        // Activate the target nav link if it exists
+        const navId = viewId.split('-')[0]; // e.g., 'profile' or 'review'
+        const activeLink = $(`#nav-${navId}`);
+        if (activeLink) {
+            activeLink.classList.add('active', 'bg-gray-200');
+        }
+
+        // Show the target section by adding 'active' class
+        const targetSection = $(`#${viewId}`);
+        if (targetSection) {
+            targetSection.classList.add('active');
+        }
+    };
+
+    $('#nav-profile').addEventListener('click', (e) => { e.preventDefault(); navigate('profile-view'); });
+    $('#nav-review').addEventListener('click', (e) => { e.preventDefault(); navigate('review-view'); });
+    $('#nav-jobs').addEventListener('click', (e) => { e.preventDefault(); navigate('jobs-view'); });
+    $('#nav-upgrade').addEventListener('click', (e) => { e.preventDefault(); navigate('upgrade-view'); });
+    $('#nav-career').addEventListener('click', (e) => { e.preventDefault(); navigate('career-view'); });
+
+    // --- AUTHENTICATION ---
+    $('#login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        hide($('#login-page'));
+        show($('#app-page'));
+        renderAll();
+    });
+
+    $('#logout-button').addEventListener('click', () => {
+        hide($('#app-page'));
+        show($('#login-page'));
+    });
+
+    // --- TEMPLATE GENERATORS ---
+    const createSectionHTML = (title, icon, sectionKey, contentRenderer) => {
+        return `
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold"><i class="fas ${icon} text-blue-500 mr-3"></i>${title}</h3>
+                    <button data-section="${sectionKey}" class="add-btn bg-blue-100 text-blue-700 text-sm font-semibold py-1 px-3 rounded-lg hover:bg-blue-200 transition">
+                        <i class="fas fa-plus"></i> Tambah
+                    </button>
+                </div>
+                <div id="${sectionKey}-list" class="space-y-4">
+                    ${db[sectionKey].map(contentRenderer).join('') || '<p class="text-gray-500 text-sm">Belum ada data.</p>'}
+                </div>
+            </div>
+        `;
+    };
+
+    const createItemActions = (sectionKey, id) => `
+        <div class="flex space-x-2">
+            <button data-section="${sectionKey}" data-id="${id}" class="edit-btn text-gray-500 hover:text-blue-600"><i class="fas fa-pencil-alt"></i></button>
+            <button data-section="${sectionKey}" data-id="${id}" class="delete-btn text-gray-500 hover:text-red-600"><i class="fas fa-trash-alt"></i></button>
+        </div>
+    `;
+
+    // --- RENDER FUNCTIONS ---
+    const renderBiodata = () => {
+        const { name, role, ...details } = db.biodata;
+        $('#bio-name').textContent = name;
+        $('#bio-role').textContent = role;
+        const detailsContainer = $('#bio-details');
+        const iconMap = { email: 'fa-envelope', phone: 'fa-phone', location: 'fa-map-marker-alt', linkedin: 'fa-linkedin', portfolio: 'fa-link' };
+        detailsContainer.innerHTML = Object.entries(details).map(([key, value]) => `
+            <div class="flex items-center">
+                <i class="fas ${iconMap[key]} w-6 text-blue-500"></i>
+                <span class="ml-2">${value}</span>
+            </div>
+        `).join('');
+    };
+
+    const renderEducation = () => {
+        $('#education-section').innerHTML = createSectionHTML('Pendidikan', 'fa-graduation-cap', 'education', item => `
+            <div class="flex justify-between items-start border-b pb-2">
+                <div>
+                    <h4 class="font-bold">${item.institution}</h4>
+                    <p class="text-sm font-medium text-gray-700">${item.degree}</p>
+                    <p class="text-xs text-gray-500">${item.period}</p>
+                    <p class="text-sm mt-1">${item.description}</p>
+                </div>
+                ${createItemActions('education', item.id)}
+            </div>
+        `);
+    };
+
+    const renderExperience = () => {
+        $('#experience-section').innerHTML = createSectionHTML('Pengalaman Kerja', 'fa-briefcase', 'experience', item => `
+            <div class="flex justify-between items-start border-b pb-2">
+                <div>
+                    <h4 class="font-bold">${item.role}</h4>
+                    <p class="text-sm font-medium text-gray-700">${item.company}</p>
+                    <p class="text-xs text-gray-500">${item.period}</p>
+                    <p class="text-sm mt-1">${item.description}</p>
+                </div>
+                ${createItemActions('experience', item.id)}
+            </div>
+        `);
+    };
+
+    const renderSkills = () => {
+        $('#skills-section').innerHTML = createSectionHTML('Keterampilan', 'fa-cogs', 'skills', item => `
+             <div class="flex justify-between items-center border-b pb-2">
+                <p>${item.name}</p>
+                <div class="flex items-center">
+                   <span class="text-sm text-gray-600 mr-4">${item.level}</span>
+                   ${createItemActions('skills', item.id)}
+                </div>
+            </div>
+        `);
+    };
+
+    const renderCertifications = () => {
+        $('#certifications-section').innerHTML = createSectionHTML('Sertifikasi', 'fa-certificate', 'certifications', item => `
+            <div class="flex justify-between items-start border-b pb-2">
+                <div>
+                    <h4 class="font-bold">${item.name}</h4>
+                    <p class="text-sm text-gray-500">${item.issuer} - ${item.date}</p>
+                </div>
+                ${createItemActions('certifications', item.id)}
+            </div>
+        `);
+    };
+
+     const renderLanguages = () => {
+        $('#languages-section').innerHTML = createSectionHTML('Bahasa', 'fa-language', 'languages', item => `
+             <div class="flex justify-between items-center border-b pb-2">
+                <p>${item.name}</p>
+                <div class="flex items-center">
+                   <span class="text-sm text-gray-600 mr-4">${item.level}</span>
+                   ${createItemActions('languages', item.id)}
+                </div>
+            </div>
+        `);
+    };
+
+    const renderProjects = () => {
+        $('#projects-section').innerHTML = createSectionHTML('Proyek', 'fa-project-diagram', 'projects', item => `
+            <div class="flex justify-between items-start border-b pb-2">
+                <div>
+                    <h4 class="font-bold">${item.name}</h4>
+                    <p class="text-sm mt-1">${item.description}</p>
+                    <p class="text-xs text-gray-500 mt-1">Teknologi: ${item.tech}</p>
+                </div>
+                ${createItemActions('projects', item.id)}
+            </div>
+        `);
+    };
+
+    const renderCVs = () => {
+        $('#cv-section').innerHTML = createSectionHTML('Curriculum Vitae', 'fa-file-alt', 'cvs', item => `
+            <div class="flex justify-between items-center border-b pb-2">
+                <p class="flex items-center"><i class="fas fa-file-pdf text-red-500 mr-2"></i>${item.name}</p>
+                <div class="flex items-center">
+                   <span class="text-sm text-gray-500 mr-4">Diupload: ${item.uploadDate}</span>
+                   ${createItemActions('cvs', item.id)}
+                </div>
+            </div>
+        `);
+    };
+
+    const renderReviews = () => {
+        const reviewList = $('#review-list');
+        const statusColors = {
+            'Selesai': 'bg-green-100 text-green-800',
+            'Sedang Direview': 'bg-yellow-100 text-yellow-800',
+            'Menunggu Review': 'bg-blue-100 text-blue-800'
+        };
+        reviewList.innerHTML = db.reviews.map(review => `
+            <div class="border rounded-lg p-4 flex justify-between items-center hover:bg-gray-50">
+                <div>
+                    <p class="font-bold">${review.cvName}</p>
+                    <p class="text-sm text-gray-500">Tanggal permintaan: ${review.requestDate}</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-xs font-medium px-2.5 py-0.5 rounded-full ${statusColors[review.status]}">${review.status}</span>
+                    <button data-id="${review.id}" class="view-discussion-btn bg-gray-200 text-gray-800 font-semibold py-1 px-3 rounded-lg hover:bg-gray-300 transition">
+                        Lihat Diskusi
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    };
+
+    let currentDiscussionId = null;
+    const renderDiscussion = (reviewId) => {
+        currentDiscussionId = reviewId;
+        const review = db.reviews.find(r => r.id === reviewId);
+        const chatBox = $('#chat-box');
+
+        $('#discussion-title').textContent = `CV: ${review.cvName} | Status: ${review.status}`;
+
+        chatBox.innerHTML = review.discussion.map(msg => `
+            <div class="flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}">
+                <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-xl ${msg.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}">
+                    <p>${msg.text}</p>
+                </div>
+            </div>
+        `).join('');
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+        navigate('discussion-view');
+    };
+
+    // --- FORM & MODAL LOGIC ---
+    const formFields = {
+        biodata: `
+            <label class="block text-sm font-medium">Nama</label> <input name="name" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Jabatan</label> <input name="role" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Email</label> <input name="email" type="email" required class="form-input">
+            <label class="block text-sm font-medium">Telepon</label> <input name="phone" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Lokasi</label> <input name="location" type="text" required class="form-input">
+            <label class="block text-sm font-medium">LinkedIn URL</label> <input name="linkedin" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Portfolio URL</label> <input name="portfolio" type="text" required class="form-input">
+        `,
+        education: `
+            <label class="block text-sm font-medium">Institusi</label> <input name="institution" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Gelar</label> <input name="degree" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Periode</label> <input name="period" type="text" placeholder="e.g., 2015 - 2019" required class="form-input">
+            <label class="block text-sm font-medium">Deskripsi</label> <textarea name="description" class="form-input"></textarea>
+        `,
+        experience: `
+            <label class="block text-sm font-medium">Perusahaan</label> <input name="company" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Jabatan</label> <input name="role" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Periode</label> <input name="period" type="text" placeholder="e.g., 2019 - Sekarang" required class="form-input">
+            <label class="block text-sm font-medium">Deskripsi</label> <textarea name="description" class="form-input"></textarea>
+        `,
+        skills: `
+            <label class="block text-sm font-medium">Nama Keterampilan</label> <input name="name" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Tingkat</label>
+            <select name="level" required class="form-input">
+                <option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>Expert</option>
+            </select>
+        `,
+        certifications: `
+            <label class="block text-sm font-medium">Nama Sertifikasi</label> <input name="name" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Penerbit</label> <input name="issuer" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Tanggal</label> <input name="date" type="text" placeholder="e.g., 2022" required class="form-input">
+        `,
+        languages: `
+            <label class="block text-sm font-medium">Bahasa</label> <input name="name" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Tingkat</label>
+            <select name="level" required class="form-input">
+                <option>Beginner</option><option>Conversational</option><option>Professional</option><option>Native</option>
+            </select>
+        `,
+        projects: `
+            <label class="block text-sm font-medium">Nama Proyek</label> <input name="name" type="text" required class="form-input">
+            <label class="block text-sm font-medium">Deskripsi</label> <textarea name="description" class="form-input"></textarea>
+            <label class="block text-sm font-medium">Teknologi yang Digunakan</label> <input name="tech" type="text" required class="form-input">
+        `,
+        cvs: `
+            <label class="block text-sm font-medium">Pilih File CV</label>
+            <input name="file" type="file" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+        `
+    };
+
+    const openModal = (section, id = null) => {
+        currentSection = section;
+        currentEditId = id;
+        const title = (id ? 'Edit' : 'Tambah') + ' ' + section.charAt(0).toUpperCase() + section.slice(1);
+        $('#modal-title').textContent = title;
+        const form = $('#modal-form');
+        form.innerHTML = formFields[section].replaceAll('class="form-input"', 'class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"');
+        form.reset();
+
+        if (id && section !== 'biodata') {
+            const item = db[section].find(i => i.id === id);
+            Object.keys(item).forEach(key => {
+                if(form.elements[key]) form.elements[key].value = item[key];
+            });
+        } else if (section === 'biodata') {
+            Object.keys(db.biodata).forEach(key => {
+                 if(form.elements[key]) form.elements[key].value = db.biodata[key];
+            });
+        }
+
+        toggleFlex($('#form-modal'));
+    };
+
+    const closeModal = () => toggleFlex($('#form-modal'));
+
+    $('#close-modal-btn').addEventListener('click', closeModal);
+    $('#cancel-modal-btn').addEventListener('click', closeModal);
+
+    $('#modal-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        if (currentSection === 'biodata') {
+            db.biodata = { ...db.biodata, ...data };
+        } else if (currentSection === 'cvs') {
+            if(currentEditId) {
+                // Logic to edit uploaded file might be complex, here we just edit the name
+                const item = db.cvs.find(i => i.id === currentEditId);
+                item.name = data.file.name || item.name;
+            } else {
+                 db.cvs.push({
+                    id: Date.now(),
+                    name: data.file.name,
+                    uploadDate: new Date().toISOString().split('T')[0]
+                });
+            }
+        } else {
+             if (currentEditId) {
+                const index = db[currentSection].findIndex(i => i.id === currentEditId);
+                db[currentSection][index] = { ...db[currentSection][index], ...data };
+            } else {
+                data.id = Date.now();
+                db[currentSection].push(data);
+            }
+        }
+
+        renderAll();
+        closeModal();
+    });
+
+    // --- DELETE LOGIC ---
+    const openConfirmModal = (callback) => {
+        deleteCallback = callback;
+        toggleFlex($('#confirm-modal'));
+    };
+
+    const closeConfirmModal = () => {
+        toggleFlex($('#confirm-modal'));
+        deleteCallback = null;
+    };
+
+    $('#cancel-confirm-btn').addEventListener('click', closeConfirmModal);
+    $('#confirm-delete-btn').addEventListener('click', () => {
+        if(deleteCallback) deleteCallback();
+        closeConfirmModal();
+    });
+
+    // --- EVENT LISTENERS ---
+    document.body.addEventListener('click', (e) => {
+        const target = e.target.closest('button');
+        if (!target) return;
+
+        // Add/Edit buttons
+        if(target.matches('.add-btn')) openModal(target.dataset.section);
+        if(target.matches('.edit-btn')) openModal(target.dataset.section, Number(target.dataset.id));
+        if(target.matches('#edit-bio-btn')) openModal('biodata');
+
+        // Delete button
+        if(target.matches('.delete-btn')) {
+            const { section, id } = target.dataset;
+            openConfirmModal(() => {
+                db[section] = db[section].filter(item => item.id !== Number(id));
+                renderAll();
+            });
+        }
+
+        // Review buttons
+        if(target.matches('#request-review-btn')) {
+             db.reviews.push({
+                id: Date.now(),
+                cvName: db.cvs[db.cvs.length - 1]?.name || 'CV Baru.pdf',
+                requestDate: new Date().toISOString().split('T')[0],
+                status: 'Menunggu Review',
+                discussion: [
+                    { sender: 'user', text: 'Halo, saya ingin meminta review untuk CV saya yang baru diupload.' }
+                ]
+            });
+            renderReviews();
+            alert("Permintaan review berhasil dikirim!");
+        }
+
+        if(target.matches('.view-discussion-btn')) renderDiscussion(Number(target.dataset.id));
+        if(target.matches('#back-to-review-btn')) navigate('review-view');
+
+        if(target.matches('#send-chat-btn')) {
+            const input = $('#chat-input');
+            const text = input.value.trim();
+            if(!text) return;
+
+            const review = db.reviews.find(r => r.id === currentDiscussionId);
+            review.discussion.push({ sender: 'user', text });
+            input.value = '';
+
+            renderDiscussion(currentDiscussionId);
+
+            // Simulate expert reply
+            setTimeout(() => {
+                review.discussion.push({ sender: 'expert', text: 'Terima kasih atas pesannya. Akan segera kami periksa.'});
+                renderDiscussion(currentDiscussionId);
+            }, 1500);
+        }
+    });
+
+    // Initial Render
+    function renderAll() {
+        renderBiodata();
+        renderEducation();
+        renderExperience();
+        renderSkills();
+        renderCertifications();
+        renderLanguages();
+        renderProjects();
+        renderCVs();
+        renderReviews();
+    }
+});
+</script>
+</body>
+</html>
+

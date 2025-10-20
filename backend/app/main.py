@@ -38,4 +38,4 @@ app.add_middleware(SitesMiddleware)
 # Add Audit Middleware
 app.add_middleware(AuditMiddleware)
 
-app.include_router(api_router, prefix=settings.API_V1_STR)
+app.include_router(api_router)
