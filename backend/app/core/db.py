@@ -1,7 +1,7 @@
 from sqlmodel import Session, create_engine, select
 
 from app.core.config import settings
-from app.models import User
+from app.models import User, Role
 from app.schemas import UserCreate
 from app.services import UserService
 
@@ -21,6 +21,24 @@ def init_db(session: Session) -> None:
 
     # This works because the models are already imported and registered from app.models
     # SQLModel.metadata.create_all(engine)
+
+    # Create default roles if they don't exist
+    default_roles = [
+        {"name": "talent", "description": "Talent/Individual user role"},
+        {"name": "recruiter", "description": "HR user role"},
+        {"name": "manager", "description": "Company/Organization user role"},
+        {"name": "admin", "description": "Administrator role"},
+    ]
+
+    for role_data in default_roles:
+        existing_role = session.exec(
+            select(Role).where(Role.name == role_data["name"])
+        ).first()
+        if not existing_role:
+            role = Role(name=role_data["name"], description=role_data["description"])
+            session.add(role)
+
+    session.commit()
 
     user = session.exec(
         select(User).where(User.email == settings.FIRST_SUPERUSER)
