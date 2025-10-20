@@ -28,12 +28,18 @@ def backup_database() -> str | None:
     # Build pg_dump command
     pg_dump_command = [
         "pg_dump",
-        "-h", settings.POSTGRES_SERVER,
-        "-p", str(settings.POSTGRES_PORT),
-        "-U", settings.POSTGRES_USER,
-        "-d", settings.POSTGRES_DB,
-        "-F", "p",  # Plain text format
-        "-f", str(backup_path),
+        "-h",
+        settings.POSTGRES_SERVER,
+        "-p",
+        str(settings.POSTGRES_PORT),
+        "-U",
+        settings.POSTGRES_USER,
+        "-d",
+        settings.POSTGRES_DB,
+        "-F",
+        "p",  # Plain text format
+        "-f",
+        str(backup_path),
         "--no-owner",  # Skip restoration of object ownership
         "--no-acl",  # Skip restoration of access privileges
     ]
@@ -45,16 +51,14 @@ def backup_database() -> str | None:
         env = {"PGPASSWORD": settings.POSTGRES_PASSWORD}
 
         # Execute pg_dump
-        result = subprocess.run(
-            pg_dump_command,
-            env=env,
-            capture_output=True,
-            text=True,
-            check=True
+        subprocess.run(
+            pg_dump_command, env=env, capture_output=True, text=True, check=True
         )
 
         logger.info(f"Database backup completed successfully: {backup_path}")
-        logger.info(f"Backup file size: {backup_path.stat().st_size / 1024 / 1024:.2f} MB")
+        logger.info(
+            f"Backup file size: {backup_path.stat().st_size / 1024 / 1024:.2f} MB"
+        )
 
         return str(backup_path)
 
@@ -87,12 +91,18 @@ def backup_database_compressed() -> str | None:
     # Build pg_dump command with custom format
     pg_dump_command = [
         "pg_dump",
-        "-h", settings.POSTGRES_SERVER,
-        "-p", str(settings.POSTGRES_PORT),
-        "-U", settings.POSTGRES_USER,
-        "-d", settings.POSTGRES_DB,
-        "-F", "c",  # Custom compressed format
-        "-f", str(backup_path),
+        "-h",
+        settings.POSTGRES_SERVER,
+        "-p",
+        str(settings.POSTGRES_PORT),
+        "-U",
+        settings.POSTGRES_USER,
+        "-d",
+        settings.POSTGRES_DB,
+        "-F",
+        "c",  # Custom compressed format
+        "-f",
+        str(backup_path),
         "--no-owner",
         "--no-acl",
     ]
@@ -104,16 +114,14 @@ def backup_database_compressed() -> str | None:
         env = {"PGPASSWORD": settings.POSTGRES_PASSWORD}
 
         # Execute pg_dump
-        result = subprocess.run(
-            pg_dump_command,
-            env=env,
-            capture_output=True,
-            text=True,
-            check=True
+        subprocess.run(
+            pg_dump_command, env=env, capture_output=True, text=True, check=True
         )
 
         logger.info(f"Compressed database backup completed successfully: {backup_path}")
-        logger.info(f"Backup file size: {backup_path.stat().st_size / 1024 / 1024:.2f} MB")
+        logger.info(
+            f"Backup file size: {backup_path.stat().st_size / 1024 / 1024:.2f} MB"
+        )
 
         return str(backup_path)
 
@@ -139,7 +147,9 @@ def list_backups() -> list[Path]:
         return []
 
     # Get all .sql and .dump files
-    backups = list(backup_dir.glob("backup_*.sql")) + list(backup_dir.glob("backup_*.dump"))
+    backups = list(backup_dir.glob("backup_*.sql")) + list(
+        backup_dir.glob("backup_*.dump")
+    )
 
     # Sort by modification time, newest first
     backups.sort(key=lambda x: x.stat().st_mtime, reverse=True)
@@ -157,7 +167,9 @@ def cleanup_old_backups(keep_count: int = 10) -> None:
     backups = list_backups()
 
     if len(backups) <= keep_count:
-        logger.info(f"Found {len(backups)} backups, no cleanup needed (keeping {keep_count})")
+        logger.info(
+            f"Found {len(backups)} backups, no cleanup needed (keeping {keep_count})"
+        )
         return
 
     # Delete old backups
@@ -203,7 +215,9 @@ def main() -> None:
         for i, backup in enumerate(backups[:5], 1):  # Show only last 5
             size_mb = backup.stat().st_size / 1024 / 1024
             modified = datetime.fromtimestamp(backup.stat().st_mtime)
-            logger.info(f"  {i}. {backup.name} ({size_mb:.2f} MB) - {modified.strftime('%Y-%m-%d %H:%M:%S')}")
+            logger.info(
+                f"  {i}. {backup.name} ({size_mb:.2f} MB) - {modified.strftime('%Y-%m-%d %H:%M:%S')}"
+            )
     else:
         logger.error("✗ Backup failed!")
         exit(1)
@@ -211,4 +225,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

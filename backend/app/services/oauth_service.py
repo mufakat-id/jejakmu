@@ -73,8 +73,10 @@ class OAuthService:
     ) -> User:
         """Create new user or link Google account to existing user"""
         # Try to find user by google_id first (already linked)
-        from sqlmodel import select
         import secrets
+
+        from sqlmodel import select
+
         from app.models import Role, UserRole
 
         statement = select(User).where(User.google_id == google_id)

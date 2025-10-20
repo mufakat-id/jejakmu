@@ -82,11 +82,11 @@ pg_dump -h localhost -p 5432 -U postgres -d app \
 #### Format SQL (Plain Text)
 - **Extension:** `.sql`
 - **Ukuran:** Lebih besar (tidak terkompress)
-- **Keuntungan:** 
+- **Keuntungan:**
   - Mudah dibaca dan diedit dengan text editor
   - Bisa langsung dijalankan dengan `psql`
   - Bisa melakukan restore partial (memilih table tertentu)
-- **Kerugian:** 
+- **Kerugian:**
   - File lebih besar
   - Restore lebih lambat untuk database besar
 
@@ -528,6 +528,5 @@ Jika mengalami masalah dengan backup/restore:
 
 ---
 
-**Last Updated:** October 20, 2025  
+**Last Updated:** October 20, 2025
 **Version:** 1.0.0
-

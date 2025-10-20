@@ -125,6 +125,23 @@ class Settings(BaseSettings):
     def gcs_enabled(self) -> bool:
         return bool(self.GCS_BUCKET_NAME and self.GOOGLE_CLOUD_PROJECT)
 
+    # Backblaze B2 Storage Settings
+    B2_BUCKET_NAME: str | None = None
+    B2_APPLICATION_KEY_ID: str | None = None
+    B2_APPLICATION_KEY: str | None = None
+    B2_ENDPOINT_URL: str | None = None  # e.g., https://s3.us-west-004.backblazeb2.com
+    B2_REGION: str = "us-west-004"  # Default region
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def b2_enabled(self) -> bool:
+        return bool(
+            self.B2_BUCKET_NAME
+            and self.B2_APPLICATION_KEY_ID
+            and self.B2_APPLICATION_KEY
+            and self.B2_ENDPOINT_URL
+        )
+
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
         if value == "changethis":
             message = (

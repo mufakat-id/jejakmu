@@ -1,7 +1,7 @@
 from sqlmodel import Session, create_engine, select
 
 from app.core.config import settings
-from app.models import User, Role
+from app.models import Role, User
 from app.schemas import UserCreate
 from app.services import UserService
 
