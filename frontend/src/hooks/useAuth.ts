@@ -6,6 +6,7 @@ import {
   type Body_login_login_access_token as AccessToken,
   type ApiError,
   LoginService,
+  OauthService,
   type UserPublic,
   type UserRegister,
   UsersService,
@@ -58,6 +59,24 @@ const useAuth = () => {
     },
   })
 
+  const googleLogin = async (code: string) => {
+    const response = await OauthService.googleLogin({
+      requestBody: { code },
+    })
+    localStorage.setItem("access_token", response.access_token)
+  }
+
+  const googleLoginMutation = useMutation({
+    mutationFn: googleLogin,
+    onSuccess: () => {
+      navigate({ to: "/" })
+    },
+    onError: (err: ApiError) => {
+      handleError(err)
+      setError(err.message || "Failed to login with Google")
+    },
+  })
+
   const logout = () => {
     localStorage.removeItem("access_token")
     navigate({ to: "/login" })
@@ -66,6 +85,7 @@ const useAuth = () => {
   return {
     signUpMutation,
     loginMutation,
+    googleLoginMutation,
     logout,
     user,
     error,

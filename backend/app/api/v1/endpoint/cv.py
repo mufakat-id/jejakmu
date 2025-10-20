@@ -16,6 +16,7 @@ from app.schemas.user_cv import (
     CVEducationUpdate,
     CVFileCreate,
     CVFilePublic,
+    CVFilesPublic,
     CVFileUpdate,
     CVLanguageCreate,
     CVLanguagePublic,
@@ -571,6 +572,36 @@ def delete_project(
 # =============================================================================
 # CV Files Endpoints
 # =============================================================================
+
+
+@router.get("/files/requested", response_model=CVFilesPublic, tags=["cv-files"])
+def read_requested_cv_files(
+    session: SessionDep,
+    current_user: CurrentUser,
+    skip: int = 0,
+    limit: int = 100,
+) -> Any:
+    """
+    Get all CV files with status 'requested' (admin/reviewer only).
+    Returns list of CV files with their associated CV information.
+    """
+    if not current_user.is_superuser:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+
+    service = UserCVService(session)
+    cv_files, count = service.get_cv_files_by_status(
+        "requested", skip=skip, limit=limit
+    )
+
+    # Enrich CV files with CV info
+    enriched_files = []
+    for cv_file in cv_files:
+        cv = service.get_cv(cv_file.user_cv_id)
+        file_dict = cv_file.model_dump()
+        file_dict["user_cv"] = cv
+        enriched_files.append(file_dict)
+
+    return CVFilesPublic(data=enriched_files, count=count)
 
 
 @router.post("/files/upload", response_model=CVFilePublic, tags=["cv-files"])

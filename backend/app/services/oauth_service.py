@@ -68,6 +68,65 @@ class OAuthService:
         # User doesn't exist - return None
         return None
 
+    def create_or_link_google_account(
+        self, google_id: str, email: str, full_name: str | None = None
+    ) -> User:
+        """Create new user or link Google account to existing user"""
+        # Try to find user by google_id first (already linked)
+        import secrets
+
+        from sqlmodel import select
+
+        from app.models import Role, UserRole
+
+        statement = select(User).where(User.google_id == google_id)
+        user = self.session.exec(statement).first()
+
+        if user:
+            return user
+
+        # Try to find by email
+        user = self.user_repository.get_by_email(email)
+        if user:
+            # Link Google account to existing user
+            user.google_id = google_id
+            if not user.full_name and full_name:
+                user.full_name = full_name
+            self.session.add(user)
+            self.session.commit()
+            self.session.refresh(user)
+            return user
+
+        # User doesn't exist - create new user
+        new_user = User(
+            email=email,
+            full_name=full_name or email.split("@")[0],
+            google_id=google_id,
+            is_active=True,
+            is_superuser=False,
+            # Generate random password since user will login via Google
+            hashed_password=secrets.token_urlsafe(32),
+        )
+        self.session.add(new_user)
+        self.session.commit()
+        self.session.refresh(new_user)
+
+        # Automatically assign 'talent' role to new user
+        talent_role = self.session.exec(
+            select(Role).where(Role.name == "talent")
+        ).first()
+
+        if talent_role:
+            user_role = UserRole(
+                user_id=new_user.id,
+                role_id=talent_role.id,
+                is_active=True,
+            )
+            self.session.add(user_role)
+            self.session.commit()
+
+        return new_user
+
     async def exchange_google_code_for_user_info(self, code: str) -> dict | None:
         """Exchange Google authorization code for user information"""
         if not settings.google_oauth_enabled:

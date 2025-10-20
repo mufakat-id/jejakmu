@@ -266,3 +266,14 @@ class UserCVFull(UserCVPublic):
 class UserCVsPublic(SQLModel):
     data: list[UserCVPublic]
     count: int
+
+
+# CV File with CV info for requested files listing
+class CVFileWithCVPublic(CVFilePublic):
+    user_cv: UserCVPublic | None = None
+
+
+# List response for CV files
+class CVFilesPublic(SQLModel):
+    data: list[CVFileWithCVPublic]
+    count: int

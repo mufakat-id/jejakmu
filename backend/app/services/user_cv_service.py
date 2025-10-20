@@ -97,6 +97,12 @@ class UserCVService:
         """Get all CV files for a CV"""
         return self.file_repo.get_by_cv_id(cv_id)
 
+    def get_cv_files_by_status(self, status: str, skip: int = 0, limit: int = 100):
+        """Get all CV files by status with pagination"""
+        cv_files = self.file_repo.get_by_status(status, skip=skip, limit=limit)
+        count = self.file_repo.count_by_status(status)
+        return cv_files, count
+
     def create_cv_file(self, file_in: CVFileCreate):
         """Create CV file record"""
         file_data = file_in.model_dump()

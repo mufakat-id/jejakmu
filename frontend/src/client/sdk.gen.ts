@@ -3,7 +3,39 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { FileGetSignedUrlData, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, OauthGoogleLoginData, OauthGoogleLoginResponse, PlaygroundGetResponse, PrivateCreateUserData, PrivateCreateUserResponse, ProfilesReadProfilesData, ProfilesReadProfilesResponse, ProfilesCreateProfileData, ProfilesCreateProfileResponse, ProfilesReadMyProfileResponse, ProfilesReadProfileData, ProfilesReadProfileResponse, ProfilesUpdateProfileData, ProfilesUpdateProfileResponse, ProfilesDeleteProfileData, ProfilesDeleteProfileResponse, ProfilesAssignSiteToProfileData, ProfilesAssignSiteToProfileResponse, ProfilesRemoveSiteFromProfileData, ProfilesRemoveSiteFromProfileResponse, RolesReadRolesData, RolesReadRolesResponse, RolesCreateRoleData, RolesCreateRoleResponse, RolesReadRoleData, RolesReadRoleResponse, RolesUpdateRoleData, RolesUpdateRoleResponse, RolesDeleteRoleData, RolesDeleteRoleResponse, SitesCreateSiteData, SitesCreateSiteResponse, SitesReadSitesData, SitesReadSitesResponse, SitesGetCurrentSiteEndpointResponse, SitesReadSiteData, SitesReadSiteResponse, SitesUpdateSiteData, SitesUpdateSiteResponse, SitesDeleteSiteData, SitesDeleteSiteResponse, UploadUploadFilesData, UploadUploadFilesResponse, UserRolesAssignRoleToUserData, UserRolesAssignRoleToUserResponse, UserRolesRemoveRoleFromUserData, UserRolesRemoveRoleFromUserResponse, UserRolesGetUserRolesData, UserRolesGetUserRolesResponse, UserRolesCheckUserHasRoleData, UserRolesCheckUserHasRoleResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+
+export class FileService {
+    /**
+     * Get Signed Url
+     * Convert a public GCS URL to a signed URL and redirect to it.
+     *
+     * **Parameters:**
+     * - url: Public GCS URL (e.g., https://storage.googleapis.com/bucket/path/file.jpg)
+     * - expiration_days: Number of days until the signed URL expires (default: 7, max: 365)
+     *
+     * **Returns:**
+     * - Redirects to the signed URL that can be accessed without authentication
+     * @param data The data for the request.
+     * @param data.url Public GCS URL to convert to signed URL
+     * @param data.expirationDays Number of days until the signed URL expires
+     * @throws ApiError
+     */
+    public static getSignedUrl(data: FileGetSignedUrlData): CancelablePromise<void> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/file/signed-url/',
+            query: {
+                url: data.url,
+                expiration_days: data.expirationDays
+            },
+            errors: {
+                307: 'Successful Response',
+                422: 'Validation Error'
+            }
+        });
+    }
+}
 
 export class ItemsService {
     /**
@@ -213,6 +245,53 @@ export class LoginService {
     }
 }
 
+export class OauthService {
+    /**
+     * Google Login
+     * Google OAuth Login
+     *
+     * Exchange Google authorization code for access token.
+     * This endpoint will:
+     * 1. Validate the Google authorization code
+     * 2. Get user info from Google
+     * 3. Link Google account to existing user (user must exist in database)
+     * 4. Return access token for the user
+     *
+     * Note: User must already exist in the database (created via regular signup).
+     * This endpoint only links Google account to existing users.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns GoogleAuthResponse Successful Response
+     * @throws ApiError
+     */
+    public static googleLogin(data: OauthGoogleLoginData): CancelablePromise<OauthGoogleLoginResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/oauth/google',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class PlaygroundService {
+    /**
+     * Get
+     * WebSocket testing playground - HTML interface for testing WebSocket connections with authentication
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static get(): CancelablePromise<PlaygroundGetResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/playground/'
+        });
+    }
+}
+
 export class PrivateService {
     /**
      * Create User
@@ -228,6 +307,574 @@ export class PrivateService {
             url: '/api/v1/private/users/',
             body: data.requestBody,
             mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class ProfilesService {
+    /**
+     * Read Profiles
+     * Retrieve all profiles.
+     *
+     * Only superusers can list all profiles.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns UserProfilesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readProfiles(data: ProfilesReadProfilesData = {}): CancelablePromise<ProfilesReadProfilesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/profiles/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Profile
+     * Create new profile.
+     *
+     * Users can only create their own profile.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns UserProfilePublic Successful Response
+     * @throws ApiError
+     */
+    public static createProfile(data: ProfilesCreateProfileData): CancelablePromise<ProfilesCreateProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/profiles/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read My Profile
+     * Get current user's profile with associated sites.
+     * @returns UserProfileWithSites Successful Response
+     * @throws ApiError
+     */
+    public static readMyProfile(): CancelablePromise<ProfilesReadMyProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/profiles/me'
+        });
+    }
+    
+    /**
+     * Read Profile
+     * Get profile by ID.
+     *
+     * Users can only view their own profile unless they are superusers.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns UserProfilePublic Successful Response
+     * @throws ApiError
+     */
+    public static readProfile(data: ProfilesReadProfileData): CancelablePromise<ProfilesReadProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/profiles/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Profile
+     * Update a profile.
+     *
+     * Users can only update their own profile.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns UserProfilePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateProfile(data: ProfilesUpdateProfileData): CancelablePromise<ProfilesUpdateProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/profiles/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Profile
+     * Delete a profile.
+     *
+     * Users can only delete their own profile.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteProfile(data: ProfilesDeleteProfileData): CancelablePromise<ProfilesDeleteProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/profiles/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Assign Site To Profile
+     * Assign a site to a profile.
+     *
+     * Users can only assign sites to their own profile unless they are superusers.
+     * @param data The data for the request.
+     * @param data.profileId
+     * @param data.siteId
+     * @param data.roleInSite
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static assignSiteToProfile(data: ProfilesAssignSiteToProfileData): CancelablePromise<ProfilesAssignSiteToProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/profiles/{profile_id}/sites/{site_id}',
+            path: {
+                profile_id: data.profileId,
+                site_id: data.siteId
+            },
+            query: {
+                role_in_site: data.roleInSite
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Remove Site From Profile
+     * Remove a site from a profile.
+     *
+     * Users can only remove sites from their own profile unless they are superusers.
+     * @param data The data for the request.
+     * @param data.profileId
+     * @param data.siteId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static removeSiteFromProfile(data: ProfilesRemoveSiteFromProfileData): CancelablePromise<ProfilesRemoveSiteFromProfileResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/profiles/{profile_id}/sites/{site_id}',
+            path: {
+                profile_id: data.profileId,
+                site_id: data.siteId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class RolesService {
+    /**
+     * Read Roles
+     * Retrieve all roles.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns RolesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readRoles(data: RolesReadRolesData = {}): CancelablePromise<RolesReadRolesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/roles/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Role
+     * Create new role.
+     *
+     * Only superusers can create roles.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns RolePublic Successful Response
+     * @throws ApiError
+     */
+    public static createRole(data: RolesCreateRoleData): CancelablePromise<RolesCreateRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/roles/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Role
+     * Get role by ID.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns RolePublic Successful Response
+     * @throws ApiError
+     */
+    public static readRole(data: RolesReadRoleData): CancelablePromise<RolesReadRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/roles/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Role
+     * Update a role.
+     *
+     * Only superusers can update roles.
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns RolePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateRole(data: RolesUpdateRoleData): CancelablePromise<RolesUpdateRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/roles/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Role
+     * Delete a role.
+     *
+     * Only superusers can delete roles.
+     * @param data The data for the request.
+     * @param data.id
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteRole(data: RolesDeleteRoleData): CancelablePromise<RolesDeleteRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/roles/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class SitesService {
+    /**
+     * Create Site
+     * Create new site. Only for superusers.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns SitePublic Successful Response
+     * @throws ApiError
+     */
+    public static createSite(data: SitesCreateSiteData): CancelablePromise<SitesCreateSiteResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/sites/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Sites
+     * Retrieve sites. Only for superusers.
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @returns SitesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readSites(data: SitesReadSitesData = {}): CancelablePromise<SitesReadSitesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/sites/',
+            query: {
+                skip: data.skip,
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get Current Site Endpoint
+     * Get the current site based on request host.
+     * This endpoint is public to allow frontend to know which site they're on.
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static getCurrentSiteEndpoint(): CancelablePromise<SitesGetCurrentSiteEndpointResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/sites/current'
+        });
+    }
+    
+    /**
+     * Read Site
+     * Get site by ID. Only for superusers.
+     * @param data The data for the request.
+     * @param data.siteId
+     * @returns SitePublic Successful Response
+     * @throws ApiError
+     */
+    public static readSite(data: SitesReadSiteData): CancelablePromise<SitesReadSiteResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/sites/{site_id}',
+            path: {
+                site_id: data.siteId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Site
+     * Update a site. Only for superusers.
+     * @param data The data for the request.
+     * @param data.siteId
+     * @param data.requestBody
+     * @returns SitePublic Successful Response
+     * @throws ApiError
+     */
+    public static updateSite(data: SitesUpdateSiteData): CancelablePromise<SitesUpdateSiteResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/sites/{site_id}',
+            path: {
+                site_id: data.siteId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Site
+     * Delete a site. Only for superusers.
+     * @param data The data for the request.
+     * @param data.siteId
+     * @returns string Successful Response
+     * @throws ApiError
+     */
+    public static deleteSite(data: SitesDeleteSiteData): CancelablePromise<SitesDeleteSiteResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/sites/{site_id}',
+            path: {
+                site_id: data.siteId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class UploadService {
+    /**
+     * Upload Files
+     * Upload multiple files to Google Cloud Storage.
+     *
+     * **Parameters:**
+     * - files: List of files to upload
+     *
+     * **Returns:**
+     * - List of URLs for the uploaded files
+     *
+     * **Example Response:**
+     * ```json
+     * {
+     * "code": 201,
+     * "message": "Files uploaded successfully",
+     * "data": [
+     * "https://storage.googleapis.com/bucket-name/file1.pdf",
+     * "https://storage.googleapis.com/bucket-name/file2.jpg"
+     * ]
+     * }
+     * ```
+     * @param data The data for the request.
+     * @param data.formData
+     * @returns BaseResponse_list_str__ Successful Response
+     * @throws ApiError
+     */
+    public static uploadFiles(data: UploadUploadFilesData): CancelablePromise<UploadUploadFilesResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/upload/',
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class UserRolesService {
+    /**
+     * Assign Role To User
+     * Assign a role to a user.
+     *
+     * Users can only assign roles to themselves unless they are superusers.
+     * @param data The data for the request.
+     * @param data.userId
+     * @param data.roleId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static assignRoleToUser(data: UserRolesAssignRoleToUserData): CancelablePromise<UserRolesAssignRoleToUserResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/users/{user_id}/roles/{role_id}',
+            path: {
+                user_id: data.userId,
+                role_id: data.roleId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Remove Role From User
+     * Remove a role from a user.
+     *
+     * Users can only remove roles from themselves unless they are superusers.
+     * @param data The data for the request.
+     * @param data.userId
+     * @param data.roleId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static removeRoleFromUser(data: UserRolesRemoveRoleFromUserData): CancelablePromise<UserRolesRemoveRoleFromUserResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/users/{user_id}/roles/{role_id}',
+            path: {
+                user_id: data.userId,
+                role_id: data.roleId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get User Roles
+     * Get all roles for a specific user.
+     *
+     * Users can only view their own roles unless they are superusers.
+     * @param data The data for the request.
+     * @param data.userId
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static getUserRoles(data: UserRolesGetUserRolesData): CancelablePromise<UserRolesGetUserRolesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/users/{user_id}/roles',
+            path: {
+                user_id: data.userId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Check User Has Role
+     * Check if user has a specific role.
+     * @param data The data for the request.
+     * @param data.userId
+     * @param data.roleName
+     * @returns unknown Successful Response
+     * @throws ApiError
+     */
+    public static checkUserHasRole(data: UserRolesCheckUserHasRoleData): CancelablePromise<UserRolesCheckUserHasRoleResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/users/{user_id}/roles/{role_name}/check',
+            path: {
+                user_id: data.userId,
+                role_name: data.roleName
+            },
             errors: {
                 422: 'Validation Error'
             }
