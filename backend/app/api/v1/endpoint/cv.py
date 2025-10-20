@@ -649,7 +649,9 @@ def read_requested_cv_files(
         raise HTTPException(status_code=403, detail="Not enough permissions")
 
     service = UserCVService(session)
-    cv_files, count = service.get_cv_files_by_status("requested", skip=skip, limit=limit)
+    cv_files, count = service.get_cv_files_by_status(
+        "requested", skip=skip, limit=limit
+    )
 
     # Enrich CV files with CV info
     enriched_files = []

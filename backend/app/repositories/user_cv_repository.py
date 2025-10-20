@@ -57,13 +57,12 @@ class CVFileRepository(BaseRepository[CVFile]):
         )
         return list(self.session.exec(statement).all())
 
-    def get_by_status(self, status: str, skip: int = 0, limit: int = 100) -> list[CVFile]:
+    def get_by_status(
+        self, status: str, skip: int = 0, limit: int = 100
+    ) -> list[CVFile]:
         """Get all CV files by status with pagination"""
         statement = (
-            select(CVFile)
-            .where(CVFile.status == status)
-            .offset(skip)
-            .limit(limit)
+            select(CVFile).where(CVFile.status == status).offset(skip).limit(limit)
         )
         return list(self.session.exec(statement).all())
 
