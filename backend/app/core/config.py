@@ -2,6 +2,7 @@ import secrets
 import warnings
 from pathlib import Path
 from typing import Annotated, Any, Literal
+import os
 
 from pydantic import (
     AnyUrl,
@@ -26,18 +27,26 @@ def parse_cors(v: Any) -> list[str] | str:
 
 # Get the path to the .env file (in the root of the project)
 # This handles both running from backend/app and backend directories
-def get_env_file() -> Path:
+def get_env_file() -> Path | None:
+    # Only use .env file in local development
+    if os.getenv("ENVIRONMENT") in ["staging", "production"]:
+        return None
+
     current_file = Path(__file__).resolve()
     # Go up from backend/app/core/config.py to project root
     project_root = current_file.parent.parent.parent.parent
     env_file = project_root / ".env"
-    return env_file
+
+    if env_file.exists():
+        return env_file
+    return None
 
 
 class Settings(BaseSettings):
+    # Dynamically set env_file based on environment
     model_config = SettingsConfigDict(
-        # Use top level .env file (one level above ./backend/)
-        env_file=str(get_env_file()),
+        # Use top level .env file (one level above ./backend/) only in local
+        env_file=str(get_env_file()) if get_env_file() else None,
         env_ignore_empty=True,
         extra="ignore",
     )
