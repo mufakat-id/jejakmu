@@ -22,11 +22,10 @@ async def google_login(
     This endpoint will:
     1. Validate the Google authorization code
     2. Get user info from Google
-    3. Link Google account to existing user (user must exist in database)
+    3. Create new user or link Google account to existing user
     4. Return access token for the user
 
-    Note: User must already exist in the database (created via regular signup).
-    This endpoint only links Google account to existing users.
+    Note: If user doesn't exist, a new account will be created automatically.
     """
     if not settings.google_oauth_enabled:
         raise HTTPException(
@@ -47,18 +46,12 @@ async def google_login(
             detail="Failed to authenticate with Google. Invalid authorization code.",
         )
 
-    # Link Google account to existing user
-    user = oauth_service.link_google_account(
+    # Create new user or link Google account to existing user
+    user = oauth_service.create_or_link_google_account(
         google_id=user_info["google_id"],
         email=user_info["email"],
         full_name=user_info.get("full_name"),
     )
-
-    if not user:
-        raise HTTPException(
-            status_code=404,
-            detail="User not found. Please sign up first before linking Google account.",
-        )
 
     if not user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")

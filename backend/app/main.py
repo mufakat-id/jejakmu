@@ -20,6 +20,7 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
     generate_unique_id_function=custom_generate_unique_id,
+    redirect_slashes=True,
 )
 
 # Set all CORS enabled origins
@@ -38,4 +39,4 @@ app.add_middleware(SitesMiddleware)
 # Add Audit Middleware
 app.add_middleware(AuditMiddleware)
 
-app.include_router(api_router, prefix=settings.API_V1_STR)
+app.include_router(api_router)

@@ -15,6 +15,8 @@ import { Route as RecoverPasswordRouteImport } from './routes/recover-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
+import { Route as LayoutWebsocketPlaygroundRouteImport } from './routes/_layout/websocket-playground'
+import { Route as LayoutSitesRouteImport } from './routes/_layout/sites'
 import { Route as LayoutSettingsRouteImport } from './routes/_layout/settings'
 import { Route as LayoutItemsRouteImport } from './routes/_layout/items'
 import { Route as LayoutAdminRouteImport } from './routes/_layout/admin'
@@ -48,6 +50,17 @@ const LayoutIndexRoute = LayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutWebsocketPlaygroundRoute =
+  LayoutWebsocketPlaygroundRouteImport.update({
+    id: '/websocket-playground',
+    path: '/websocket-playground',
+    getParentRoute: () => LayoutRoute,
+  } as any)
+const LayoutSitesRoute = LayoutSitesRouteImport.update({
+  id: '/sites',
+  path: '/sites',
+  getParentRoute: () => LayoutRoute,
+} as any)
 const LayoutSettingsRoute = LayoutSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -72,6 +85,8 @@ export interface FileRoutesByFullPath {
   '/admin': typeof LayoutAdminRoute
   '/items': typeof LayoutItemsRoute
   '/settings': typeof LayoutSettingsRoute
+  '/sites': typeof LayoutSitesRoute
+  '/websocket-playground': typeof LayoutWebsocketPlaygroundRoute
   '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesByTo {
@@ -82,6 +97,8 @@ export interface FileRoutesByTo {
   '/admin': typeof LayoutAdminRoute
   '/items': typeof LayoutItemsRoute
   '/settings': typeof LayoutSettingsRoute
+  '/sites': typeof LayoutSitesRoute
+  '/websocket-playground': typeof LayoutWebsocketPlaygroundRoute
   '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesById {
@@ -94,6 +111,8 @@ export interface FileRoutesById {
   '/_layout/admin': typeof LayoutAdminRoute
   '/_layout/items': typeof LayoutItemsRoute
   '/_layout/settings': typeof LayoutSettingsRoute
+  '/_layout/sites': typeof LayoutSitesRoute
+  '/_layout/websocket-playground': typeof LayoutWebsocketPlaygroundRoute
   '/_layout/': typeof LayoutIndexRoute
 }
 export interface FileRouteTypes {
@@ -106,6 +125,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/items'
     | '/settings'
+    | '/sites'
+    | '/websocket-playground'
     | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -116,6 +137,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/items'
     | '/settings'
+    | '/sites'
+    | '/websocket-playground'
     | '/'
   id:
     | '__root__'
@@ -127,6 +150,8 @@ export interface FileRouteTypes {
     | '/_layout/admin'
     | '/_layout/items'
     | '/_layout/settings'
+    | '/_layout/sites'
+    | '/_layout/websocket-playground'
     | '/_layout/'
   fileRoutesById: FileRoutesById
 }
@@ -182,6 +207,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/websocket-playground': {
+      id: '/_layout/websocket-playground'
+      path: '/websocket-playground'
+      fullPath: '/websocket-playground'
+      preLoaderRoute: typeof LayoutWebsocketPlaygroundRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/sites': {
+      id: '/_layout/sites'
+      path: '/sites'
+      fullPath: '/sites'
+      preLoaderRoute: typeof LayoutSitesRouteImport
+      parentRoute: typeof LayoutRoute
+    }
     '/_layout/settings': {
       id: '/_layout/settings'
       path: '/settings'
@@ -210,6 +249,8 @@ interface LayoutRouteChildren {
   LayoutAdminRoute: typeof LayoutAdminRoute
   LayoutItemsRoute: typeof LayoutItemsRoute
   LayoutSettingsRoute: typeof LayoutSettingsRoute
+  LayoutSitesRoute: typeof LayoutSitesRoute
+  LayoutWebsocketPlaygroundRoute: typeof LayoutWebsocketPlaygroundRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
 }
 
@@ -217,6 +258,8 @@ const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAdminRoute: LayoutAdminRoute,
   LayoutItemsRoute: LayoutItemsRoute,
   LayoutSettingsRoute: LayoutSettingsRoute,
+  LayoutSitesRoute: LayoutSitesRoute,
+  LayoutWebsocketPlaygroundRoute: LayoutWebsocketPlaygroundRoute,
   LayoutIndexRoute: LayoutIndexRoute,
 }
 
