@@ -34,6 +34,8 @@ interface EditUserProps {
 
 interface UserUpdateForm extends UserUpdate {
   confirm_password?: string
+  password?: string
+  is_superuser?: boolean | null
 }
 
 const EditUser = ({ user }: EditUserProps) => {
@@ -166,7 +168,7 @@ const EditUser = ({ user }: EditUserProps) => {
                 render={({ field }) => (
                   <Field disabled={field.disabled} colorPalette="teal">
                     <Checkbox
-                      checked={field.value}
+                      checked={field.value === true}
                       onCheckedChange={({ checked }) => field.onChange(checked)}
                     >
                       Is superuser?
@@ -180,7 +182,7 @@ const EditUser = ({ user }: EditUserProps) => {
                 render={({ field }) => (
                   <Field disabled={field.disabled} colorPalette="teal">
                     <Checkbox
-                      checked={field.value}
+                      checked={field.value === true}
                       onCheckedChange={({ checked }) => field.onChange(checked)}
                     >
                       Is active?

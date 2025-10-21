@@ -94,14 +94,14 @@ function WebSocketPlayground() {
         const error = await response.json()
         addMessage("error", `Login failed: ${error.detail || "Unknown error"}`)
         setErrorCount((prev) => prev + 1)
-        showErrorToast("Login failed", error.detail)
+        showErrorToast(`Login failed: ${error.detail || "Unknown error"}`)
       }
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error"
       addMessage("error", `Login error: ${errorMessage}`)
       setErrorCount((prev) => prev + 1)
-      showErrorToast("Login error", errorMessage)
+      showErrorToast(`Login error: ${errorMessage}`)
     }
   }
 
@@ -109,10 +109,7 @@ function WebSocketPlayground() {
     if (!token) {
       addMessage("error", "Please enter an access token or login first!")
       setErrorCount((prev) => prev + 1)
-      showWarningToast(
-        "Token required",
-        "Please enter an access token or login first",
-      )
+      showWarningToast("Please enter an access token or login first")
       return
     }
 
@@ -180,7 +177,7 @@ function WebSocketPlayground() {
     if (!ws || ws.readyState !== WebSocket.OPEN) {
       addMessage("error", "WebSocket is not connected!")
       setErrorCount((prev) => prev + 1)
-      showErrorToast("Not connected", "WebSocket is not connected")
+      showErrorToast("WebSocket is not connected")
       return
     }
 
@@ -240,7 +237,7 @@ function WebSocketPlayground() {
         error instanceof Error ? error.message : "Unknown error"
       addMessage("error", `Invalid JSON: ${errorMessage}`)
       setErrorCount((prev) => prev + 1)
-      showErrorToast("Invalid JSON", errorMessage)
+      showErrorToast(`Invalid JSON: ${errorMessage}`)
     }
   }
 
