@@ -40,7 +40,7 @@ from app.services.user_cv_service import UserCVService
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/cv", tags=["cv"])
+router = APIRouter(prefix="/cv")
 
 
 # =============================================================================
@@ -48,7 +48,7 @@ router = APIRouter(prefix="/cv", tags=["cv"])
 # =============================================================================
 
 
-@router.get("/", response_model=UserCVsPublic)
+@router.get("/", response_model=UserCVsPublic, tags=["cv"])
 def read_cvs(
     session: SessionDep,
     current_user: CurrentUser,
@@ -64,7 +64,7 @@ def read_cvs(
     return UserCVsPublic(data=cvs, count=count)
 
 
-@router.get("/me", response_model=UserCVFull)
+@router.get("/me", response_model=UserCVFull, tags=["cv"])
 def read_my_cv(session: SessionDep, current_user: CurrentUser) -> Any:
     """Get current user's full CV with all related data."""
     service = UserCVService(session)
@@ -75,7 +75,7 @@ def read_my_cv(session: SessionDep, current_user: CurrentUser) -> Any:
     return cv
 
 
-@router.get("/{id}", response_model=UserCVPublic)
+@router.get("/{id}", response_model=UserCVPublic, tags=["cv"])
 def read_cv(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:
     """Get CV by ID."""
     service = UserCVService(session)
@@ -89,7 +89,7 @@ def read_cv(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> An
     return cv
 
 
-@router.post("/", response_model=UserCVPublic)
+@router.post("/", response_model=UserCVPublic, tags=["cv"])
 def create_cv(
     *, session: SessionDep, current_user: CurrentUser, cv_in: UserCVCreate
 ) -> Any:
@@ -105,7 +105,7 @@ def create_cv(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.patch("/{id}", response_model=UserCVPublic)
+@router.patch("/{id}", response_model=UserCVPublic, tags=["cv"])
 def update_cv(
     *,
     session: SessionDep,
@@ -129,7 +129,7 @@ def update_cv(
     return updated_cv
 
 
-@router.delete("/{id}", response_model=Message)
+@router.delete("/{id}", response_model=Message, tags=["cv"])
 def delete_cv(
     session: SessionDep,
     current_user: CurrentUser,
