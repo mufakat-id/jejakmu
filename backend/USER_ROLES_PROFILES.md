@@ -411,8 +411,8 @@ for role in roles:
 ### 4. Create User Profile
 
 ```python
-from app.services.user_profile_service import UserProfileService
-from app.schemas.user_profile import UserProfileCreate
+from app.profiles.service import UserProfileService
+from app.profiles.schema import UserProfileCreate
 
 service = UserProfileService(session)
 
@@ -430,7 +430,7 @@ profile = service.create_profile(profile_data)
 ### 5. Assign Sites to Profile
 
 ```python
-from app.services.user_profile_service import UserProfileService
+from app.profiles.service import UserProfileService
 
 service = UserProfileService(session)
 

@@ -5,7 +5,6 @@ from app.api.v1.endpoint import (
     login,
     oauth,
     private,
-    profiles,
     roles,
     upload,
     user_roles,
@@ -14,6 +13,7 @@ from app.api.v1.endpoint import (
 )
 from app.core.config import settings
 from app.items import api as items
+from app.profiles import api as profiles
 from app.sites import api as sites
 from app.users import api as users
 

@@ -2,10 +2,10 @@ import uuid
 
 from sqlmodel import Session
 
-from app.models.user_profile import UserProfile
-from app.repositories.user_profile_repository import UserProfileRepository
+from app.profiles.models import UserProfile
+from app.profiles.repository import UserProfileRepository
+from app.profiles.schema import UserProfileCreate, UserProfileUpdate
 from app.repositories.user_profile_site_repository import UserProfileSiteRepository
-from app.schemas.user_profile import UserProfileCreate, UserProfileUpdate
 
 
 class UserProfileService:

@@ -2,7 +2,7 @@ import uuid
 
 from sqlmodel import Session, select
 
-from app.models.user_profile import UserProfile
+from app.profiles.models import UserProfile
 from app.repositories.base import BaseRepository
 
 

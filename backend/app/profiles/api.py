@@ -4,15 +4,15 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 
 from app.api.v1.deps import CurrentUser, SessionDep
-from app.schemas.common import Message
-from app.schemas.user_profile import (
+from app.profiles.schema import (
     UserProfileCreate,
     UserProfilePublic,
     UserProfilesPublic,
     UserProfileUpdate,
     UserProfileWithSites,
 )
-from app.services.user_profile_service import UserProfileService
+from app.profiles.service import UserProfileService
+from app.schemas.common import Message
 
 router = APIRouter(prefix="/profiles", tags=["profiles"])
 

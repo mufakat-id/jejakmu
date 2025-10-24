@@ -2,9 +2,9 @@ import uuid
 
 from sqlmodel import Session
 
-from app.models.role import Role
 from app.repositories.role_repository import RoleRepository
 from app.schemas.role import RoleCreate, RoleUpdate
+from app.users.models import Role
 
 
 class RoleService:

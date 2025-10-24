@@ -2,9 +2,8 @@ import uuid
 
 from sqlmodel import Session, select
 
-from app.models.role import Role
-from app.models.user_role import UserRole
 from app.repositories.base import BaseRepository
+from app.users.models import Role, UserRole
 
 
 class UserRoleRepository(BaseRepository[UserRole]):
