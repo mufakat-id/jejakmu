@@ -373,7 +373,7 @@ class WebsocketConnectionManager:
 Tambahkan endpoint untuk monitoring:
 
 ```python
-# app/api/v1/endpoint/websocket.py
+# app/api/v1/endpoint/api.py
 
 @router.get("/ws/stats")
 async def websocket_stats(current_user: CurrentUser):

@@ -6,7 +6,7 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from app.api.v1.deps import get_current_user_ws
 from app.core.websocket import ws_manager
 from app.models import User
-from app.websocket.websocket_service import ws_handler
+from app.websocket.service import ws_handler
 
 router = APIRouter()
 
