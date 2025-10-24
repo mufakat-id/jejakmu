@@ -5,8 +5,8 @@ from fastapi import APIRouter, HTTPException
 
 from app.api.v1.deps import CurrentUser, SessionDep
 from app.schemas.common import Message
-from app.schemas.role import RoleCreate, RolePublic, RolesPublic, RoleUpdate
-from app.services.role_service import RoleService
+from app.users.schema import RoleCreate, RolePublic, RolesPublic, RoleUpdate
+from app.users.service import RoleService
 
 router = APIRouter(prefix="/roles", tags=["roles"])
 

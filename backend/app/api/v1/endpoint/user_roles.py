@@ -4,8 +4,7 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 
 from app.api.v1.deps import CurrentUser, SessionDep
-from app.repositories.role_repository import RoleRepository
-from app.repositories.user_role_repository import UserRoleRepository
+from app.users.repository import RoleRepository, UserRoleRepository
 from app.schemas.common import Message
 
 router = APIRouter(prefix="/users", tags=["user-roles"])

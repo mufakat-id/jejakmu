@@ -1,7 +1,79 @@
 import uuid
 
 from pydantic import BaseModel, EmailStr
-from sqlmodel import Field
+from sqlmodel import Field, SQLModel
+
+# ============================================================
+# Role Schemas
+# ============================================================
+
+
+# Base schema - shared properties
+class RoleBase(SQLModel):
+    name: str = Field(min_length=1, max_length=50, description="Role name")
+    description: str | None = Field(default=None, max_length=255)
+    is_active: bool = Field(default=True)
+
+
+# Create request
+class RoleCreate(RoleBase):
+    pass
+
+
+# Update request
+class RoleUpdate(SQLModel):
+    name: str | None = Field(default=None, min_length=1, max_length=50)
+    description: str | None = None
+    is_active: bool | None = None
+
+
+# Public response
+class RolePublic(RoleBase):
+    id: uuid.UUID
+
+
+# List response
+class RolesPublic(SQLModel):
+    data: list[RolePublic]
+    count: int
+
+
+# ============================================================
+# UserRole Schemas
+# ============================================================
+
+
+# Base schema - shared properties
+class UserRoleBase(SQLModel):
+    user_id: uuid.UUID
+    role_id: uuid.UUID
+    is_active: bool = Field(default=True)
+
+
+# Create request
+class UserRoleCreate(UserRoleBase):
+    pass
+
+
+# Update request
+class UserRoleUpdate(SQLModel):
+    is_active: bool | None = None
+
+
+# Public response
+class UserRolePublic(UserRoleBase):
+    id: uuid.UUID
+
+
+# List response
+class UserRolesPublic(SQLModel):
+    data: list[UserRolePublic]
+    count: int
+
+
+# ============================================================
+# User Schemas
+# ============================================================
 
 
 # Shared properties
