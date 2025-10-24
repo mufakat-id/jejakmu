@@ -6,9 +6,9 @@ from app.core.security import get_password_hash, verify_password
 from app.models import User
 from app.repositories import UserRepository
 from app.schemas import UserCreate, UserUpdate
-from app.users.schema import RoleCreate, RoleUpdate
-from app.users.repository import RoleRepository
 from app.users.models import Role
+from app.users.repository import RoleRepository
+from app.users.schema import RoleCreate, RoleUpdate
 
 
 class RoleService:
