@@ -356,7 +356,9 @@ Tambahkan router baru ke V1 router:
 
 ```python
 from fastapi import APIRouter
-from app.api.v1.endpoint import items, login, users, utils, products  # Add products
+from app.api.v1.endpoint import login, utils, products  # Add products
+from app.users import api
+from app.items import api
 
 api_router = APIRouter()
 api_router.include_router(login.router)

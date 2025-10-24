@@ -7,7 +7,7 @@ from sqlmodel import JSON, Column, Field, Relationship, SQLModel
 from app.core.audit import AuditMixin
 
 if TYPE_CHECKING:
-    from app.models.user import User
+    from app.users.models import User
 
 
 # =============================================================================

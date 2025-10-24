@@ -1,4 +1,5 @@
-from app.schemas.audit import AuditLogListResponse, AuditLogResponse
+from app.auditlogs.schema import AuditLogListResponse, AuditLogResponse
+from app.items.schema import ItemCreate, ItemPublic, ItemsPublic, ItemUpdate
 from app.schemas.base import (
     BaseResponse,
     CreatedResponse,
@@ -13,8 +14,7 @@ from app.schemas.common import (
     TokenPayload,
     TokenWithRefresh,
 )
-from app.schemas.item import ItemCreate, ItemPublic, ItemsPublic, ItemUpdate
-from app.schemas.user import (
+from app.users.schema import (
     BulkUpdateResult,
     GoogleAuthRequest,
     GoogleAuthResponse,

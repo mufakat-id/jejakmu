@@ -4,7 +4,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from app.models.audit import AuditAction
+from app.auditlogs.models import AuditAction
 
 
 class AuditLogBase(BaseModel):

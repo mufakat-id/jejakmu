@@ -78,8 +78,10 @@ Lihat **[SITES_FRAMEWORK.md](/backend/SITES_FRAMEWORK.md)** untuk dokumentasi le
 ## 📝 Contoh Cepat
 
 ### Menggunakan di Endpoint
+
 ```python
-from app.services.site_service import SiteService
+from app.sites.service import SiteService
+
 
 def my_endpoint(session: SessionDep):
     service = SiteService(session)

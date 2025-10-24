@@ -2,9 +2,9 @@ import uuid
 
 from sqlmodel import Session, select
 
-from app.models.site import Site
 from app.models.user_profile_site import UserProfileSite
 from app.repositories.base import BaseRepository
+from app.sites.models import Site
 
 
 class UserProfileSiteRepository(BaseRepository[UserProfileSite]):

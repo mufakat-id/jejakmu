@@ -18,7 +18,7 @@ Sites framework memungkinkan Anda mengelola multiple domains/sites dari satu cod
 Model `Site` menyimpan informasi tentang setiap domain yang dilayani aplikasi:
 
 ```python
-from app.models.site import Site
+from app.sites.models import Site
 
 # Contoh site object
 site = Site(
@@ -196,7 +196,8 @@ def list_products(session: SessionDep):
 
 ```python
 # Tambahkan foreign key ke model lain
-from app.models.site import Site
+from app.sites.models import Site
+
 
 class Product(SQLModel, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
@@ -205,6 +206,7 @@ class Product(SQLModel, table=True):
 
     # Relationship
     site: Site | None = Relationship()
+
 
 # Filter berdasarkan current site
 @router.get("/products")

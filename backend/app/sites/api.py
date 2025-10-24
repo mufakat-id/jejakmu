@@ -6,11 +6,11 @@ import uuid
 from fastapi import APIRouter, HTTPException
 
 from app.api.v1.deps import CurrentUser, SessionDep
-from app.models.site import Site
-from app.schemas.site import SiteCreate, SitePublic, SitesPublic, SiteUpdate
-from app.services.site_service import SiteService
+from app.sites.models import Site
+from app.sites.schema import SiteCreate, SitePublic, SitesPublic, SiteUpdate
+from app.sites.service import SiteService
 
-router = APIRouter()
+router = APIRouter(prefix="/sites", tags=["sites"])
 
 
 @router.post("/", response_model=SitePublic)

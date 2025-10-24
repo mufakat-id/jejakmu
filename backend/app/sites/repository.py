@@ -5,8 +5,8 @@ import uuid
 
 from sqlmodel import Session, func, select
 
-from app.models.site import Site
-from app.schemas.site import SiteCreate, SiteUpdate
+from app.sites.models import Site
+from app.sites.schema import SiteCreate, SiteUpdate
 
 
 def create_site(*, session: Session, site_create: SiteCreate) -> Site:

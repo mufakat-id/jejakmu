@@ -6,9 +6,9 @@ import uuid
 from fastapi import HTTPException
 from sqlmodel import Session
 
-from app.models.site import Site
-from app.repositories import site as site_repository
-from app.schemas.site import SiteCreate, SiteUpdate
+from app.sites import repository as site_repository
+from app.sites.models import Site
+from app.sites.schema import SiteCreate, SiteUpdate
 
 
 class SiteService:

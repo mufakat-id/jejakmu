@@ -6,7 +6,7 @@ from sqlmodel import Field, Relationship, SQLModel
 from app.core.audit import AuditMixin
 
 if TYPE_CHECKING:
-    from app.models.item import Item
+    from app.items.models import Item
     from app.models.user_cv import UserCV
     from app.models.user_profile import UserProfile
     from app.models.user_role import UserRole

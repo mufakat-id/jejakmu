@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from sqlmodel import Session, select
 
 if TYPE_CHECKING:
-    from app.models.site import Site
+    from app.sites.models import Site
 
 # Context variable to store current site for the request
 _current_site: ContextVar["Site | None"] = ContextVar("current_site", default=None)
@@ -35,7 +35,7 @@ def get_site_by_domain(session: Session, domain: str) -> "Site | None":
     Returns:
         Site object if found, None otherwise
     """
-    from app.models.site import Site
+    from app.sites.models import Site
 
     statement = select(Site).where(Site.domain == domain, Site.is_active == True)  # noqa: E712
     return session.exec(statement).first()
@@ -51,7 +51,7 @@ def get_default_site(session: Session) -> "Site | None":
     Returns:
         Default Site object if found, None otherwise
     """
-    from app.models.site import Site
+    from app.sites.models import Site
 
     statement = select(Site).where(Site.is_default == True, Site.is_active == True)  # noqa: E712
     return session.exec(statement).first()

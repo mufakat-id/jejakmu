@@ -6,7 +6,7 @@ from sqlmodel import Field, Relationship, SQLModel
 from app.core.audit import AuditMixin
 
 if TYPE_CHECKING:
-    from app.models.user import User
+    from app.users.models import User
 
 
 # Database model, database table inferred from class name

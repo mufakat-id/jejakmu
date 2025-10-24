@@ -6,8 +6,8 @@ from sqlmodel import Field, Relationship, SQLModel
 from app.core.audit import AuditMixin
 
 if TYPE_CHECKING:
-    from app.models.user import User
     from app.models.user_profile_site import UserProfileSite
+    from app.users.models import User
 
 
 class UserProfile(SQLModel, AuditMixin, table=True):

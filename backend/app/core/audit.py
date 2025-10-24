@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session as SASession
 from sqlmodel import SQLModel
 
 if TYPE_CHECKING:
-    from app.models.audit import AuditAction
+    from app.auditlogs.models import AuditAction
 
 T = TypeVar("T", bound=SQLModel)
 logging.basicConfig(level=logging.INFO)
@@ -72,7 +72,7 @@ def _create_audit_log_object(
     """Create audit log object without adding to session"""
     from datetime import datetime, timezone
 
-    from app.models.audit import AuditLog
+    from app.auditlogs.models import AuditLog
 
     # Determine changed fields
     changed_fields = []
@@ -191,7 +191,7 @@ class AuditMixin:
 def receive_after_flush(session, flush_context):  # noqa: ARG001
     """After flush - log all changes to audit"""
     try:
-        from app.models.audit import AuditAction
+        from app.auditlogs.models import AuditAction
 
         # Collect audit logs to be created
         audit_logs = []

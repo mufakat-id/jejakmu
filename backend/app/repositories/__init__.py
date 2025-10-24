@@ -1,6 +1,6 @@
+from app.items.repository import ItemRepository
 from app.repositories.base import BaseRepository
-from app.repositories.item_repository import ItemRepository
-from app.repositories.user_repository import UserRepository
+from app.users.repository import UserRepository
 
 __all__ = [
     "BaseRepository",

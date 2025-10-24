@@ -7,7 +7,7 @@ from app.core.audit import AuditMixin
 
 if TYPE_CHECKING:
     from app.models.role import Role
-    from app.models.user import User
+    from app.users.models import User
 
 
 class UserRole(SQLModel, AuditMixin, table=True):
