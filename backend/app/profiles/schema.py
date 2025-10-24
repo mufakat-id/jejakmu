@@ -18,23 +18,25 @@ class UserProfileBase(SQLModel):
 # Create request
 class UserProfileCreate(UserProfileBase):
     user_id: uuid.UUID
+    site_id: uuid.UUID
 
 
 # Update request
 class UserProfileUpdate(UserProfileBase):
-    pass
+    site_id: uuid.UUID | None = None
 
 
 # Public response
 class UserProfilePublic(UserProfileBase):
     id: uuid.UUID
     user_id: uuid.UUID
+    site_id: uuid.UUID
 
 
-# Profile with site IDs
+# Profile with site IDs (deprecated - keeping for backward compatibility)
 class UserProfileWithSites(UserProfilePublic):
     site_ids: list[uuid.UUID] = Field(
-        default_factory=list, description="List of associated site IDs"
+        default_factory=list, description="List of associated site IDs (deprecated)"
     )
 
 

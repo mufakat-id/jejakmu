@@ -7,7 +7,7 @@ from sqlmodel import Field, Relationship, SQLModel
 from app.core.audit import AuditMixin
 
 if TYPE_CHECKING:
-    from app.models.user_profile_site import UserProfileSite
+    from app.profiles.models import UserProfile
 
 
 class Site(SQLModel, AuditMixin, table=True):
@@ -41,7 +41,7 @@ class Site(SQLModel, AuditMixin, table=True):
     settings: dict[str, Any] | None = Field(default=None, sa_column=Column(JSON))
 
     # Relationships
-    profile_sites: list["UserProfileSite"] = Relationship(
+    profile_sites: list["UserProfile"] = Relationship(
         back_populates="site", cascade_delete=True
     )
 

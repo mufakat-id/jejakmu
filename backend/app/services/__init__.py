@@ -1,5 +1,5 @@
 from app.items.service import ItemService
-from app.services.oauth_service import OAuthService, oauth
+from app.users.oauth_service import OAuthService, oauth
 from app.users.service import RoleService, UserService
 
 __all__ = [

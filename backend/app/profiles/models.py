@@ -6,7 +6,7 @@ from sqlmodel import Field, Relationship, SQLModel
 from app.core.audit import AuditMixin
 
 if TYPE_CHECKING:
-    from app.models.user_profile_site import UserProfileSite
+    from app.sites.models import Site
     from app.users.models import User
 
 
@@ -20,6 +20,7 @@ class UserProfile(SQLModel, AuditMixin, table=True):
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     user_id: uuid.UUID = Field(foreign_key="user.id", unique=True, index=True)
+    site_id: uuid.UUID = Field(foreign_key="site.id", index=True)
 
     # Profile information
     phone: str | None = Field(default=None, max_length=20, description="Phone number")
@@ -41,6 +42,4 @@ class UserProfile(SQLModel, AuditMixin, table=True):
 
     # Relationships
     user: "User" = Relationship(back_populates="profile")
-    profile_sites: list["UserProfileSite"] = Relationship(
-        back_populates="profile", cascade_delete=True
-    )
+    site: "Site" = Relationship(back_populates="profile_sites")

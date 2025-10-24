@@ -9,7 +9,6 @@ from app.profiles.schema import (
     UserProfilePublic,
     UserProfilesPublic,
     UserProfileUpdate,
-    UserProfileWithSites,
 )
 from app.profiles.service import UserProfileService
 from app.schemas.common import Message
@@ -37,21 +36,17 @@ def read_profiles(
     return UserProfilesPublic(data=profiles, count=count)
 
 
-@router.get("/me", response_model=UserProfileWithSites)
+@router.get("/me", response_model=UserProfilePublic)
 def read_my_profile(session: SessionDep, current_user: CurrentUser) -> Any:
     """
-    Get current user's profile with associated sites.
+    Get current user's profile.
     """
     service = UserProfileService(session)
     profile = service.get_profile_by_user_id(current_user.id)
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
-    # Get associated sites
-    sites = service.get_profile_sites(profile.id)
-    site_ids = [site.id for site in sites]
-
-    return UserProfileWithSites(**profile.model_dump(), site_ids=site_ids)
+    return profile
 
 
 @router.get("/{id}", response_model=UserProfilePublic)
@@ -142,59 +137,3 @@ def delete_profile(
     if not success:
         raise HTTPException(status_code=404, detail="Profile not found")
     return Message(message="Profile deleted successfully")
-
-
-@router.post("/{profile_id}/sites/{site_id}", response_model=Message)
-def assign_site_to_profile(
-    session: SessionDep,
-    current_user: CurrentUser,
-    profile_id: uuid.UUID,
-    site_id: uuid.UUID,
-    role_in_site: str | None = None,
-) -> Any:
-    """
-    Assign a site to a profile.
-
-    Users can only assign sites to their own profile unless they are superusers.
-    """
-    service = UserProfileService(session)
-    profile = service.get_profile(profile_id)
-    if not profile:
-        raise HTTPException(status_code=404, detail="Profile not found")
-
-    # Check permissions
-    if profile.user_id != current_user.id and not current_user.is_superuser:
-        raise HTTPException(status_code=403, detail="Not enough permissions")
-
-    try:
-        service.assign_site_to_profile(profile_id, site_id, role_in_site)
-        return Message(message="Site assigned to profile successfully")
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-
-@router.delete("/{profile_id}/sites/{site_id}", response_model=Message)
-def remove_site_from_profile(
-    session: SessionDep,
-    current_user: CurrentUser,
-    profile_id: uuid.UUID,
-    site_id: uuid.UUID,
-) -> Any:
-    """
-    Remove a site from a profile.
-
-    Users can only remove sites from their own profile unless they are superusers.
-    """
-    service = UserProfileService(session)
-    profile = service.get_profile(profile_id)
-    if not profile:
-        raise HTTPException(status_code=404, detail="Profile not found")
-
-    # Check permissions
-    if profile.user_id != current_user.id and not current_user.is_superuser:
-        raise HTTPException(status_code=403, detail="Not enough permissions")
-
-    success = service.remove_site_from_profile(profile_id, site_id)
-    if not success:
-        raise HTTPException(status_code=404, detail="Site association not found")
-    return Message(message="Site removed from profile successfully")

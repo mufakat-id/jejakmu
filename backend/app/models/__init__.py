@@ -14,7 +14,6 @@ from app.models.user_cv import (  # noqa: E402
     CVWorkExperience,
     UserCV,
 )
-from app.models.user_profile_site import UserProfileSite
 from app.profiles.models import UserProfile
 from app.sites.models import Site
 from app.users.models import Role, User, UserRole
@@ -28,7 +27,6 @@ __all__ = [
     "Role",
     "UserRole",
     "UserProfile",
-    "UserProfileSite",
     "UserCV",
     "CVFile",
     "CVEducation",
